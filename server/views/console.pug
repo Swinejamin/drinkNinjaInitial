@@ -1,0 +1,21 @@
+extends ./layout.pug
+block content
+    .row
+        .col-md-5.offset-md-1
+            div.container.card.card-block
+                h1.card-title Add an ingredient
+                form 
+                    div.form-group
+                        label(for="ingredientType") Ingredient Type
+                        select#ingredientType.form-control
+                            option Mixer
+                            option Alcohol
+                            option Garnish
+                    div.form-group
+                        label(for="ingredientName") Ingredient Type
+                        textarea(rows="1")#ingredientName.form-control
+                    button(type="submit" class="btn btn-primary") Submit
+        .col-md-5
+            div.container.card.card-block
+                h1.card-title Add a recipe
+                form 
