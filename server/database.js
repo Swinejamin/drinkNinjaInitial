@@ -8,28 +8,35 @@ firebase.initializeApp({
 });
 var db = firebase.database();
 var auth = firebase.auth();
+var user = null;
 
 router.get('/ingredients', renderIngredients);
 router.post('/ingredient', addIngredient);
 router.get('/console', renderConsole);
+router.post('/user', setUser);
 
 
 function renderConsole(req, res) {
-    var idToken = 12;
-    /*
+    if (user) {
+        res.render('console');
+    } else {
+        res.render('login');
+    }
+}
+function setUser(req, res) {
+    var idToken = req.data;
     firebase.auth().verifyIdToken(idToken)
         .then(function (decodedToken) {
-            var uid = decodedToken.uid;
+            user = decodedToken.uid;
+            console.log(user);
             // ...
-            res.render('./views/console.pug')
+            // res.render('./views/console.pug')
         }).catch(function (error) {
-            res.render('index');
-            // Handle error
-        });
-    */
-    res.render('console');
-}
+            console.log(error);
+        // Handle error
+    });
 
+}
 
 
 module.exports = router;

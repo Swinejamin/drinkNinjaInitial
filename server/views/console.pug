@@ -4,20 +4,14 @@ block content
         .col-md-5.offset-md-1
             div.container.card.card-block
                 h1.card-title Add an ingredient
-                form#ingredientAdder
-                    div.form-group
-                        label(for="ingredientType") Ingredient Type
-                        select#ingredientType.form-control
-                            option Mixer
-                            option Alcohol
-                            option Garnish
-                    div.form-group
-                        label(for="ingredientName") Ingredient Type
-                        textarea(rows="1")#ingredientName.form-control
-                    button(type="submit" class="btn btn-primary") Submit
+                div#ingredientAdder
+
         .col-md-5
             div.container.card.card-block
                 h1.card-title Add a recipe
                 form
-    //script(src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js")
-    //script(src='../../client/scripts/console.js' type='text/babel')
+    .row
+        .col-md-8.offset-md-2
+            div#ingredientList.container.card.card-block
+                h1 Hello, tag cloud!
+    script(src='../../client/scripts/console.js' type='text/babel')
