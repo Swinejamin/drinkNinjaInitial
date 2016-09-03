@@ -1,17 +1,18 @@
 extends ./layout.pug
 block content
-    .row
-        .col-md-5.offset-md-1
-            div.container.card.card-block
-                h1.card-title Add an ingredient
-                div#ingredientAdder
+    .container
+        .row
+            .col-md-5.offset-md-1
+                div.container.card.card-block
+                    h1.card-title Add an ingredient
+                    div#ingredientAdder
 
-        .col-md-5
-            div.container.card.card-block
-                h1.card-title Add a recipe
-                form
-    .row
-        .col-md-8.offset-md-2
-            div#ingredientList.container.card.card-block
-                h1 Hello, tag cloud!
-    script(src='../../client/scripts/console.js' type='text/babel')
+            .col-md-5
+                div.container.card.card-block
+                    h1.card-title Add a recipe
+                    div#recipeAdder
+        .row
+            .col-md-8.offset-md-2
+                div#ingredientList.container.card.card-block
+                    h1 Hello, tag cloud!
+    //script(src='../../client/scripts/console.jsx' type='text/babel')

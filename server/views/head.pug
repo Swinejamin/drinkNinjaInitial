@@ -4,6 +4,7 @@ head
     meta(http-equiv="x-ua-compatible" content="ie=edge")
     script(async src="https://use.fontawesome.com/099ce043b1.js")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous")
+    link(rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css")
     style
         include ../../client/styles/style.css
     //script(src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/6.1.19/browser.min.js')
@@ -20,17 +21,16 @@ head
             storageBucket: "drinkme-6efd3.appspot.com"
         };
         firebase.initializeApp(config);
-        var currentUser = firebase.auth().onAuthStateChanged(function (user) {
+        firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 // User is signed in.
                 firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function (idToken) {
-                    console.log(idToken);
                     // Send token to your backend via HTTPS
                     // ...
                     $.ajax({
-                        url: '/user',
+                        url: '/api/user',
                         type: 'POST',
-                        data: idToken
+                        data: {token: idToken}
                     });
                 }).catch(function (error) {
                     // Handle error
@@ -39,3 +39,4 @@ head
                 // No user is signed in.
             }
         });
+        var appTitle = 'Drink Me';

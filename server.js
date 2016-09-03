@@ -24,9 +24,14 @@ app.use('/api', require('./server/database'));
 
 
 app.get('/', renderIndex);
+app.get('/register', renderRegister);
 function renderIndex(req, res) {
     res.location('/');
     res.render('index');
+}
+function renderRegister(req, res) {
+    res.location('/');
+    res.render('register');
 }
 app.use("*", function (req, res) {
         res.status(404).send('404');

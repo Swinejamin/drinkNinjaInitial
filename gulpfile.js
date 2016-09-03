@@ -1,5 +1,8 @@
-var gulp = require('gulp');
-var fs = require("fs");
+var gulp = require('gulp'),
+    browserify = require('browserify'),
+    reactify = require('reactify'),
+    source = require('vinyl-source-stream'),
+    fs = require("fs");
 var converter = require('sass-convert');
 var sassdoc = require("sassdoc");
 var plugins = require('gulp-load-plugins')({
@@ -8,6 +11,18 @@ var plugins = require('gulp-load-plugins')({
 });
 var mainStyle = 'client/styles/src/*.s+(a|c)ss';
 var stylePaths = ['client/styles/src/*.css', mainStyle];
+
+gulp.task('bundle', function bundleJS() {
+    return browserify({
+        entries: 'client/scripts/console.jsx',
+        debug: true
+    })
+        .transform(reactify)
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('./.temp'))
+
+});
 
 gulp.task('views', function buildHTML() {
     fs.writeFileSync('client/styles/style.css', '');
@@ -18,8 +33,8 @@ gulp.task('views', function buildHTML() {
 
 gulp.task('sc2sa', function () {
     return gulp.src(mainStyle, {
-            base: './'
-        })
+        base: './'
+    })
         .pipe(converter({
             from: 'scss',
             to: 'sass',

@@ -17,21 +17,21 @@ router.post('/user', setUser);
 
 
 function renderConsole(req, res) {
-    if (user) {
+    if (user !== null) {
         res.render('console');
     } else {
         res.render('login');
     }
 }
 function setUser(req, res) {
-    var idToken = req.data;
+    var idToken = req.body.token;
     firebase.auth().verifyIdToken(idToken)
         .then(function (decodedToken) {
             user = decodedToken.uid;
-            console.log(user);
             // ...
             // res.render('./views/console.pug')
         }).catch(function (error) {
+            user = null;
             console.log(error);
         // Handle error
     });
