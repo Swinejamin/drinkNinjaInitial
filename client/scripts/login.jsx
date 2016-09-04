@@ -18,7 +18,18 @@
             var email = this.state.email.trim(),
                 password = this.state.password.trim();
             console.log(email);
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){
+                firebase.auth().currentUser.getToken(/* forceRefresh */ true).then(function (idToken) {
+                    $.ajax({
+                        url: '/api/user',
+                        type: 'POST',
+                        data: {token: idToken}
+                    });
+                    setTimeout(function(){
+                        window.location = '/api/console';
+                    }, 0)
+                });
+            }).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;

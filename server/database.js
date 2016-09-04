@@ -18,12 +18,15 @@ router.post('/user', setUser);
 
 function renderConsole(req, res) {
     if (user !== null) {
+        // res.status(200);
         res.render('console');
     } else {
+        res.status(401);
         res.render('login');
     }
 }
 function setUser(req, res) {
+    user = null;
     var idToken = req.body.token;
     firebase.auth().verifyIdToken(idToken)
         .then(function (decodedToken) {
