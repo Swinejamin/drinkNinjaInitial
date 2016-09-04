@@ -3,6 +3,8 @@
 (function () {
     "use strict";
     var Select = require('react-select');
+    var React = require('react');
+    var ReactDOM = require('react-dom');
 
     var IngredientAdder = React.createClass({
         getInitialState: function () {
@@ -95,6 +97,24 @@
         },
         mixins: [ReactFireMixin],
         render: function () {
+            function getOptions(input, cb) {
+                var ref = firebase.database().ref('ingredients');
+                var ops = [];
+                ref.orderByChild('ingredientName').startAt(input).endAt(input + '\uf8ff').on('child_added', function (snap, ind) {
+                    var val = snap.val();
+                    ops.push({value: ind || 0, label: val.ingredientName});
+
+                });
+                var fixed = ops.map(function(obj, ind){
+                   return { value: ind, label: obj.ingredientName}
+                });
+                var data = {options: ops};
+                cb(null, data);
+                //cb(err, data)
+                // cb(null, )
+
+            }
+
             return (
                 <form onSubmit={this.handleSubmit}>
                     <div className='form-group'>
@@ -104,7 +124,10 @@
                     </div>
                     <div className='form-group'>
                         <label htmlFor="ingredientType"> Ingredients </label>
-                        <Select options={this.state.ingredients}/>
+                        <div className="input-group">
+                            <Select.Async className="" multi={true} loadOptions={getOptions}/>
+                        </div>
+
                     </div>
                     <div className='form-group'>
                         <label htmlFor="recipeStep"> Steps </label>

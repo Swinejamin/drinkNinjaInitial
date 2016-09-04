@@ -19,7 +19,7 @@ gulp.task('bundle', function bundleJS() {
     })
         .transform(reactify)
         .bundle()
-        .pipe(source('app.js'))
+        .pipe(source('console.js'))
         .pipe(gulp.dest('./.temp'))
 
 });
