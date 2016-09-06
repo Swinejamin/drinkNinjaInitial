@@ -13,14 +13,39 @@ var mainStyle = 'client/styles/src/*.s+(a|c)ss';
 var stylePaths = ['client/styles/src/*.css', mainStyle];
 
 gulp.task('bundle', function bundleJS() {
+        return browserify({
+            entries: 'client/components/main.jsx',
+            debug: true
+        })
+            .transform('reactify')
+            .bundle()
+            .pipe(source('main.js'))
+            .pipe(gulp.dest('./client/components/build'))
+
+
+});
+gulp.task('bundle-dash', function bundleJS() {
+        return browserify({
+            entries: 'client/dashboard.jsx',
+            debug: true
+        })
+            .transform('reactify')
+            .bundle()
+            .pipe(source('dashboard.js'))
+            .pipe(gulp.dest('./client'))
+
+
+});
+gulp.task('bundle-console', function bundleJS() {
     return browserify({
-        entries: 'client/scripts/console.jsx',
+        entries: 'client/console.jsx',
         debug: true
     })
-        .transform(reactify)
+        .transform('reactify')
         .bundle()
         .pipe(source('console.js'))
-        .pipe(gulp.dest('./.temp'))
+        .pipe(gulp.dest('./client'))
+
 
 });
 

@@ -25,13 +25,16 @@ app.use('/api', require('./server/database'));
 
 app.get('/', renderIndex);
 app.get('/register', renderRegister);
+app.get('/login', renderLogin);
 function renderIndex(req, res) {
     res.location('/');
     res.render('index');
 }
 function renderRegister(req, res) {
-    res.location('/');
     res.render('register');
+}
+function renderLogin(req, res) {
+    res.render('login');
 }
 app.use("*", function (req, res) {
         res.status(404).send('404');

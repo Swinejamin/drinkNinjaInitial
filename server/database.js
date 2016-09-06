@@ -18,7 +18,7 @@ router.post('/user', setUser);
 
 function renderConsole(req, res) {
     if (user !== null) {
-        // res.status(200);
+        res.status(200);
         res.render('console');
     } else {
         res.status(401);
