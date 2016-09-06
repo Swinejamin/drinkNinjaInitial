@@ -1,6 +1,6 @@
 var React = require('react');
 
-var Select = require('react-select');
+var MasterIngredientList = require('./MasterIngredientList.jsx');
 
 var IngredientAdder = React.createClass({
 
@@ -13,51 +13,29 @@ var IngredientAdder = React.createClass({
     handleTypeChange: function (e) {
         this.setState({ingredientType: e.target.value});
     },
-    handleNewIngredient: function (val) {
-        this.props.userData.child('ingredients/' + val.value).set(val.label);
+    handleNewIngredient: function (thisVal) {
+        var userData = this.props.userData;
+        return function (value) {
+            console.log(value, value['.key']);
+            var target = userData.child('ingredients').child(value['.key']);
+            // console.log(target);
+            target.set(value.ingredientName);
+
+            // thisVal.setState({
+            //     ingredientList: value,
+            // });
+        }
     },
     componentDidMount: function () {
         this.userRef = firebase.database().ref(this.props.userData);
         this.bindAsArray(this.userRef.child('ingredients'), 'ingredients');
 
     }, render: function () {
-        function getOptions(input, cb) {
-            var ref = firebase.database().ref('ingredients');
-            var ops = [];
-            ref.orderByChild('ingredientName').on('child_added', function (snap) {
-                var val = snap.val();
-                console.log();
-                ops.push({value: snap.key || 0, label: val.ingredientName});
-
-            });
-            // ops = ops.filter(function(el){
-            //     return (userIngredients.indexOf(el.label) >= 0);
-            // });
-            var data = {options: ops};
-            cb(null, data);
-            //cb(err, data)
-            // cb(null, )
-
-        }
-
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="input-group">
-                    <Select.Async className="" loadOptions={getOptions}
-                                  matchPos='any' matchProp="label"
-                                  onChange={this.handleNewIngredient}/>
-                </div>
-            </form>
+            <div className="input-group">
+                <MasterIngredientList changeFunc={this.handleNewIngredient} multi={false}/>
+            </div>
         )
-    },
-    handleSubmit: function (e) {
-        // console.log(this.firebaseRef);
-        e.preventDefault();
-        this.firebaseRef.push({
-            ingredientName: this.state.ingredientName,
-            ingredientType: this.state.ingredientType
-        });
-        this.setState({ingredientName: ""});
     }
 });
 
