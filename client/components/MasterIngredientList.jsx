@@ -5,13 +5,18 @@ var MasterIngredientList = React.createClass({
     getInitialState: function () {
         return {ingredientList: null};
     },
-    componentWillMount: function(){
+    componentWillMount: function () {
         var masterIngredients = firebase.database().ref('ingredients');
         this.bindAsArray(masterIngredients, 'masterIngredients')
+    },
+    onChange: function (value) {
+        this.setState({ingredientList: value});
+        this.props.listenerFromParent(value);
     },
     mixins: [ReactFireMixin],
     render: function () {
         var masterIngredients = this.state.masterIngredients;
+
         function getOptions(input, cb) {
 
             var data = {options: masterIngredients};
@@ -21,8 +26,9 @@ var MasterIngredientList = React.createClass({
         return (
             <div id='ingredients' className="input-group">
                 {/*TODO: switch value and Label on everything*/}
-                <Select.Async value={this.state.ingredientList} className="" multi={this.props.multi} loadOptions={getOptions}
-                              onChange={this.props.changeFunc(this)} valueKey='.key' labelKey="ingredientName"/>
+                <Select.Async value={this.state.ingredientList} className="" multi={this.props.multi}
+                              loadOptions={getOptions}
+                              onChange={this.onChange} valueKey='.key' labelKey="ingredientName"/>
             </div>
         );
     }

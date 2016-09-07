@@ -1,23 +1,37 @@
 var React = require('react');
+var update = require('react-addons-update');
 var MasterIngredientList = require('./MasterIngredientList.jsx');
-// var Select = require('react-select');
+var RecipeTemplate = require('./RecipeTemplate.jsx');
 
 var RecipeAdder = React.createClass({
     getInitialState: function () {
-        return {Title: ''};
+        return {recipeTitle: '', steps: [], newStep: '', ingredientList: [], description: ''};
     },
     handleTitleChange: function (e) {
         this.setState({recipeTitle: e.target.value});
     },
-    handleIngredientChange: function (thisVal) {
-        return function (value) {
-            thisVal.setState({
-                ingredientList: value,
-            });
-        }
-    },
     handleStepChange: function (e) {
-        this.setState({recipeStep: e.target.value});
+        this.setState({newStep: e.target.value});
+    },
+    handleIngredientChange: function (value) {
+        this.setState({ingredientList: value});
+    },
+    handleAddStep: function (e) {
+        var newState = update(this.state, {
+            steps: {$push: [{text: this.state.newStep, key: Date.now()}]},
+            newStep: ''
+        });
+        this.setState(newState);
+        e.preventDefault();
+    },
+    handleDeleteStep: function (ind, e) {
+        e.preventDefault();
+
+        var newState = update(this.state, {
+            steps: {$splice: [[ind, 1]]}
+        });
+        this.setState(newState);
+
     },
     componentDidMount: function () {
         var ref = firebase.database().ref('ingredients');
@@ -26,36 +40,42 @@ var RecipeAdder = React.createClass({
     },
     mixins: [ReactFireMixin],
     render: function () {
+        var thisRef = this;
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className='form-group'>
-                    <label htmlFor="recipeName"> Recipe Name </label>
-                    <input type="text" id='recipeName' className="form-control"
-                           value={this.state.recipeName} onChange={this.handleTitleChange}/>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="ingredients"> Ingredients </label>
-                    <MasterIngredientList changeFunc={this.handleIngredientChange} multi={true}/>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="recipeStep"> Steps </label>
-                    <div className="input-group">
-                        <input type="text" id='recipeStep' className="form-control"
-                               value={this.state.recipeStep} onChange={this.handleStepChange}/>
-                        <span className="input-group-addon">+</span>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <div className='form-group'>
+                        <label htmlFor="recipeName"> Recipe Name </label>
+                        <input type="text" id='recipeName' className="form-control"
+                               value={this.state.recipeTitle} onChange={this.handleTitleChange}/>
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="ingredients"> Ingredients </label>
+                        <MasterIngredientList listenerFromParent={this.handleIngredientChange} multi={true}/>
                     </div>
 
-                </div>
-                <button type="submit" className="btn btn-primary"> Submit</button>
-            </form>
+                    <button type="submit" className="btn btn-primary"> Submit</button>
+                </form>
+                <form onSubmit={this.handleAddStep}>
+                    <label htmlFor="recipeSteps"> Steps </label>
+                    <div id='recipeSteps' className="input-group">
+                        <input type="text" className="form-control" value={this.state.newStep}
+                               onChange={this.handleStepChange}/>
+                        <span className="input-group-addon btn" onClick={this.handleAddStep}>+</span>
+                    </div>
+                </form>
+                <h2>Recipe Preview</h2>
+                <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
+                                steps={this.state.steps} description={this.state.description}/>
+            </div>
+
         )
     },
     handleSubmit: function (e) {
-        // console.log(this.firebaseRef);
+        var firebaseRef = firebase.database().ref('recipes');
         e.preventDefault();
-        this.firebaseRef.push({
-            ingredientName: this.state.ingredientName,
-            ingredientType: this.state.ingredientType
+        firebaseRef.push({
+            title: this.state.Title
         });
         this.setState({ingredientName: ""});
     }
