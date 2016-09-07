@@ -2,10 +2,10 @@ var React = require('react');
 
 var TagAdder = React.createClass({
     getInitialState: function () {
-        return {tagName: ''};
+        return {drinkTagName: ''};
     },
     handleNameChange: function (e) {
-        this.setState({tagName: e.target.value});
+        this.setState({drinkTagName: e.target.value});
     },
     componentWillMount: function () {
         this.firebaseRef = firebase.database().ref("tags");
@@ -14,9 +14,9 @@ var TagAdder = React.createClass({
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
-                    <label htmlFor="tagName"> Tag Name </label>
-                    <input type="text" id='tagName' className="form-control" rows="1"
-                           value={this.state.tagName} onChange={this.handleNameChange}/>
+                    <label htmlFor="drinkTagName"> Tag Name </label>
+                    <input type="text" id='drinkTagName' className="form-control"
+                           value={this.state.drinkTagName} onChange={this.handleNameChange}/>
                 </div>
                 <button type="submit" className="btn btn-primary"> Submit</button>
             </form>
@@ -26,9 +26,9 @@ var TagAdder = React.createClass({
         // console.log(this.firebaseRef);
         e.preventDefault();
         this.firebaseRef.push({
-            tagName: this.state.tagName,
+            drinkTagName: this.state.drinkTagName,
         });
-        this.setState({tagName: ""});
+        this.setState({drinkTagName: ""});
     }
 });
 
