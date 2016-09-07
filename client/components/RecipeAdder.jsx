@@ -5,7 +5,7 @@ var RecipeTemplate = require('./RecipeTemplate.jsx');
 
 var RecipeAdder = React.createClass({
     getInitialState: function () {
-        return {recipeTitle: '', steps: [], newStep: '', ingredientList: [], description: ''};
+        return {recipeTitle: '', steps: [], newStep: '', ingredientList: [], amount: [], unit: [], description: ''};
     },
     handleTitleChange: function (e) {
         this.setState({recipeTitle: e.target.value});
@@ -13,13 +13,20 @@ var RecipeAdder = React.createClass({
     handleStepChange: function (e) {
         this.setState({newStep: e.target.value});
     },
-    handleIngredientChange: function (value) {
-        this.setState({ingredientList: value});
+    handleAmountChange: function(e){
+        this.setState({amount: e.target.value});
+    },
+    handleNewIngredient: function (value) {
+        var newState = update(this.state, {
+            ingredients: {$push: [{name: value.ingredientName, key: value['.key']}]},
+        });
+        this.setState(newState);
+        e.preventDefault();
     },
     handleAddStep: function (e) {
         var newState = update(this.state, {
             steps: {$push: [{text: this.state.newStep, key: Date.now()}]},
-            newStep: ''
+            newStep: {$set: ''}
         });
         this.setState(newState);
         e.preventDefault();
@@ -51,12 +58,18 @@ var RecipeAdder = React.createClass({
                     </div>
                     <div className='form-group'>
                         <label htmlFor="ingredients"> Ingredients </label>
-                        <MasterIngredientList listenerFromParent={this.handleIngredientChange} multi={true}/>
+                        <div id='ingredients' className="input-group">
+                            <input type="text" className="input-group" value={this.state.amount}
+                                   onChange={this.handleAmountChange}/>
+                            <MasterIngredientList className="form-control" listenerFromParent={this.handleNewIngredient} multi={false}/>
+                            <span className="input-group-addon btn" onClick={this.handleNewIngredient}>+</span>
+                        </div>
+
                     </div>
 
                     <button type="submit" className="btn btn-primary"> Submit</button>
                 </form>
-                <form onSubmit={this.handleAddStep}>
+                <form className="form-inline" onSubmit={this.handleAddStep}>
                     <label htmlFor="recipeSteps"> Steps </label>
                     <div id='recipeSteps' className="input-group">
                         <input type="text" className="form-control" value={this.state.newStep}

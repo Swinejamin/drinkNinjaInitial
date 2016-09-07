@@ -11,7 +11,7 @@ var RecipeTemplate = React.createClass({
                 <ul className="list-group list-group-flush">
                     {this.props.ingredients.map(function (ingredient, index) {
                         return (
-                            <span key={index} className="list-group-item">{ingredient.label}</span>
+                            <span key={index} className="list-group-item">{ingredient.ingredientName}</span>
                         );
                     })}
                 </ul>

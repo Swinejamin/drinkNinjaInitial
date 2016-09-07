@@ -15,7 +15,14 @@ var MasterIngredientList = React.createClass({
     },
     mixins: [ReactFireMixin],
     render: function () {
-        var masterIngredients = this.state.masterIngredients;
+        function alphaByName(a,b) {
+            if (a.ingredientName < b.ingredientName)
+                return -1;
+            if (a.ingredientName > b.ingredientName)
+                return 1;
+            return 0;
+        }
+        var masterIngredients = this.state.masterIngredients.sort(alphaByName);
 
         function getOptions(input, cb) {
 
