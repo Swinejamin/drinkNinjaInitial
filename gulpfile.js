@@ -11,6 +11,7 @@ var plugins = require('gulp-load-plugins')({
 });
 var mainStyle = 'client/styles/src/*.s+(a|c)ss';
 var stylePaths = ['client/styles/src/*.css', mainStyle];
+var jsxPaths = ['client/*.jsx','client/components/*.jsx'];
 
 gulp.task('bundle', function bundleJS() {
         return browserify({
@@ -107,4 +108,8 @@ gulp.task('compile-css', function buildStyles() {
 
 gulp.task('sass:watch', function () {
     gulp.watch(mainStyle, ['build-css']);
+});
+
+gulp.task('jsx:watch', function () {
+    gulp.watch(jsxPaths, ['bundle-console', 'bundle-dash']);
 });

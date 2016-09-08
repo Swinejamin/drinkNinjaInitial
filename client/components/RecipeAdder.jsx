@@ -5,7 +5,16 @@ var RecipeTemplate = require('./RecipeTemplate.jsx');
 
 var RecipeAdder = React.createClass({
     getInitialState: function () {
-        return {recipeTitle: '', steps: [], newStep: '', ingredientList: [], amount: [], unit: [], description: ''};
+        return {
+            recipeTitle: '',
+            steps: [],
+            newStep: '',
+            ingredientList: [],
+            amount: '',
+            unit: '',
+            currentIngredient: {},
+            description: ''
+        };
     },
     handleTitleChange: function (e) {
         this.setState({recipeTitle: e.target.value});
@@ -13,15 +22,28 @@ var RecipeAdder = React.createClass({
     handleStepChange: function (e) {
         this.setState({newStep: e.target.value});
     },
-    handleAmountChange: function(e){
+    handleAmountChange: function (e) {
         this.setState({amount: e.target.value});
     },
+    handleUnitChange: function (unit) {
+        this.setState({unit: unit});
+    },
     handleNewIngredient: function (value) {
+        console.log(value);
         var newState = update(this.state, {
-            ingredients: {$push: [{name: value.ingredientName, key: value['.key']}]},
+            ingredientList: {
+                $push: [{
+                    name: this.state.currentIngredient.name,
+                    key: this.state.currentIngredient.key,
+                    amount: this.state.amount,
+                    unit: this.state.unit
+                }]
+            },
         });
         this.setState(newState);
-        e.preventDefault();
+    },
+    handleIngredientChange: function (value) {
+        this.setState({currentIngredient: {name: value.ingredientName, key: value['.key']}})
     },
     handleAddStep: function (e) {
         var newState = update(this.state, {
@@ -40,9 +62,11 @@ var RecipeAdder = React.createClass({
         this.setState(newState);
 
     },
-    componentDidMount: function () {
-        var ref = firebase.database().ref('ingredients');
-        this.bindAsArray(ref, 'ingredients');
+    componentWillMount: function () {
+        var ingredientsRef = firebase.database().ref('ingredients');
+        var unitsRef = firebase.database().ref('units');
+        this.bindAsArray(ingredientsRef, 'ingredients');
+        this.bindAsArray(unitsRef, 'units');
 
     },
     mixins: [ReactFireMixin],
@@ -61,7 +85,15 @@ var RecipeAdder = React.createClass({
                         <div id='ingredients' className="input-group">
                             <input type="text" className="input-group" value={this.state.amount}
                                    onChange={this.handleAmountChange}/>
-                            <MasterIngredientList className="form-control" listenerFromParent={this.handleNewIngredient} multi={false}/>
+                            <div className="dropdown-menu">
+                                {this.state.units.map((unit, index) => {
+                                    return (
+                                        <a  key={index} className="dropdown-item" onClick={this.handleUnitChange.bind(null, unit)}>{unit.unitName}</a>
+                                    );
+                                })}
+                            </div>
+                            <MasterIngredientList className="form-control"
+                                                  listenerFromParent={this.handleIngredientChange} multi={false}/>
                             <span className="input-group-addon btn" onClick={this.handleNewIngredient}>+</span>
                         </div>
 

@@ -8,8 +8,10 @@
     var RecipeAdder = require('./components/RecipeAdder.jsx');
     var IngredientAdder = require('./components/IngredientAdder.jsx');
     var TagAdder = require('./components/TagAdder.jsx');
+    var UnitAdder = require('./components/UnitAdder.jsx');
 
     ReactDOM.render(<IngredientAdder />, document.getElementById("ingredientAdder"));
     ReactDOM.render(<TagAdder />, document.getElementById("tagAdder"));
+    ReactDOM.render(<UnitAdder />, document.getElementById("unitAdder"));
     ReactDOM.render(<RecipeAdder />, document.getElementById("recipeAdder"));
 }());
