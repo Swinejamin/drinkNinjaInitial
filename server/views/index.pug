@@ -3,16 +3,6 @@ block content
     script.
         var user = globalUser;
         var userData = firebase.database().ref('users/' + user);
-    .container
-        .row
-            .col-md-5.offset-md-1
-                div.container.card.card-block
-                    h1.card-title Add an ingredient
-                    div#ingredientAdder
-                    div#ingredientList
+    .container#index
 
-            .col-md-5
-                div.container.card.card-block
-                    h1.card-title Add a recipe
-                    div#recipeBrowser
-    script(src='../../client/dashboard.js' type='text/javascript')
+    script(src='../../public/main.js' type='text/javascript')

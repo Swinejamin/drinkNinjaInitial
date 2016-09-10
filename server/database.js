@@ -10,14 +10,18 @@ var db = firebase.database();
 var auth = firebase.auth();
 var user = null;
 
-router.get('/ingredients', renderIngredients);
-router.post('/ingredient', addIngredient);
-router.get('/console', renderConsole);
-router.post('/user', setUser);
+router.post('/user/:idToken', setUser);
 
+router.get('console', renderConsole);
+
+module.exports = router;
+
+//////////////
 
 function renderConsole(req, res) {
-    if (user !== null) {
+    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+    console.log(req.headers);
+    if (token) {
         res.status(200);
         res.render('console');
     } else {
@@ -27,43 +31,23 @@ function renderConsole(req, res) {
 }
 function setUser(req, res) {
     user = null;
-    var idToken = req.body.token;
+    var idToken = req.params.idToken;
     firebase.auth().verifyIdToken(idToken)
         .then(function (decodedToken) {
             user = decodedToken.uid;
-            // ...
-            // res.render('./views/console.pug')
+            res.json({
+                success: true,
+                message: 'Enjoy your token!',
+                token: decodedToken
+            });
         }).catch(function (error) {
-            user = null;
-            console.log(error);
+        res.json({
+            success: false,
+            message: error,
+        });
         // Handle error
     });
 
 }
 
 
-module.exports = router;
-
-//////////////
-function renderIngredients(req, res) {
-    if (firebase.User) {
-        var data, ref = db.ref('ingredients');
-        ref.on("value", function (snapshot) {
-            //console.log(snapshot.val());
-            data = snapshot.val();
-        });
-        res.status(200).send(data);
-        // res.render('reader');
-    }
-    else {
-        res.render('login');
-    }
-}
-
-function addIngredient(req, res) {
-    var ref = db.ref('ingredients');
-    var categ = req.query.categ,
-        name = req.query.name;
-
-
-}

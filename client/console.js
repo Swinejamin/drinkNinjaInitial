@@ -340,10 +340,10 @@ module.exports = UnitAdder;
     var Select = require('react-select');
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var RecipeAdder = require('./components/RecipeAdder.jsx');
-    var IngredientAdder = require('./components/IngredientAdder.jsx');
-    var TagAdder = require('./components/TagAdder.jsx');
-    var UnitAdder = require('./components/UnitAdder.jsx');
+    var RecipeAdder = require('./../src/components/RecipeAdder.jsx');
+    var IngredientAdder = require('./../src/components/IngredientAdder.jsx');
+    var TagAdder = require('./../src/components/TagAdder.jsx');
+    var UnitAdder = require('./../src/components/UnitAdder.jsx');
 
     ReactDOM.render(React.createElement(IngredientAdder, null), document.getElementById("ingredientAdder"));
     ReactDOM.render(React.createElement(TagAdder, null), document.getElementById("tagAdder"));
