@@ -10,6 +10,9 @@ var config = {
     entry: {
         main: [mainPath]
     },
+    resolveLoader: {
+        root: path.resolve(__dirname, 'node_modules')
+    },
     output: {
         path: buildPath,
         filename: '[name].js'
@@ -28,9 +31,6 @@ var config = {
                 loader: 'style!css!sass'
             }
         ]
-    },
-    resolveLoader: {
-        modulesDirectories: ["node_modules"]
     }
 };
 
