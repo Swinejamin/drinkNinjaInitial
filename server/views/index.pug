@@ -1,8 +1,8 @@
 extends ./layout.pug
 block content
-    script.
+    //script.
         var user = globalUser;
         var userData = firebase.database().ref('users/' + user);
-    .container#index
+    div#index
 
     script(src='../../public/main.js' type='text/javascript')

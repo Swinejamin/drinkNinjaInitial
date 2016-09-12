@@ -32,7 +32,7 @@ var config = {
             {
                 test: /\.jsx?$/,
                 include: path.join(__dirname, 'src'),
-                loader: 'babel?presets[]=es2015&presets[]=react',
+                loader: 'babel?presets[]=es2015&presets[]=react&presets[]=stage-0',
 
             },
             {

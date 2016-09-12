@@ -1,19 +1,29 @@
-var React = require('react');
+import React from 'react';
 
-var IngredientAdder = React.createClass({
-    getInitialState: function () {
-        return {ingredientName: '', ingredientType: 'Alcohol'};
-    },
-    handleNameChange: function (e) {
+class IngredientAdder extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            ingredientName: '',
+            ingredientType: 'Alcohol'
+        }
+    }
+
+    handleNameChange(e) {
         this.setState({ingredientName: e.target.value});
-    },
-    handleTypeChange: function (e) {
-        this.setState({ingredientType: e.target.value});
-    },
-    componentWillMount: function () {
-        this.firebaseRef = firebase.database().ref("ingredients");
+    }
 
-    }, render: function () {
+
+    handleTypeChange(e) {
+        this.setState({ingredientType: e.target.value});
+    }
+
+    componentWillMount() {
+        this.firebaseRef = firebase.database().ref("ingredients");
+    }
+
+    render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
@@ -33,8 +43,9 @@ var IngredientAdder = React.createClass({
                 <button type="submit" className="btn btn-primary"> Submit</button>
             </form>
         )
-    },
-    handleSubmit: function (e) {
+    }
+
+    handleSubmit(e) {
         // console.log(this.firebaseRef);
         e.preventDefault();
         this.firebaseRef.push({
@@ -43,6 +54,9 @@ var IngredientAdder = React.createClass({
         });
         this.setState({ingredientName: ""});
     }
-});
+}
+
+export default IngredientAdder;
+
 
 module.exports = IngredientAdder;

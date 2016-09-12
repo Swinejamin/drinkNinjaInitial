@@ -1,42 +1,58 @@
-var React = require('react');
+import React from 'react';
+import IngredientTag from './IngredientTag.jsx';
+import Card from 'material-ui/Card';
+import firebase from 'firebase';
+import _ from 'lodash';
+import Rebase from 're-base';
 
-var IngredientTag = require('./IngredientTag.jsx');
+class IngredientList extends React.Component {
+    static propTypes = {
+        listSource: React.PropTypes.object.isRequired,
+        removeTag: React.PropTypes.func.isRequired,
+    };
 
-var IngredientList = React.createClass({
-    getInitialState: function () {
-        return {};
-    },
-    componentWillMount: function () {
-        this.bindAsArray(this.props.listSource, 'ingredients');
-    },
-    render: function () {
-        var listSource = this.state.ingredients;
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: {},
+            ingredients: {}
+        };
+    }
 
-        function alphaByName(a,b) {
-            if (a['.value'] < b['.value'])
+    render() {
+        let ingredients = _(this.props.listSource)
+            .keys()
+            .map((ingredientKey) => {
+                const cloned = {'value': _.clone(this.props.listSource[ingredientKey])};
+                cloned.key = ingredientKey;
+                return cloned;
+            })
+            .value();
+
+        function alphaByName(a, b) {
+            if (a < b) {
                 return -1;
-            if (a['.value'] > b['.value'])
+            }
+            if (a > b) {
                 return 1;
+            }
             return 0;
         }
-        var sortedList = listSource.sort(alphaByName);
+        ingredients = ingredients.sort(alphaByName);
+
+        const removeTag = this.props.removeTag;
         return (
             <div>
                 <h1>Current Ingredients</h1>
-                <div>
-                    {sortedList.map(function (ingredient) {
-                        return (<IngredientTag listSource={listSource} key={ingredient['.key']} content={ingredient}/>);
-                    })}
-                </div>
+
+                {ingredients.map((ingredient, index) => {
+                    return (<IngredientTag removeTag={removeTag} key={index} content={ingredient}/>);
+                })}
+
 
             </div>
         );
-
-    },
-    mixins: [ReactFireMixin],
-    componentWillUnmount: function () {
-        this.firebaseRef.off();
     }
-});
+}
 
-module.exports = IngredientList;
+export default IngredientList;

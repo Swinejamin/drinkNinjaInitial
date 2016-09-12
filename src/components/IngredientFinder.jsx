@@ -1,39 +1,42 @@
-var React = require('react');
+import React from'react';
+import MasterIngredientList from './MasterIngredientList.jsx';
 
-var MasterIngredientList = require('./MasterIngredientList.jsx');
+class IngredientFinder extends React.Component {
+    static propTypes = {
+        masterList: React.PropTypes.object.isRequired,
+        addIngredient: React.PropTypes.func.isRequired,
+    };
 
-var IngredientAdder = React.createClass({
+    constructor(props) {
+        super(props);
 
-    getInitialState: function () {
-        return {ingredientName: ''};
-    },
-    handleNameChange: function (e) {
+        this.state = {ingredientName: ''};
+    }
+
+    componentDidMount() {
+        this.userRef = firebase.database().ref(this.props.userRef);
+    }
+
+    handleNameChange(e) {
         this.setState({ingredientName: e.target.value});
-    },
-    handleTypeChange: function (e) {
+    }
+
+    handleTypeChange(e) {
         this.setState({ingredientType: e.target.value});
-    },
-    handleNewIngredient: function (value) {
+    }
 
+    handleNewIngredient(value) {
         this.setState({ingredientName: ''});
-        var userData = this.props.userData;
-        var target = userData.child('ingredients').child(value['.key']);
-        // console.log(target);
-        target.set(value.ingredientName);
+        this.props.addIngredient(value);
+    }
 
-    },
-    componentDidMount: function () {
-        this.userRef = firebase.database().ref(this.props.userData);
-        this.bindAsArray(this.userRef.child('ingredients'), 'ingredients');
-
-
-    }, render: function () {
+    render() {
         return (
             <div className="input-group">
-                <MasterIngredientList listenerFromParent={this.handleNewIngredient} multi={false}/>
+                <MasterIngredientList listenerFromParent={this.handleNewIngredient.bind(this)} multi={false}/>
             </div>
-        )
+        );
     }
-});
+}
 
-module.exports = IngredientAdder;
+export default IngredientFinder;
