@@ -59,9 +59,9 @@ class Dashboard extends React.Component {
 
     handleAddIngredient(newIngredient) {
         console.log(newIngredient);
-        const key = newIngredient['.key'];
+        const key = newIngredient.key;
         const data = {};
-        data[key] = newIngredient.ingredientName;
+        data[key] = newIngredient.value;
         base.update(`users/${this.uid}/ingredients`, {
                 data: data
             }

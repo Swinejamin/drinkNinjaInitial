@@ -1,9 +1,6 @@
 import React from 'react';
 import IngredientTag from './IngredientTag.jsx';
-import Card from 'material-ui/Card';
-import firebase from 'firebase';
 import _ from 'lodash';
-import Rebase from 're-base';
 
 class IngredientList extends React.Component {
     static propTypes = {

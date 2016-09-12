@@ -1,5 +1,5 @@
 import React from'react';
-import MasterIngredientList from './MasterIngredientList.jsx';
+import AutoComplete from 'material-ui/AutoComplete';
 
 class IngredientFinder extends React.Component {
     static propTypes = {
@@ -31,9 +31,27 @@ class IngredientFinder extends React.Component {
     }
 
     render() {
+        let masterList = _(this.props.masterList)
+            .keys()
+            .map((ingredientKey) => {
+                const cloned = {'value': _.clone(this.props.masterList[ingredientKey].ingredientName)};
+                cloned.key = ingredientKey;
+                return cloned;
+            })
+            .value();
+        const dataSourceConfig = {
+            text: 'value',
+            value: 'key',
+        };
         return (
-            <div className="input-group">
-                <MasterIngredientList listenerFromParent={this.handleNewIngredient.bind(this)} multi={false}/>
+            <div>
+                <AutoComplete
+                    hintText="Add somehting to your cabinet"
+                    dataSource={masterList}
+                    dataSourceConfig={dataSourceConfig}
+                    filter={AutoComplete.fuzzyFilter}
+                    onNewRequest={this.handleNewIngredient.bind(this)}
+                />
             </div>
         );
     }
