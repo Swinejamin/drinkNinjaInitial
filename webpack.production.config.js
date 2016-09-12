@@ -15,7 +15,8 @@ var config = {
     },
     output: {
         path: buildPath,
-        filename: '[name].js'
+        filename: '[name].js',
+        publicPath: '/public/'
     },
     module: {
         loaders: [
