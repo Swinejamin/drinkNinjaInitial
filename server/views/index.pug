@@ -4,5 +4,7 @@ block content
         var user = globalUser;
         var userData = firebase.database().ref('users/' + user);
     div#index
-
-    script(src='../../main.js' type='text/javascript')
+    if process.env.NODE_ENV == 'production'
+        script(src='../../main.js' type='text/javascript')
+    else
+        script(src='../../public/main.js' type='text/javascript')
