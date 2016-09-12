@@ -28,6 +28,9 @@ var config = {
                 loader: 'style!css!sass'
             }
         ]
+    },
+    resolveLoader: {
+        modulesDirectories: ["node_modules"]
     }
 };
 
