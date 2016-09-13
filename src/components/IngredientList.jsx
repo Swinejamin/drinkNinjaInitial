@@ -1,7 +1,12 @@
 import React from 'react';
 import IngredientTag from './IngredientTag.jsx';
 import _ from 'lodash';
-
+const styles = {
+    wrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+};
 class IngredientList extends React.Component {
     static propTypes = {
         listSource: React.PropTypes.object.isRequired,
@@ -27,26 +32,23 @@ class IngredientList extends React.Component {
             .value();
 
         function alphaByName(a, b) {
-            if (a < b) {
+            if (a.value < b.value) {
                 return -1;
             }
-            if (a > b) {
+            if (a.value > b.value) {
                 return 1;
             }
             return 0;
         }
+
         ingredients = ingredients.sort(alphaByName);
 
         const removeTag = this.props.removeTag;
         return (
-            <div>
-                <h1>Current Ingredients</h1>
-
+            <div >
                 {ingredients.map((ingredient, index) => {
                     return (<IngredientTag removeTag={removeTag} key={index} content={ingredient}/>);
                 })}
-
-
             </div>
         );
     }

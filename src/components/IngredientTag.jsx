@@ -1,7 +1,11 @@
 import React from 'react';
 import Chip from 'material-ui/Chip';
 import firebase from 'firebase';
-
+const styles = {
+    chip: {
+        margin: 4,
+    },
+};
 
 class IngredientTag extends React.Component {
     static propTypes = {
@@ -20,7 +24,7 @@ class IngredientTag extends React.Component {
 
     render() {
         return (
-            <Chip onRequestDelete={this.removeTag.bind(this)}>
+            <Chip style={styles.chip} onRequestDelete={this.removeTag.bind(this)}>
                 {this.props.content.value}
             </Chip>
         );

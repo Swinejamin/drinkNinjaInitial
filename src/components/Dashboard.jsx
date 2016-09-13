@@ -3,6 +3,14 @@ import IngredientFinder from './IngredientFinder.jsx';
 import IngredientList from './IngredientList.jsx';
 import Rebase from 're-base';
 
+import AppBar from 'material-ui/AppBar';
+import Paper from 'material-ui/Paper';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+
 const base = Rebase.createClass({
     apiKey: 'AIzaSyAu0WdxVgdV_HPz28RoYfHb-W7P7aIGkN0',
     authDomain: 'drinkme-6efd3.firebaseapp.com',
@@ -10,6 +18,18 @@ const base = Rebase.createClass({
     storageBucket: 'drinkme-6efd3.appspot.com'
 });
 
+const styles = {
+    drawer: {
+        padding: 5
+    },
+    chip: {
+        margin: 4,
+    },
+    wrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+};
 class Dashboard extends React.Component {
 
     constructor() {
@@ -18,9 +38,21 @@ class Dashboard extends React.Component {
             user: {},
             ingredients: {},
             masterIngredients: {},
-            loading: true
+            loading: 'loading',
+            docked: true,
+            drawerOpen: false
         };
         this.userRef = '';
+        this.mql = window.matchMedia('(min-width: 800px)');
+        this.mql.addListener(this.mediaQueryChanged);
+        window.onResize = this.handleSizeChange;
+    }
+
+    componentWillMount() {
+        this.handleSizeChange();
+        window.addEventListener('resize', () => {
+            this.handleSizeChange();
+        });
     }
 
     componentDidMount() {
@@ -33,14 +65,14 @@ class Dashboard extends React.Component {
                     context: this,
                     state: 'user',
                     asArray: false,
-                    then() {
-                        this.setState({loading: false});
-                    }
                 });
                 base.syncState(`users/${this.uid}/ingredients`, {
                     context: this,
                     state: 'ingredients',
-                    asArray: false
+                    asArray: false,
+                    then() {
+                        this.setState({loading: 'hide'});
+                    }
                 });
                 base.syncState('ingredients', {
                     context: this,
@@ -58,7 +90,6 @@ class Dashboard extends React.Component {
     }
 
     handleAddIngredient(newIngredient) {
-        console.log(newIngredient);
         const key = newIngredient.key;
         const data = {};
         data[key] = newIngredient.value;
@@ -69,8 +100,18 @@ class Dashboard extends React.Component {
         ;
     }
 
+    handleTap() {
+        const neg = !this.state.drawerOpen;
+        this.setState({
+            drawerOpen: neg
+        });
+    }
+
+    handleSizeChange() {
+        this.setState({mql: this.mql, docked: this.mql.matches});
+    }
+
     removeTag(tag) {
-        console.log(`users/${this.uid}/ingredients/${tag.key}`);
         const data = {};
         data[tag.key] = null;
         const targetStr = `users/${this.uid}/ingredients/${tag.key}`;
@@ -79,13 +120,39 @@ class Dashboard extends React.Component {
         target.remove();
     }
 
+    toggleDrawer() {
+        const neg = !this.state.drawerOpen;
+        this.setState(
+            {
+                drawerOpen: neg
+            }
+        );
+    }
+
     render() {
         return (
-            <div>
-                <IngredientFinder masterList={this.state.masterIngredients}
-                                  addIngredient={this.handleAddIngredient.bind(this)}/>
-                <IngredientList listSource={this.state.ingredients} removeTag={this.removeTag.bind(this)}/>
-            </div>
+            <Paper>
+                <AppBar title="Drink finder app" onLeftIconButtonTouchTap={this.handleTap.bind(this)}/>
+                <Drawer id="Drawer" docked={this.state.docked} open={this.state.drawerOpen}
+                        onRequestChange={this.toggleDrawer.bind(this)} width={500}>
+
+                    <Card>
+                        <CardHeader title="Your cabinet"/>
+                        <CardText >
+                            <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
+                                              userList={this.state.ingredients}
+                                              addIngredient={this.handleAddIngredient.bind(this)}/>
+                            <RefreshIndicator status={this.state.loading}
+                                              left={10}
+                                              top={0}/>
+                            <IngredientList listSource={this.state.ingredients} removeTag={this.removeTag.bind(this)}/>
+                        </CardText>
+                    </Card>
+
+
+                </Drawer>
+
+            </Paper>
         );
     }
 }

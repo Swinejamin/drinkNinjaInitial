@@ -3,7 +3,6 @@
 import React from 'react';
 import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
 import Dashboard from './Dashboard.jsx';
 
 import * as firebase from 'firebase';
@@ -28,11 +27,11 @@ class App extends React.Component {
         };
     }
 
+
     render() {
         return (
             <div>
-                <AppBar title="Drink finder app"/>
-                <Dashboard/>
+                <Dashboard />
             </div>
 
         );
