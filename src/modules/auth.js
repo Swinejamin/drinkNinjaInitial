@@ -1,0 +1,67 @@
+import $ from 'jQuery';
+import base from './rebase';
+const auth = {
+    login(email, password, passCallback, failCallback) {
+        let err = null;
+        let userData = null;
+        if (email != null && password != null) {
+            // cb = arguments[arguments.length - 1];
+            base.auth().signInWithEmailAndPassword(email, password)
+                .then((user) => {
+                    user.getToken(/* forceRefresh */ true).then((idToken) => {
+                        $.ajax({
+                            url: '/api/user/' + idToken,
+                            type: 'POST'
+                        }).then((res) => {
+                            localStorage.setItem('token', JSON.stringify(res.token));
+                        });
+                    });
+                    passCallback();
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    err = error;
+                    failCallback(error);
+                });
+        }
+    },
+    loginAnonymously(passCallback, failCallback) {
+        let user = base.auth().signInAnonymously().then((user)=> {
+            user.getToken(/* forceRefresh */ true)
+                .then((idToken) => {
+                    $.ajax({
+                        url: '/api/user/' + idToken,
+                        type: 'POST'
+                    }).then((res) => {
+                        localStorage.setItem('token', JSON.stringify(res.token));
+                        passCallback();
+                    });
+                })
+                .catch((error)=> {
+                    failCallback(error);
+                });
+        });
+    },
+    logout(cb) {
+        delete localStorage.token;
+        if (cb) cb();
+        if (base.auth().currentUser.isAnonymous) {
+            console.log('this chould delete the anon user');
+            const targetStr = `users/${base.auth().currentUser.uid}`;
+            const target = base.database().ref(targetStr);
+            target.remove();
+        }
+        base.unauth();
+        this.onChange(false);
+    },
+    getToken() {
+        return localStorage.token;
+    },
+    loggedIn() {
+        return !!localStorage.token;
+    },
+    onChange() {
+    }
+};
+
+module.exports = auth;

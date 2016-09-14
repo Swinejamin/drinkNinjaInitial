@@ -31,29 +31,10 @@ app.use('/api', require('./server/database'));
 
 
 app.get('/', renderIndex);
-app.get('/register', renderRegister);
-app.get('/login', renderLogin);
-app.get('/console', renderConsole);
+
 function renderIndex(req, res) {
     res.location('/');
     res.render('index');
-}
-function renderRegister(req, res) {
-    res.render('register');
-}
-function renderLogin(req, res) {
-    res.render('login');
-}
-function renderConsole(req, res) {
-    var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
-    console.log(req.headers);
-    if (token) {
-        res.status(200);
-        res.render('console');
-    } else {
-        res.status(401);
-        res.render('login');
-    }
 }
 // app.use("*", function (req, res) {
 //     res.status(404).send('404');

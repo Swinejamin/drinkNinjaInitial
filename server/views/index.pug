@@ -3,7 +3,7 @@ block content
     //script.
         var user = globalUser;
         var userData = firebase.database().ref('users/' + user);
-    div#index
+    div#container
     if process.env.NODE_ENV == 'production'
         script(src='../../main.js' type='text/javascript')
     else

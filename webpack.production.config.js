@@ -1,9 +1,9 @@
-var webpack = require('webpack');
-var path = require('path');
-var buildPath = path.resolve(__dirname, 'public');
-var mainPath = path.resolve(__dirname, 'src', 'main.js');
+const webpack = require('webpack');
+const path = require('path');
+const buildPath = path.resolve(__dirname, 'public');
+const mainPath = path.resolve(__dirname, 'src', 'main.js');
 
-var config = {
+const config = {
 
     // We change to normal source mapping
     devtool: 'source-map',
@@ -32,6 +32,10 @@ var config = {
                 loader: 'style!css!sass'
             }
         ]
+    },
+    resolve: {
+        // you can now require('file') instead of require('file.jsx')
+        extensions: ['', '.js', '.jsx', '.json']
     }
 };
 

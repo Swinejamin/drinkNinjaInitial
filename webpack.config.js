@@ -1,9 +1,9 @@
-var webpack = require('webpack');
-var path = require('path');
-var buildPath = path.resolve(__dirname, 'public');
-var mainPath = path.resolve(__dirname, 'src', 'main.js');
+const webpack = require('webpack');
+const path = require('path');
+const buildPath = path.resolve(__dirname, 'public');
+const mainPath = path.resolve(__dirname, 'src', 'main.js');
 
-var config = {
+const config = {
     context: path.resolve(process.cwd(), 'src'),
     devtool: 'eval-source-map',
     entry: {
@@ -44,7 +44,7 @@ var config = {
     },
     resolve: {
         // you can now require('file') instead of require('file.jsx')
-        extensions: ['', '.js', 'jsx', '.json']
+        extensions: ['', '.js', '.jsx', '.json']
     }
 };
 
