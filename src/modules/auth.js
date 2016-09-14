@@ -1,4 +1,4 @@
-import $ from 'jQuery';
+import $ from 'jquery';
 import base from './rebase';
 const auth = {
     login(email, password, passCallback, failCallback) {
