@@ -31,9 +31,12 @@ const App = React.createClass({
     componentWillMount() {
         auth.onChange = this.updateAuth;
     },
+    componentDidMount() {
+
+    },
     updateAuth(loggedIn) {
         this.setState({
-            loggedIn
+            loggedIn: loggedIn
         });
     },
     render() {

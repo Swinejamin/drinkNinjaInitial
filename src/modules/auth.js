@@ -16,6 +16,7 @@ const auth = {
                             localStorage.setItem('token', JSON.stringify(res.token));
                         });
                     });
+                    this.onChange(true);
                     passCallback();
                 })
                 .catch((error) => {
@@ -34,6 +35,7 @@ const auth = {
                         type: 'POST'
                     }).then((res) => {
                         localStorage.setItem('token', JSON.stringify(res.token));
+                        this.onChange(true);
                         passCallback();
                     });
                 })
@@ -50,8 +52,11 @@ const auth = {
             const targetStr = `users/${base.auth().currentUser.uid}`;
             const target = base.database().ref(targetStr);
             target.remove();
+            base.auth().currentUser.delete();
+        } else {
+            base.unauth();
         }
-        base.unauth();
+
         this.onChange(false);
     },
     getToken() {
