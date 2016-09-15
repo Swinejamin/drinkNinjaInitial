@@ -44,9 +44,7 @@ const RecipeAdder = React.createClass({
     handleTitleChange(e) {
         this.setState({recipeTitle: e.target.value});
     },
-    handleStepChange(e) {
-        this.setState({newStep: e.target.value});
-    },
+    //ingredients
     handleNewItem(value) {
         const name = this.state.currentIngredient.name;
         const key = this.state.currentIngredient.key;
@@ -73,6 +71,36 @@ const RecipeAdder = React.createClass({
 
         this.setState(newState);
     },
+    handleIngredientChange(ingredient) {
+        this.setState({currentIngredient: {name: ingredient.value, key: ingredient.key}});
+    },
+    handleUpdateIngredientSearch(t) {
+        this.setState({ingredientSearchText: t});
+    },
+    //units
+    handleUnitChange(unit) {
+        this.setState({currentUnit: {name: unit.value, key: unit.key}});
+    },
+    handleUpdateUnitSearch(t) {
+        this.setState({unitSearchText: t});
+    },
+    //amounts
+    handleAmountChange(e) {
+        this.setState({amount: e.target.value});
+    },
+
+    //steps
+    handleStepChange(e) {
+        this.setState({newStep: e.target.value});
+    },
+    handleNewStep(e) {
+        const newState = update(this.state, {
+            stepsList: {$push: [{text: this.state.newStep, key: Date.now()}]},
+            newStep: {$set: ''}
+        });
+        this.setState(newState);
+        e.preventDefault();
+    },
     handleRemoveItem(type, index) {
         console.log(index);
         let target = '';
@@ -85,37 +113,6 @@ const RecipeAdder = React.createClass({
         let newData = target.slice(); //copy array
         newData.splice(index, 1); //remove element
         this.setState({ingredientList: newData}); //update state
-    },
-    handleIngredientChange(ingredient) {
-        this.setState({currentIngredient: {name: ingredient.value, key: ingredient.key}});
-    },
-    handleUnitChange(unit) {
-        this.setState({currentUnit: {name: unit.value, key: unit.key}});
-    },
-    handleAmountChange(e) {
-        this.setState({amount: e.target.value});
-    },
-    handleNewStep(e) {
-        const newState = update(this.state, {
-            stepsList: {$push: [{text: this.state.newStep, key: Date.now()}]},
-            newStep: {$set: ''}
-        });
-        this.setState(newState);
-        e.preventDefault();
-    },
-    handleDeleteStep(ind, e) {
-        e.preventDefault();
-
-        const newState = update(this.state, {
-            steps: {$splice: [[ind, 1]]}
-        });
-        this.setState(newState);
-    },
-    handleUpdateIngredientSearch(t) {
-        this.setState({ingredientSearchText: t});
-    },
-    handleUpdateUnitSearch(t) {
-        this.setState({unitSearchText: t});
     },
     alphaByName(a, b) {
         if (a.value < b.value) {
@@ -194,10 +191,13 @@ const RecipeAdder = React.createClass({
                                     this.state.currentIngredient.key === '' ||
                                     this.state.currentIngredient.name === '' ||
                                     this.state.currentUnit.key === '' ||
-                                    this.state.currentUnit.name === ''} />
+                                    this.state.currentUnit.name === ''}/>
                     </Paper>
-
-
+                    <TextField fullWidth={true}
+                               hintText="Add a step"
+                               type="text"
+                               value={this.state.newStep}
+                               onChange={this.handleStepChange}/>
                 </form>
                 <form className="form-inline" onSubmit={this.handleAddStep}>
                     <label htmlFor="recipeSteps"> Steps </label>
