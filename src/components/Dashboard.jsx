@@ -20,7 +20,7 @@ const Dashboard = React.createClass({
         };
     },
 
-    componentWillMount: function() {
+    componentWillMount() {
         this.mql = window.matchMedia('(min-width: 800px)');
         this.mql.addListener(this.mediaQueryChanged);
         this.handleSizeChange();
@@ -29,18 +29,18 @@ const Dashboard = React.createClass({
         });
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
         base.onAuth((authData) => {
             if (authData) {
                 console.log("User " + authData.uid + " is logged in with " + authData.provider);
                 this.userRef = firebase.database().ref(`users/${base.auth().currentUser.uid}`);
                 this.uid = base.auth().currentUser.uid;
-                base.syncState(`users/${this.uid}`, {
+                base.bindToState(`users/${this.uid}`, {
                     context: this,
                     state: 'user',
                     asArray: false,
                 });
-                base.syncState(`users/${this.uid}/ingredients`, {
+                base.bindToState(`users/${this.uid}/ingredients`, {
                     context: this,
                     state: 'ingredients',
                     asArray: false,
@@ -48,7 +48,7 @@ const Dashboard = React.createClass({
                         this.setState({loading: 'hide'});
                     }
                 });
-                base.syncState('ingredients', {
+                base.bindToState('ingredients', {
                     context: this,
                     state: 'masterIngredients',
                     asArray: false
@@ -59,11 +59,11 @@ const Dashboard = React.createClass({
         });
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         // base.removeBinding(this.ref);
     },
 
-    handleAddIngredient: function(newIngredient) {
+    handleAddIngredient(newIngredient) {
         const key = newIngredient.key;
         const data = {};
         data[key] = newIngredient.value;
@@ -74,18 +74,18 @@ const Dashboard = React.createClass({
         ;
     },
 
-    handleTap: function() {
+    handleTap() {
         const neg = !this.state.drawerOpen;
         this.setState({
             drawerOpen: neg
         });
     },
 
-    handleSizeChange: function() {
+    handleSizeChange() {
         this.setState({mql: this.mql, docked: this.mql.matches});
     },
 
-    removeTag: function(tag) {
+    removeTag(tag) {
         const data = {};
         data[tag.key] = null;
         const targetStr = `users/${this.uid}/ingredients/${tag.key}`;
@@ -93,7 +93,7 @@ const Dashboard = React.createClass({
         target.remove();
     },
 
-    toggleDrawer: function() {
+    toggleDrawer() {
         const neg = !this.state.drawerOpen;
         this.setState(
             {
@@ -102,7 +102,7 @@ const Dashboard = React.createClass({
         );
     },
 
-    render: function() {
+    render() {
         return (
             <Paper>
                 <Drawer id="Drawer" docked={this.state.docked} open={this.state.drawerOpen}
