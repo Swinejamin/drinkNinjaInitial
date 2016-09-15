@@ -38,9 +38,9 @@ const IngredientList = React.createClass({
 
         const removeTag = this.props.removeTag;
         return (
-            <div >
-                {ingredients.map((ingredient, index) => {
-                    return (<IngredientTag removeTag={removeTag} key={index} content={ingredient}/>);
+            <div className="chip-wrapper">
+                {ingredients.map((tagContent, index) => {
+                    return (<IngredientTag removeTag={removeTag} key={index} content={tagContent}/>);
                 })}
             </div>
         );

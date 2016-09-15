@@ -1,34 +1,42 @@
 import React from 'react';
-
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
+import TagListBuilder from './TagListBuilder';
 const TagAdder = React.createClass({
+    propTypes: {
+        tagSource: React.PropTypes.object.isRequired,
+        addTag: React.PropTypes.func.isRequired,
+        removeTag: React.PropTypes.func.isRequired
+    },
     getInitialState() {
         return {drinkTagName: ''};
     },
     handleNameChange(e) {
         this.setState({drinkTagName: e.target.value});
     },
-    componentWillMount() {
-        this.firebaseRef = firebase.database().ref("tags");
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.addTag('tags', this.state.drinkTagName);
+        this.setState({drinkTagName: ''});
+    },
+    handleDelete(tag) {
+        this.props.removeTag('tags', tag);
     },
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className='form-group'>
-                    <label htmlFor="drinkTagName"> Tag Name </label>
-                    <input type="text" id='drinkTagName' className="form-control"
-                           value={this.state.drinkTagName} onChange={this.handleNameChange}/>
-                </div>
-                <button type="submit" className="btn btn-primary"> Submit</button>
-            </form>
+            <div className="console-adders">
+                <form onSubmit={this.handleSubmit}>
+                    <TextField fullWidth={true}
+                               hintText="Christmas, Virgin, Star Wars..."
+                               value={this.state.drinkTagName}
+                               type="text"
+                               floatingLabelText="Tag Name"
+                               onChange={this.handleNameChange}/>
+                    <FlatButton label="Add ingredient" onClick={this.handleSubmit}/>
+                </form>
+                <TagListBuilder listSource={this.props.tagSource} removeTag={this.handleDelete}/>
+            </div>
         );
-    },
-    handleSubmit(e) {
-        // console.log(this.firebaseRef);
-        e.preventDefault();
-        this.firebaseRef.push({
-            drinkTagName: this.state.drinkTagName,
-        });
-        this.setState({drinkTagName: ""});
     }
 });
 

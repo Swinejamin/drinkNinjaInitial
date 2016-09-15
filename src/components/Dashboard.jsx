@@ -1,6 +1,6 @@
 import React from 'react';
 import IngredientFinder from './IngredientFinder.jsx';
-import IngredientList from './IngredientList.jsx';
+import TagListBuilder from './TagListBuilder.jsx';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -86,8 +86,6 @@ const Dashboard = React.createClass({
     },
 
     removeTag(tag) {
-        const data = {};
-        data[tag.key] = null;
         const targetStr = `users/${this.uid}/ingredients/${tag.key}`;
         const target = base.database().ref(targetStr);
         target.remove();
@@ -119,7 +117,7 @@ const Dashboard = React.createClass({
                                                   userList={this.state.ingredients}
                                                   addIngredient={this.handleAddIngredient}/>
 
-                                <IngredientList listSource={this.state.ingredients} removeTag={this.removeTag}/>
+                                <TagListBuilder listSource={this.state.ingredients} removeTag={this.removeTag}/>
                             </CardText>) : (<CardText />)}
                     </Card>
 

@@ -1,12 +1,22 @@
 import React from 'react';
 import base from '../modules/rebase';
-import auth from '../modules/auth';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+import TagListBuilder from './TagListBuilder';
+
 
 const IngredientAdder = React.createClass({
+    propTypes: {
+        addIngredient: React.PropTypes.func.isRequired,
+        removeIngredient: React.PropTypes.func.isRequired,
+        ingredientSource: React.PropTypes.object.isRequired
+    },
     getInitialState() {
         return {
-            ingredientName: '',
-            ingredientType: 'Alcohol'
+            ingredientName: ''
+            // ingredientType: 'Alcohol'
         };
     },
 
@@ -15,40 +25,39 @@ const IngredientAdder = React.createClass({
     },
 
 
-    handleTypeChange(e) {
-        this.setState({ingredientType: e.target.value});
+    handleTypeChange(event, index, value) {
+        this.setState({ingredientType: value});
     },
-
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.addIngredient('ingredients', this.state.ingredientName);
+        this.setState({
+            ingredientName: ''
+        });
+    },
+    handleDelete(tag) {
+        this.props.removeIngredient('ingredients', tag);
+    },
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="ingredientType"> Ingredient Type </label>
-                    <select id="ingredientType" className="form-control" value={this.state.ingredientType}
-                            onChange={this.handleTypeChange}>
-                        <option>Alcohol</option>
-                        <option>Mixer</option>
-                        <option>Garnish</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="ingredientName"> Ingredient Name </label>
-                    <input type="text" id='ingredientName' className="form-control" rows="1"
-                           value={this.state.ingredientName} onChange={this.handleNameChange}/>
-                </div>
-                <button type="submit" className="btn btn-primary"> Submit</button>
-            </form>
-        )
-    },
-
-    handleSubmit(e) {
-        const ref = `ingredients`;
-        e.preventDefault();
-        base.database().ref(ref).push({
-            ingredientName: this.state.ingredientName,
-            ingredientType: this.state.ingredientType
-        });
-        this.setState({ingredientName: ''});
+            <div className="console-adders">
+                <form onSubmit={this.handleSubmit}>
+                    {/*<SelectField value={this.state.ingredientType} onChange={this.handleTypeChange}>*/}
+                    {/*<MenuItem value={'Alcohol'} primaryText="Alcohol"/>*/}
+                    {/*<MenuItem value={'Mixer'} primaryText="Mixer"/>*/}
+                    {/*<MenuItem value={'Garnish'} primaryText="Garnish"/>*/}
+                    {/*</SelectField>*/}
+                    <TextField fullWidth={true}
+                               hintText="Gin, Vodka, Rum..."
+                               type="text"
+                               floatingLabelText="Ingredient Name"
+                               value={this.state.ingredientName}
+                               onChange={this.handleNameChange}/>
+                    <FlatButton label="Add ingredient" onClick={this.handleSubmit}/>
+                </form>
+                <TagListBuilder listSource={this.props.ingredientSource} removeTag={this.handleDelete}/>
+            </div>
+        );
     }
 });
 

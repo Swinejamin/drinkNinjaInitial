@@ -1,9 +1,12 @@
-var React = require('react');
-var update = require('react-addons-update');
-var RecipeTemplate = require('./RecipeTemplate.jsx');
+import React from 'react';
+import update from 'react-addons-update';
+import RecipeTemplate from './RecipeTemplate.jsx';
 
-var RecipeAdder = React.createClass({
-    getInitialState: function() {
+const RecipeAdder = React.createClass({
+    propTypes: {
+
+    },
+    getInitialState() {
         return {
             recipeTitle: '',
             steps: [],
@@ -15,19 +18,19 @@ var RecipeAdder = React.createClass({
             description: ''
         };
     },
-    handleTitleChange: function(e) {
+    handleTitleChange(e) {
         this.setState({recipeTitle: e.target.value});
     },
-    handleStepChange: function(e) {
+    handleStepChange(e) {
         this.setState({newStep: e.target.value});
     },
-    handleAmountChange: function(e) {
+    handleAmountChange(e) {
         this.setState({amount: e.target.value});
     },
-    handleUnitChange: function(unit) {
+    handleUnitChange(unit) {
         this.setState({unit: unit});
     },
-    handleNewIngredient: function(value) {
+    handleNewIngredient(value) {
         console.log(value);
         var newState = update(this.state, {
             ingredientList: {
@@ -41,10 +44,10 @@ var RecipeAdder = React.createClass({
         });
         this.setState(newState);
     },
-    handleIngredientChange: function(value) {
+    handleIngredientChange(value) {
         this.setState({currentIngredient: {name: value.ingredientName, key: value['.key']}})
     },
-    handleAddStep: function(e) {
+    handleAddStep(e) {
         var newState = update(this.state, {
             steps: {$push: [{text: this.state.newStep, key: Date.now()}]},
             newStep: {$set: ''}
@@ -52,7 +55,7 @@ var RecipeAdder = React.createClass({
         this.setState(newState);
         e.preventDefault();
     },
-    handleDeleteStep: function(ind, e) {
+    handleDeleteStep(ind, e) {
         e.preventDefault();
 
         var newState = update(this.state, {
@@ -61,14 +64,8 @@ var RecipeAdder = React.createClass({
         this.setState(newState);
 
     },
-    componentWillMount: function() {
-        var ingredientsRef = firebase.database().ref('ingredients');
-        var unitsRef = firebase.database().ref('units');
-        // this.bindAsArray(ingredientsRef, 'ingredients');
-        // this.bindAsArray(unitsRef, 'units');
 
-    },
-    render: function() {
+    render() {
         var thisRef = this;
         return (
             <div>
@@ -114,7 +111,7 @@ var RecipeAdder = React.createClass({
 
         )
     },
-    handleSubmit: function(e) {
+    handleSubmit(e) {
         var firebaseRef = firebase.database().ref('recipes');
         e.preventDefault();
         firebaseRef.push({
