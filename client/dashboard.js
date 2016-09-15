@@ -242,7 +242,7 @@ module.exports = RecipeBrowser;
     var React = require('react');
     var ReactDOM = require('react-dom');
 
-    var IngredientList = require('./components/IngredientList.jsx');
+    var IngredientList = require('./components/TagListBuilder.jsx');
     var IngredientFinder = require('./components/IngredientFinder.jsx');
     var RecipeBrowser = require('./components/RecipeBrowser.jsx');
 
