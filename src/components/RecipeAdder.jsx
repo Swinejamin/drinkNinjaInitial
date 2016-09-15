@@ -76,6 +76,7 @@ const RecipeAdder = React.createClass({
     handleRemoveItem(type, index) {
         console.log(index);
         let target = '';
+
         if (type === 'ingredients') {
             target = this.state.ingredientList;
         } else if (type === 'steps') {
