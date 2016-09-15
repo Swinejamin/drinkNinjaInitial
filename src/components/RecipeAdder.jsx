@@ -25,9 +25,10 @@ const RecipeAdder = React.createClass({
     },
     getInitialState() {
         return {
-            searchText: '',
+            unitSearchText: '',
+            ingredientSearchText: '',
             recipeTitle: '',
-            steps: [],
+            stepsList: [],
             newStep: '',
             ingredientList: [],
             tagList: {},
@@ -46,40 +47,43 @@ const RecipeAdder = React.createClass({
     handleStepChange(e) {
         this.setState({newStep: e.target.value});
     },
-    handleNewIngredient(value) {
-        console.log(value);
+    handleNewItem(value) {
+        const name = this.state.currentIngredient.name;
+        const key = this.state.currentIngredient.key;
+        const amount = this.state.amount;
+        const unit = this.state.currentUnit;
         const newState = update(this.state, {
             ingredientList: {
                 $push: [{
-                    name: this.state.currentIngredient.name,
-                    key: this.state.currentIngredient.key,
-                    amount: this.state.amount,
+                    name: name,
+                    key: key,
+                    amount: amount,
                     unit: {
-                        name: this.state.currentUnit.name,
-                        key: this.state.currentUnit.key
+                        name: unit.name,
+                        key: unit.key
                     }
                 }]
             },
+            amount: {$set: ''},
+            ingredientSearchText:  {$set: ''},
+            unitSearchText:  {$set: ''},
+            currentIngredient: {$set: {name: '', key: ''}},
+            currentUnit: {$set: {name: '', key: ''}}
         });
+
         this.setState(newState);
     },
-    handleRemoveIngredient(value){
-        console.log(value);
-        const newState = update(this.state, {
-            ingredientList: {
-                $push: [{
-                    name: this.state.currentIngredient.name,
-                    key: this.state.currentIngredient.key,
-                    amount: this.state.amount,
-                    unit: {
-                        name: this.state.currentUnit.name,
-                        key: this.state.currentUnit.key
-                    }
-                }]
-            },
-        });
-        // this.setState(newState);
-
+    handleRemoveItem(type, index) {
+        console.log(index);
+        let target = '';
+        if (type === 'ingredients') {
+            target = this.state.ingredientList;
+        } else if (type === 'steps') {
+            target = this.state.stepsList;
+        }
+        let newData = target.slice(); //copy array
+        newData.splice(index, 1); //remove element
+        this.setState({ingredientList: newData}); //update state
     },
     handleIngredientChange(value) {
         this.setState({currentIngredient: {name: value.value, key: value.key}});
@@ -90,9 +94,9 @@ const RecipeAdder = React.createClass({
     handleAmountChange(e) {
         this.setState({amount: e.target.value});
     },
-    handleAddStep(e) {
+    handleNewStep(e) {
         const newState = update(this.state, {
-            steps: {$push: [{text: this.state.newStep, key: Date.now()}]},
+            stepsList: {$push: [{text: this.state.newStep, key: Date.now()}]},
             newStep: {$set: ''}
         });
         this.setState(newState);
@@ -165,7 +169,7 @@ const RecipeAdder = React.createClass({
                             hintText='Unit'
                             dataSource={masterUnitList}
                             dataSourceConfig={dataSourceConfig}
-                            searchText={this.state.searchText}
+                            searchText={this.state.unitSearchText}
                             filter={AutoComplete.fuzzyFilter}
                             onNewRequest={this.handleUnitChange}
                             onUpdateInput={this.handleUpdateInput}
@@ -174,12 +178,11 @@ const RecipeAdder = React.createClass({
                         <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredientList}
                                           userList={this.state.ingredients}
                                           addIngredient={this.handleIngredientChange}
+                                          searchText={this.state.ingredientSearchText}
                                           searchHintText="Ingredient"/>
                         <FlatButton className="ingredient-submit-button" label="Add Ingredient"
-                                    onClick={this.handleNewIngredient}/>
+                                    onClick={this.handleNewItem}/>
                     </Paper>
-
-
 
 
                 </form>
@@ -193,7 +196,8 @@ const RecipeAdder = React.createClass({
                 </form>
                 <h2>Recipe Preview</h2>
                 <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
-                                steps={this.state.steps} description={this.state.description} removeIngredient={this.handleRemoveIngredient}/>
+                                steps={this.state.stepsList} description={this.state.description}
+                                removeItem={this.handleRemoveItem}/>
             </div>
         );
     }

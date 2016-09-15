@@ -42,11 +42,6 @@ const IngredientAdder = React.createClass({
         return (
             <div className="console-adders">
                 <form onSubmit={this.handleSubmit}>
-                    {/*<SelectField value={this.state.ingredientType} onChange={this.handleTypeChange}>*/}
-                    {/*<MenuItem value={'Alcohol'} primaryText="Alcohol"/>*/}
-                    {/*<MenuItem value={'Mixer'} primaryText="Mixer"/>*/}
-                    {/*<MenuItem value={'Garnish'} primaryText="Garnish"/>*/}
-                    {/*</SelectField>*/}
                     <TextField fullWidth={true}
                                hintText="Gin, Vodka, Rum..."
                                type="text"

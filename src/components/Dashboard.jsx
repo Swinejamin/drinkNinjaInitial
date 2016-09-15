@@ -115,7 +115,7 @@ const Dashboard = React.createClass({
                             <CardText >
                                 <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
                                                   userList={this.state.ingredients}
-                                                  addIngredient={this.handleAddIngredient}/>
+                                                  addIngredient={this.handleAddIngredient} searchHintText="Add ingredients to your cabinet"/>
 
                                 <TagListBuilder listSource={this.state.ingredients} removeTag={this.removeTag}/>
                             </CardText>) : (<CardText />)}

@@ -14,7 +14,7 @@ var IngredientAdder = React.createClass({displayName: "IngredientAdder",
     handleTypeChange: function (e) {
         this.setState({ingredientType: e.target.value});
     },
-    handleNewIngredient: function (value) {
+    handleNewItem: function (value) {
 
         this.setState({ingredientName: ''});
         var userData = this.props.userData;

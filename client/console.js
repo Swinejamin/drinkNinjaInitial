@@ -125,7 +125,7 @@ var RecipeAdder = React.createClass({displayName: "RecipeAdder",
     handleUnitChange: function (unit) {
         this.setState({unit: unit});
     },
-    handleNewIngredient: function (value) {
+    handleNewItem: function (value) {
         console.log(value);
         var newState = update(this.state, {
             ingredientList: {
@@ -191,7 +191,7 @@ var RecipeAdder = React.createClass({displayName: "RecipeAdder",
                             ), 
                             React.createElement(MasterIngredientList, {className: "form-control", 
                                                   listenerFromParent: this.handleIngredientChange, multi: false}), 
-                            React.createElement("span", {className: "input-group-addon btn", onClick: this.handleNewIngredient}, "+")
+                            React.createElement("span", {className: "input-group-addon btn", onClick: this.handleNewItem}, "+")
                         )
 
                     ), 

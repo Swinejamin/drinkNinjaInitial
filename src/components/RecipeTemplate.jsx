@@ -1,8 +1,8 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
+
+import RecipeListItem from './RecipeListItem';
 
 const RecipeTemplate = React.createClass({
     propTypes: {
@@ -10,15 +10,16 @@ const RecipeTemplate = React.createClass({
         ingredients: React.PropTypes.array.isRequired,
         steps: React.PropTypes.array.isRequired,
         description: React.PropTypes.string.isRequired,
-        removeIngredient: React.PropTypes.func.isRequired,
-        removeStep: React.PropTypes.func.isRequired,
+        removeItem: React.PropTypes.func.isRequired,
+        // removeStep: React.PropTypes.func.isRequired,
     },
-    handleRemoveIngredient(ingredient){
-        this.props.removeIngredient(ingredient);
+    handleRemoveIngredient(index) {
+        this.props.removeItem('ingredients', index);
+    },
+    handleRemoveStep(index) {
+        this.props.removeItem('steps', index);
     },
     render() {
-        const removeIngredient = this.props.handleRemoveIngredient;
-        const removeStep = this.props.removeStep;
         return (
             <Card className="Card" itemScope itemType="http://schema.org/Recipe">
                 <CardHeader
@@ -27,22 +28,9 @@ const RecipeTemplate = React.createClass({
                 />
                 <CardText>
                     <List>
-                        {this.props.ingredients.map(function(ingredient, index) {
+                        {this.props.ingredients.map((ingredient, index) => {
                             return (
-                                <ListItem key={index} itemProp="recipeIngredient"
-                                          rightIconButton={
-                                              <IconButton
-                                                  touch={true}
-                                                  tooltip="remove"
-                                                  tooltipPosition="bottom-right"
-                                                  onClick={removeIngredient}
-                                              >
-                                                  <ActionDelete />
-                                              </IconButton>}>
-                                    <span>{ingredient.amount} </span>
-                                    <span>{ingredient.unit.name} </span>
-                                    <span>{ingredient.name}</span>
-                                </ListItem>
+                                <RecipeListItem key={index} index={index} ingredient={ingredient} removeItem={this.handleRemoveIngredient}/>
                             );
                         })}
                     </List>
