@@ -65,8 +65,8 @@ const RecipeAdder = React.createClass({
                 }]
             },
             amount: {$set: ''},
-            ingredientSearchText:  {$set: ''},
-            unitSearchText:  {$set: ''},
+            ingredientSearchText: {$set: ''},
+            unitSearchText: {$set: ''},
             currentIngredient: {$set: {name: '', key: ''}},
             currentUnit: {$set: {name: '', key: ''}}
         });
@@ -86,11 +86,11 @@ const RecipeAdder = React.createClass({
         newData.splice(index, 1); //remove element
         this.setState({ingredientList: newData}); //update state
     },
-    handleIngredientChange(value) {
-        this.setState({currentIngredient: {name: value.value, key: value.key}});
+    handleIngredientChange(ingredient) {
+        this.setState({currentIngredient: {name: ingredient.value, key: ingredient.key}});
     },
-    handleUnitChange(ingredient) {
-        this.setState({currentUnit: {name: ingredient.value, key: ingredient.key}});
+    handleUnitChange(unit) {
+        this.setState({currentUnit: {name: unit.value, key: unit.key}});
     },
     handleAmountChange(e) {
         this.setState({amount: e.target.value});
@@ -111,8 +111,11 @@ const RecipeAdder = React.createClass({
         });
         this.setState(newState);
     },
-    handleUpdateInput(t) {
-        this.setState({searchText: t});
+    handleUpdateIngredientSearch(t) {
+        this.setState({ingredientSearchText: t});
+    },
+    handleUpdateUnitSearch(t) {
+        this.setState({unitSearchText: t});
     },
     alphaByName(a, b) {
         if (a.value < b.value) {
@@ -133,7 +136,7 @@ const RecipeAdder = React.createClass({
         this.setState({ingredientName: ""});
     },
     render() {
-        let masterUnitList = _(this.props.masterUnitList)
+        const masterUnitList = _(this.props.masterUnitList)
             .keys()
             .map((ingredientKey) => {
                 const cloned = {'value': _.clone(this.props.masterUnitList[ingredientKey])};
@@ -141,7 +144,7 @@ const RecipeAdder = React.createClass({
                 return cloned;
             })
             .value().sort(this.alphaByName);
-        let masterIngredientList = _(this.props.masterIngredientList)
+        const masterIngredientList = _(this.props.masterIngredientList)
             .keys()
             .map((ingredientKey) => {
                 const cloned = {'value': _.clone(this.props.masterIngredientList[ingredientKey])};
@@ -173,16 +176,25 @@ const RecipeAdder = React.createClass({
                             searchText={this.state.unitSearchText}
                             filter={AutoComplete.fuzzyFilter}
                             onNewRequest={this.handleUnitChange}
-                            onUpdateInput={this.handleUpdateInput}
+                            onUpdateInput={this.handleUpdateUnitSearch}
+                        />
+                        <AutoComplete
+                            hintText='Ingredient'
+                            dataSource={masterIngredientList}
+                            dataSourceConfig={dataSourceConfig}
+                            searchText={this.state.ingredientSearchText}
+                            filter={AutoComplete.fuzzyFilter}
+                            onNewRequest={this.handleIngredientChange}
+                            onUpdateInput={this.handleUpdateIngredientSearch}
                         />
                         <br/>
-                        <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredientList}
-                                          userList={this.state.ingredients}
-                                          addIngredient={this.handleIngredientChange}
-                                          searchText={this.state.ingredientSearchText}
-                                          searchHintText="Ingredient"/>
                         <FlatButton className="ingredient-submit-button" label="Add Ingredient"
-                                    onClick={this.handleNewItem}/>
+                                    onClick={this.handleNewItem}
+                                    disabled={this.state.amount == '' ||
+                                    this.state.currentIngredient.key === '' ||
+                                    this.state.currentIngredient.name === '' ||
+                                    this.state.currentUnit.key === '' ||
+                                    this.state.currentUnit.name === ''} />
                     </Paper>
 
 

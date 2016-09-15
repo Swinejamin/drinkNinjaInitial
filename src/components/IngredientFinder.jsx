@@ -18,10 +18,6 @@ const IngredientFinder = React.createClass({
         };
     },
 
-    componentDidMount() {
-        this.userRef = firebase.database().ref(this.props.userRef);
-    },
-
     handleNameChange(e) {
         this.setState({ingredientName: e.target.value});
     },
