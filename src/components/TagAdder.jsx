@@ -1,16 +1,16 @@
-var React = require('react');
+import React from 'react';
 
-var TagAdder = React.createClass({
-    getInitialState: function () {
+const TagAdder = React.createClass({
+    getInitialState() {
         return {drinkTagName: ''};
     },
-    handleNameChange: function (e) {
+    handleNameChange(e) {
         this.setState({drinkTagName: e.target.value});
     },
-    componentWillMount: function () {
+    componentWillMount() {
         this.firebaseRef = firebase.database().ref("tags");
-
-    }, render: function () {
+    },
+    render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
@@ -20,9 +20,9 @@ var TagAdder = React.createClass({
                 </div>
                 <button type="submit" className="btn btn-primary"> Submit</button>
             </form>
-        )
+        );
     },
-    handleSubmit: function (e) {
+    handleSubmit(e) {
         // console.log(this.firebaseRef);
         e.preventDefault();
         this.firebaseRef.push({
@@ -32,4 +32,4 @@ var TagAdder = React.createClass({
     }
 });
 
-module.exports = TagAdder;
+export default TagAdder;

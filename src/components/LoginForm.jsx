@@ -115,4 +115,4 @@ const LoginForm = withRouter(
         }
     }));
 
-module.exports = LoginForm;
+export default LoginForm;

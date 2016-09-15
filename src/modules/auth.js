@@ -62,6 +62,9 @@ const auth = {
     getToken() {
         return localStorage.token;
     },
+    getUser(){
+        return base.auth().currentUser;
+    },
     loggedIn() {
         return !!localStorage.token;
     },
@@ -69,4 +72,4 @@ const auth = {
     }
 };
 
-module.exports = auth;
+export default auth;

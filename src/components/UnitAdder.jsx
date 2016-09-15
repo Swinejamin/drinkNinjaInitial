@@ -1,16 +1,17 @@
-var React = require('react');
+import React from 'react';
 
-var UnitAdder = React.createClass({
-    getInitialState: function () {
+const UnitAdder = React.createClass({
+    getInitialState() {
         return {unitName: ''};
     },
-    handleNameChange: function (e) {
+    handleNameChange(e) {
         this.setState({unitName: e.target.value});
     },
-    componentWillMount: function () {
+    componentWillMount() {
         this.firebaseRef = firebase.database().ref("units");
 
-    }, render: function () {
+    },
+    render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
@@ -20,9 +21,9 @@ var UnitAdder = React.createClass({
                 </div>
                 <button type="submit" className="btn btn-primary"> Submit</button>
             </form>
-        )
+        );
     },
-    handleSubmit: function (e) {
+    handleSubmit(e) {
         // console.log(this.firebaseRef);
         e.preventDefault();
         this.firebaseRef.push({
@@ -33,4 +34,4 @@ var UnitAdder = React.createClass({
     }
 });
 
-module.exports = UnitAdder;
+export default UnitAdder;

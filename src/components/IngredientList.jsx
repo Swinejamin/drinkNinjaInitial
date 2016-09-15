@@ -1,26 +1,19 @@
 import React from 'react';
 import IngredientTag from './IngredientTag.jsx';
 import _ from 'lodash';
-const styles = {
-    wrapper: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-};
-class IngredientList extends React.Component {
-    static propTypes = {
+
+const IngredientList = React.createClass({
+    propTypes: {
         listSource: React.PropTypes.object.isRequired,
         removeTag: React.PropTypes.func.isRequired,
-    };
+    },
 
-    constructor(props) {
-        super(props);
-        this.state = {
+    getInitialState() {
+        return {
             user: {},
             ingredients: {}
         };
-    }
-
+    },
     render() {
         let ingredients = _(this.props.listSource)
             .keys()
@@ -52,6 +45,6 @@ class IngredientList extends React.Component {
             </div>
         );
     }
-}
+});
 
 export default IngredientList;

@@ -9,7 +9,7 @@ import Drawer from 'material-ui/Drawer';
 import base from '../modules/rebase';
 
 const Dashboard = React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             user: {},
             ingredients: {},
@@ -131,6 +131,6 @@ const Dashboard = React.createClass({
     }
 });
 
-module.exports = Dashboard;
+export default Dashboard;
 
 

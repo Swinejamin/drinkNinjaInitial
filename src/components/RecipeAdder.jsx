@@ -1,10 +1,9 @@
 var React = require('react');
 var update = require('react-addons-update');
-var MasterIngredientList = require('./MasterIngredientList.jsx');
 var RecipeTemplate = require('./RecipeTemplate.jsx');
 
 var RecipeAdder = React.createClass({
-    getInitialState: function () {
+    getInitialState: function() {
         return {
             recipeTitle: '',
             steps: [],
@@ -16,19 +15,19 @@ var RecipeAdder = React.createClass({
             description: ''
         };
     },
-    handleTitleChange: function (e) {
+    handleTitleChange: function(e) {
         this.setState({recipeTitle: e.target.value});
     },
-    handleStepChange: function (e) {
+    handleStepChange: function(e) {
         this.setState({newStep: e.target.value});
     },
-    handleAmountChange: function (e) {
+    handleAmountChange: function(e) {
         this.setState({amount: e.target.value});
     },
-    handleUnitChange: function (unit) {
+    handleUnitChange: function(unit) {
         this.setState({unit: unit});
     },
-    handleNewIngredient: function (value) {
+    handleNewIngredient: function(value) {
         console.log(value);
         var newState = update(this.state, {
             ingredientList: {
@@ -42,10 +41,10 @@ var RecipeAdder = React.createClass({
         });
         this.setState(newState);
     },
-    handleIngredientChange: function (value) {
+    handleIngredientChange: function(value) {
         this.setState({currentIngredient: {name: value.ingredientName, key: value['.key']}})
     },
-    handleAddStep: function (e) {
+    handleAddStep: function(e) {
         var newState = update(this.state, {
             steps: {$push: [{text: this.state.newStep, key: Date.now()}]},
             newStep: {$set: ''}
@@ -53,7 +52,7 @@ var RecipeAdder = React.createClass({
         this.setState(newState);
         e.preventDefault();
     },
-    handleDeleteStep: function (ind, e) {
+    handleDeleteStep: function(ind, e) {
         e.preventDefault();
 
         var newState = update(this.state, {
@@ -62,15 +61,14 @@ var RecipeAdder = React.createClass({
         this.setState(newState);
 
     },
-    componentWillMount: function () {
+    componentWillMount: function() {
         var ingredientsRef = firebase.database().ref('ingredients');
         var unitsRef = firebase.database().ref('units');
-        this.bindAsArray(ingredientsRef, 'ingredients');
-        this.bindAsArray(unitsRef, 'units');
+        // this.bindAsArray(ingredientsRef, 'ingredients');
+        // this.bindAsArray(unitsRef, 'units');
 
     },
-    mixins: [ReactFireMixin],
-    render: function () {
+    render: function() {
         var thisRef = this;
         return (
             <div>
@@ -88,12 +86,12 @@ var RecipeAdder = React.createClass({
                             <div className="dropdown-menu">
                                 {this.state.units.map((unit, index) => {
                                     return (
-                                        <a  key={index} className="dropdown-item" onClick={this.handleUnitChange.bind(null, unit)}>{unit.unitName}</a>
+                                        <a key={index} className="dropdown-item"
+                                           onClick={this.handleUnitChange.bind(null, unit)}>{unit.unitName}</a>
                                     );
                                 })}
                             </div>
-                            <MasterIngredientList className="form-control"
-                                                  listenerFromParent={this.handleIngredientChange} multi={false}/>
+
                             <span className="input-group-addon btn" onClick={this.handleNewIngredient}>+</span>
                         </div>
 
@@ -116,7 +114,7 @@ var RecipeAdder = React.createClass({
 
         )
     },
-    handleSubmit: function (e) {
+    handleSubmit: function(e) {
         var firebaseRef = firebase.database().ref('recipes');
         e.preventDefault();
         firebaseRef.push({
@@ -126,4 +124,4 @@ var RecipeAdder = React.createClass({
     }
 });
 
-module.exports = RecipeAdder;
+export default RecipeAdder;

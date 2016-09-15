@@ -3,6 +3,7 @@ import React from 'react';
 import {render} from 'react-dom'
 import App from '../components/App';
 import Dashboard from '../components/Dashboard';
+import Console from '../components/Console';
 import LoginForm from '../components/LoginForm';
 import SignUpForm from '../components/SignUpForm';
 import auth from '../modules/auth';
@@ -11,7 +12,7 @@ function requireAuth(nextState, replace, cb) {
     if (!auth.loggedIn()) {
         replace({
             pathname: '/login',
-            state: { nextPathname: nextState.location.pathname }
+            state: {nextPathname: nextState.location.pathname}
         });
     }
     cb();
@@ -36,6 +37,7 @@ render((
         <Route path="/" component={App}>
             <IndexRoute component={Dashboard} onEnter={requireAuth}/>
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
+            <Route path="console" component={Console} onEnter={requireAuth}/>
             <Route path="login" component={LoginForm} onEnter={checkAuth}/>
             <Route path="logout" component={LoginForm} onEnter={logout}/>
             <Route path="register" component={SignUpForm}/>
