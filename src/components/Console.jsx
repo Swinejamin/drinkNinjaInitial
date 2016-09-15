@@ -14,14 +14,6 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 const Console = React.createClass({
     getInitialState() {
         return {
-            recipeTitle: '',
-            steps: [],
-            newStep: '',
-            ingredientList: [],
-            amount: '',
-            unit: '',
-            currentIngredient: {},
-            description: '',
             ingredients: {},
             tags: {},
             units: {}
@@ -87,7 +79,8 @@ const Console = React.createClass({
                             <ToolbarTitle text="Add a recipe to the database"/>
                         </ToolbarGroup>
                     </Toolbar>
-                    {/*<RecipeAdder/>*/}
+                    <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
+                                 masterTagList={this.state.tags} masterUnitList={this.state.units}/>
                 </Paper>
             </div>
         );

@@ -9,4 +9,4 @@ const base = Rebase.createClass({
     storageBucket: 'drinkme-6efd3.appspot.com'
 });
 
-module.exports = base;
+export default base;
