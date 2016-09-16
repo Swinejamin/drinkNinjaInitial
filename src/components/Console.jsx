@@ -23,21 +23,26 @@ const Console = React.createClass({
         const ingredientsRef = 'ingredients';
         const unitsRef = 'units';
         const tagsRef = 'tags';
-        base.bindToState(ingredientsRef, {
+        this.ingredients = base.bindToState(ingredientsRef, {
             context: this,
             state: 'ingredients',
             asArray: false,
         });
-        base.bindToState(unitsRef, {
+        this.units = base.bindToState(unitsRef, {
             context: this,
             state: 'units',
             asArray: false,
         });
-        base.bindToState(tagsRef, {
+        this.tags = base.bindToState(tagsRef, {
             context: this,
             state: 'tags',
             asArray: false,
         });
+    },
+    componentWillUnmount() {
+        base.removeBinding(this.ingredients);
+        base.removeBinding(this.units);
+        base.removeBinding(this.tags);
     },
     handleAdd(type, value) {
         const target = base.database().ref(`${type}`);
@@ -47,6 +52,7 @@ const Console = React.createClass({
         const target = base.database().ref(`${type}/${ref.key}`);
         target.remove();
     },
+
     render() {
         return (
             <div className="view-wrapper">
@@ -60,15 +66,15 @@ const Console = React.createClass({
                         <Tab label="Ingredient">
                             <IngredientAdder ingredientSource={this.state.ingredients}
                                              addIngredient={this.handleAdd}
-                                             removeIngredient={this.handleDelete}/>
+                                             removeIngredient={this.handleDelete} listHeader="Master ingredient list"/>
                         </Tab>
                         <Tab label="Tag">
                             <TagAdder tagSource={this.state.tags} addTag={this.handleAdd}
-                                      removeTag={this.handleDelete}/>
+                                      removeTag={this.handleDelete} listHeader="Master tag list"/>
                         </Tab>
                         <Tab label="Unit">
                             <UnitAdder unitSource={this.state.units} addUnit={this.handleAdd}
-                                       removeUnit={this.handleDelete}/>
+                                       removeUnit={this.handleDelete} listHeader="Master unit list"/>
                         </Tab>
                     </Tabs>
                 </Paper>

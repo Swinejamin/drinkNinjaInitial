@@ -26,21 +26,26 @@ const Suggestions = React.createClass({
         const ingredientsRef = 'suggestions/ingredients';
         const unitsRef = 'suggestions/units';
         const tagsRef = 'suggestions/tags';
-        base.bindToState(ingredientsRef, {
+        this.ingredients = base.bindToState(ingredientsRef, {
             context: this,
             state: 'ingredients',
             asArray: false,
         });
-        base.bindToState(unitsRef, {
+        this.units = base.bindToState(unitsRef, {
             context: this,
             state: 'units',
             asArray: false,
         });
-        base.bindToState(tagsRef, {
+        this.tags = base.bindToState(tagsRef, {
             context: this,
             state: 'tags',
             asArray: false,
         });
+    },
+    componentWillUnmount() {
+        base.removeBinding(this.ingredients);
+        base.removeBinding(this.units);
+        base.removeBinding(this.tags);
     },
     handleAdd(type, value) {
         const target = base.database().ref(`suggestions/${type}`);
@@ -71,7 +76,8 @@ const Suggestions = React.createClass({
                         <Tab label="Ingredient">
                             <IngredientAdder ingredientSource={this.state.ingredients}
                                              addIngredient={this.handleAdd}
-                                             removeIngredient={this.handleDelete} listHeader="Pending ingredient suggestions"/>
+                                             removeIngredient={this.handleDelete}
+                                             listHeader="Pending ingredient suggestions"/>
                         </Tab>
                         <Tab label="Tag">
                             <TagAdder tagSource={this.state.tags} addTag={this.handleAdd}

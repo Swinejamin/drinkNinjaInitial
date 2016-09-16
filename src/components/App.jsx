@@ -82,25 +82,29 @@ const App = React.createClass({
                                 ) }/>
                     <Drawer id="Drawer" docked={this.state.docked} open={this.state.drawerOpen}
                             onRequestChange={this.toggleDrawer} width={300}>
-                        {(this.state.loggedIn ? () => {
-                            return (
-                                <div>
-                                    <MenuItem containerElement={<Link to={'/'}/>}
-                                              onTouchTap={this.toggleDrawer}>Dashboard</MenuItem>
-                                    <MenuItem containerElement={<Link to={'/suggestions'}/>}
-                                              onTouchTap={this.toggleDrawer}>Suggestions</MenuItem>
-                                    <MenuItem containerElement={<Link to={'/about'}/>}
-                                              onTouchTap={this.toggleDrawer}>About</MenuItem>
-                                    <Divider />
-                                    <MenuItem disabled={!auth.isAdmin()} containerElement={<Link to={'/console'}/>}
-                                              onTouchTap={this.toggleDrawer}
-                                              secondaryText={auth.isAdmin() ? '' : 'Requires admin access'}>Console</MenuItem>
-                                </div>
-                            );
-                        } : (
-                            <MenuItem containerElement={<Link to={'/login'}/>}
-                                      onTouchTap={this.toggleDrawer}>Sign in</MenuItem>
-                        ))() }
+                        {(this.state.loggedIn ?
+                                () => {
+                                    return (
+                                        <div>
+                                            <MenuItem containerElement={<Link to={'/'}/>}
+                                                      onTouchTap={this.toggleDrawer}>Dashboard</MenuItem>
+                                            <MenuItem containerElement={<Link to={'/suggestions'}/>}
+                                                      onTouchTap={this.toggleDrawer}>Suggestions</MenuItem>
+                                            <MenuItem containerElement={<Link to={'/about'}/>}
+                                                      onTouchTap={this.toggleDrawer}>About</MenuItem>
+                                            <Divider />
+                                            <MenuItem disabled={!auth.isAdmin()}
+                                                      containerElement={<Link to={'/console'}/>}
+                                                      onTouchTap={this.toggleDrawer}
+                                                      secondaryText={auth.isAdmin() ? '' : 'Requires admin access'}>Console</MenuItem>
+                                        </div>
+                                    );
+                                } :
+                                () => {
+                                    return (<MenuItem containerElement={<Link to={'/login'}/>}
+                                                      onTouchTap={this.toggleDrawer}>Sign in</MenuItem>);
+                                }
+                        )()}
 
                     </Drawer>
                     {this.props.children}

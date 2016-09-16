@@ -32,7 +32,7 @@ const Dashboard = React.createClass({
     componentDidMount() {
         base.onAuth((authData) => {
             if (authData) {
-                console.log("User " + authData.uid + " is logged in with " + authData.providerData[0].providerId);
+                console.log(`User ${authData.uid} is logged in with ${authData.providerData ? authData.providerData[0].providerId : 'anonProvider'}`);
                 this.uid = base.auth().currentUser.uid;
                 this.user = base.bindToState(`users/${this.uid}`, {
                     context: this,

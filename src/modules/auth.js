@@ -51,8 +51,8 @@ const auth = {
         if (cb) cb();
         if (base.auth().currentUser.isAnonymous) {
             console.log('this chould delete the anon user');
-            const targetStr = `users/${myBase.base.auth().currentUser.uid}`;
-            const target = myBase.base.database().ref(targetStr);
+            const targetStr = `users/${base.auth().currentUser.uid}`;
+            const target = base.database().ref(targetStr);
             target.remove();
             base.auth().currentUser.delete();
         } else {
