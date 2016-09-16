@@ -49,7 +49,7 @@ render((
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
             <Route path="console" component={Console} onEnter={requireAdmin}/>
             <Route path="suggestions" component={Suggestions} onEnter={requireAuth}/>
-            <Route path="login" component={LoginForm} onEnter={checkAuth}/>
+            <Route path="login" component={LoginForm}/>
             <Route path="logout" component={LoginForm} onEnter={logout}/>
             <Route path="register" component={SignUpForm}/>
         </Route>

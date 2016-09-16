@@ -3,6 +3,7 @@ import base from './rebase';
 
 
 const auth = {
+    userIsAdmin: false,
     login(email, password, passCallback, failCallback) {
         let err = null;
         let userData = null;
@@ -10,6 +11,11 @@ const auth = {
             // cb = arguments[arguments.length - 1];
             base.auth().signInWithEmailAndPassword(email, password)
                 .then((user) => {
+                    base.database().ref(`users/${user.uid}/isAdmin`).on('value', (snap) => {
+                        const answer = snap.val() ? snap.val() : false;
+                        this.userIsAdmin = answer;
+                        this.onChange(true, this.userIsAdmin);
+                    });
                     user.getToken(/* forceRefresh */ true).then((idToken) => {
                         $.ajax({
                             url: '/api/user/' + idToken,
@@ -18,7 +24,7 @@ const auth = {
                             localStorage.setItem('token', JSON.stringify(res.token));
                         });
                     });
-                    this.onChange(true);
+
                     passCallback();
                 })
                 .catch((error) => {
@@ -37,7 +43,7 @@ const auth = {
                         type: 'POST'
                     }).then((res) => {
                         localStorage.setItem('token', JSON.stringify(res.token));
-                        this.onChange(true);
+                        this.onChange(true, false);
                         passCallback();
                     });
                 })
@@ -59,7 +65,7 @@ const auth = {
             base.unauth();
         }
 
-        this.onChange(false);
+        this.onChange(false, false);
     },
     getToken() {
         return localStorage.token;
@@ -70,12 +76,17 @@ const auth = {
     loggedIn() {
         return !!localStorage.token;
     },
-    isAdmin() {
-        return base.onAuth((authData) => {
-            base.database().ref(`users/${authData.uid}/isAdmin`).on('value', (snap) => {
-                return snap.val();
+    setAdmin() {
+        base.onAuth((user) => {
+            base.database().ref(`users/${user.uid}/isAdmin`).on('value', (snap) => {
+                const answer = snap.val() ? snap.val() : false;
+                this.userIsAdmin = answer;
             });
         });
+    },
+    isAdmin() {
+
+        return this.userIsAdmin;
     },
     onChange() {
     }

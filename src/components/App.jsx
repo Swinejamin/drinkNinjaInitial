@@ -29,7 +29,8 @@ const App = React.createClass({
         return {
             loggedIn: auth.loggedIn(),
             docked: false,
-            drawerOpen: false
+            drawerOpen: false,
+            isAdmin: false
         };
     },
 
@@ -41,6 +42,10 @@ const App = React.createClass({
     },
     componentWillMount() {
         auth.onChange = this.updateAuth;
+        auth.setAdmin();
+        this.setState({
+            isAdmin: auth.isAdmin()
+        });
     },
     componentDidMount() {
 
@@ -62,9 +67,10 @@ const App = React.createClass({
     handleTitleTap() {
 
     },
-    updateAuth(loggedIn) {
+    updateAuth(loggedIn, isAdmin) {
         this.setState({
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            isAdmin: isAdmin
         });
     },
     render() {
@@ -93,7 +99,7 @@ const App = React.createClass({
                                             <MenuItem containerElement={<Link to={'/about'}/>}
                                                       onTouchTap={this.toggleDrawer}>About</MenuItem>
                                             <Divider />
-                                            <MenuItem disabled={!auth.isAdmin()}
+                                            <MenuItem disabled={!this.state.isAdmin}
                                                       containerElement={<Link to={'/console'}/>}
                                                       onTouchTap={this.toggleDrawer}
                                                       secondaryText={auth.isAdmin() ? '' : 'Requires admin access'}>Console</MenuItem>

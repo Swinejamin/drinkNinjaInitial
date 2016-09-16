@@ -19,8 +19,6 @@ const IngredientAdder = React.createClass({
     handleNameChange(e) {
         this.setState({ingredientName: e.target.value});
     },
-
-
     handleTypeChange(event, index, value) {
         this.setState({ingredientType: value});
     },

@@ -21,18 +21,9 @@ const Dashboard = React.createClass({
     },
 
     componentWillMount() {
-        this.mql = window.matchMedia('(min-width: 800px)');
-        this.mql.addListener(this.mediaQueryChanged);
-        this.handleSizeChange();
-        window.addEventListener('resize', () => {
-            this.handleSizeChange();
-        });
-    },
-
-    componentDidMount() {
         base.onAuth((authData) => {
             if (authData) {
-                console.log(`User ${authData.uid} is logged in with ${authData.providerData ? authData.providerData[0].providerId : 'anonProvider'}`);
+                // console.log(`User ${authData.uid} is logged in with ${authData.providerData ? authData.providerData[0].providerId : 'anonProvider'}`);
                 this.uid = base.auth().currentUser.uid;
                 this.user = base.bindToState(`users/${this.uid}`, {
                     context: this,
@@ -58,10 +49,19 @@ const Dashboard = React.createClass({
         });
     },
 
+    componentDidMount() {
+    },
+
     componentWillUnmount() {
-        base.removeBinding(this.user);
-        base.removeBinding(this.masterIngredients);
-        base.removeBinding(this.ingredients);
+        if (this.user) {
+            base.removeBinding(this.user);
+        }
+        if (this.masterIngredients) {
+            base.removeBinding(this.masterIngredients);
+        }
+        if (this.ingredients) {
+            base.removeBinding(this.ingredients);
+        }
     },
 
     handleAddIngredient(newIngredient) {
@@ -73,9 +73,6 @@ const Dashboard = React.createClass({
             }
         )
         ;
-    },
-    handleSizeChange() {
-        this.setState({mql: this.mql, docked: this.mql.matches});
     },
 
     removeTag(tag) {
