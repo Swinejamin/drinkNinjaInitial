@@ -4,8 +4,9 @@ import TagListBuilder from './TagListBuilder.jsx';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import Drawer from 'material-ui/Drawer';
 import base from '../modules/rebase';
 
 const Dashboard = React.createClass({
@@ -15,8 +16,7 @@ const Dashboard = React.createClass({
             ingredients: {},
             masterIngredients: {},
             loading: 'loading',
-            docked: true,
-            drawerOpen: true
+
         };
     },
 
@@ -73,14 +73,6 @@ const Dashboard = React.createClass({
         )
         ;
     },
-
-    handleTap() {
-        const neg = !this.state.drawerOpen;
-        this.setState({
-            drawerOpen: neg
-        });
-    },
-
     handleSizeChange() {
         this.setState({mql: this.mql, docked: this.mql.matches});
     },
@@ -90,41 +82,49 @@ const Dashboard = React.createClass({
         const target = base.database().ref(targetStr);
         target.remove();
     },
-
-    toggleDrawer() {
-        const neg = !this.state.drawerOpen;
-        this.setState(
-            {
-                drawerOpen: neg
-            }
-        );
-    },
-
     render() {
         return (
-            <Paper>
-                <Drawer id="Drawer" docked={this.state.docked} open={this.state.drawerOpen}
-                        onRequestChange={this.toggleDrawer} width={500}>
+            <div className="view-wrapper">
+                <Paper className="console-paper">
+                    <Toolbar>
+                        <ToolbarGroup>
+                            <ToolbarTitle text="Your cabinet"/>
+                        </ToolbarGroup>
+                    </Toolbar>
+                    {this.state.loading !== 'loading' ? (
 
-                    <Card>
-                        <CardHeader title="Your cabinet"/>
-                        <RefreshIndicator status={this.state.loading}
-                                          left={50}
-                                          top={50}/>
-                        {this.state.loading !== 'loading' ? (
-                            <CardText >
-                                <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
-                                                  userList={this.state.ingredients}
-                                                  addIngredient={this.handleAddIngredient} searchHintText="Add ingredients to your cabinet"/>
+                        <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
+                                          userList={this.state.ingredients}
+                                          addIngredient={this.handleAddIngredient}
+                                          searchHintText="Add ingredients to your cabinet"
+                                          listHeader='Your current ingredients'
+                                          ingredientSource={this.state.ingredients}
+                                          removeIngredient={this.removeTag}/>
+                    ) : (<RefreshIndicator status={this.state.loading}
+                                           left={50}
+                                           top={50}/>)}
+                </Paper>
 
-                                <TagListBuilder listSource={this.state.ingredients} removeTag={this.removeTag}/>
-                            </CardText>) : (<CardText />)}
-                    </Card>
+                <Paper className="console-paper">
+                    <Toolbar>
+                        <ToolbarGroup>
+                            <ToolbarTitle text="Your cabinet"/>
+                        </ToolbarGroup>
+                    </Toolbar>
+                    {this.state.loading !== 'loading' ? (
 
-
-                </Drawer>
-
-            </Paper>
+                        <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
+                                          userList={this.state.ingredients}
+                                          addIngredient={this.handleAddIngredient}
+                                          searchHintText="Add ingredients to your cabinet"
+                                          listHeader='Your current ingredients'
+                                          ingredientSource={this.state.ingredients}
+                                          removeIngredient={this.removeTag}/>
+                    ) : (<RefreshIndicator status={this.state.loading}
+                                           left={50}
+                                           top={50}/>)}
+                </Paper>
+            </div>
         );
     }
 });
