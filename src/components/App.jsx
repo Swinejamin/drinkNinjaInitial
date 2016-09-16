@@ -84,14 +84,17 @@ const App = React.createClass({
                         {(this.state.loggedIn ? () => {
                             return (
                                 <div>
-                                    <Link to={'/'}><MenuItem onTouchTap={this.toggleDrawer}>Dashboard</MenuItem></Link>
-                                    <Link to={'/suggestions'}><MenuItem
-                                        onTouchTap={this.toggleDrawer}>Suggestions</MenuItem></Link>
-                                    <Link to={'/about'}><MenuItem onTouchTap={this.toggleDrawer}>About</MenuItem></Link>
+                                    <MenuItem linkButton={true} containerElement={<Link to={'/'}/>}
+                                              onTouchTap={this.toggleDrawer}>Dashboard</MenuItem>
+                                    <MenuItem linkButton={true} containerElement={<Link to={'/suggestions'}/>}
+                                              onTouchTap={this.toggleDrawer}>Suggestions</MenuItem>
+                                    <MenuItem linkButton={true} containerElement={<Link to={'/about'}/>}
+                                              onTouchTap={this.toggleDrawer}>About</MenuItem>
                                 </div>
                             );
                         } : (
-                            <Link to="/login"><MenuItem onTouchTap={this.toggleDrawer}>Sign in</MenuItem></Link>
+                            <MenuItem linkButton={true} containerElement={<Link to={'/login'}/>}
+                                      onTouchTap={this.toggleDrawer}>Sign in</MenuItem>
                         ))() }
 
                     </Drawer>
