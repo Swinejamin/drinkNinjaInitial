@@ -47,7 +47,7 @@ const Suggestions = React.createClass({
         target.push(value);
     },
     handleDelete(type, ref) {
-        // const target = base.database().ref(`suggestions/${type}/${ref.key}`);
+        // const target = myBase.database().ref(`suggestions/${type}/${ref.key}`);
         // target.remove();
         this.setState({
             open: true

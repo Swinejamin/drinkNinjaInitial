@@ -32,15 +32,14 @@ const Dashboard = React.createClass({
     componentDidMount() {
         base.onAuth((authData) => {
             if (authData) {
-                console.log("User " + authData.uid + " is logged in with " + authData.provider);
-                this.userRef = firebase.database().ref(`users/${base.auth().currentUser.uid}`);
+                console.log("User " + authData.uid + " is logged in with " + authData.providerData[0].providerId);
                 this.uid = base.auth().currentUser.uid;
-                base.bindToState(`users/${this.uid}`, {
+                this.user = base.bindToState(`users/${this.uid}`, {
                     context: this,
                     state: 'user',
                     asArray: false,
                 });
-                base.bindToState(`users/${this.uid}/ingredients`, {
+                this.ingredients = base.bindToState(`users/${this.uid}/ingredients`, {
                     context: this,
                     state: 'ingredients',
                     asArray: false,
@@ -48,7 +47,7 @@ const Dashboard = React.createClass({
                         this.setState({loading: 'hide'});
                     }
                 });
-                base.bindToState('ingredients', {
+                this.masterIngredients = base.bindToState('ingredients', {
                     context: this,
                     state: 'masterIngredients',
                     asArray: false
@@ -60,7 +59,9 @@ const Dashboard = React.createClass({
     },
 
     componentWillUnmount() {
-        // base.removeBinding(this.ref);
+        base.removeBinding(this.user);
+        base.removeBinding(this.masterIngredients);
+        base.removeBinding(this.ingredients);
     },
 
     handleAddIngredient(newIngredient) {

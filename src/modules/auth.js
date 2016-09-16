@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import base from './rebase';
+
+
 const auth = {
     login(email, password, passCallback, failCallback) {
         let err = null;
@@ -49,8 +51,8 @@ const auth = {
         if (cb) cb();
         if (base.auth().currentUser.isAnonymous) {
             console.log('this chould delete the anon user');
-            const targetStr = `users/${base.auth().currentUser.uid}`;
-            const target = base.database().ref(targetStr);
+            const targetStr = `users/${myBase.base.auth().currentUser.uid}`;
+            const target = myBase.base.database().ref(targetStr);
             target.remove();
             base.auth().currentUser.delete();
         } else {
@@ -62,11 +64,18 @@ const auth = {
     getToken() {
         return localStorage.token;
     },
-    getUser(){
+    getUser() {
         return base.auth().currentUser;
     },
     loggedIn() {
         return !!localStorage.token;
+    },
+    isAdmin() {
+        return base.onAuth((authData) => {
+            base.database().ref(`users/${authData.uid}/isAdmin`).on('value', (snap) => {
+                return snap.val();
+            });
+        });
     },
     onChange() {
     }

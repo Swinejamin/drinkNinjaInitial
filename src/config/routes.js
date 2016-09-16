@@ -33,12 +33,21 @@ function logout(nextState, replace, cb) {
     });
     cb(null, LoginForm);
 }
+function requireAdmin(nextState, replace, cb) {
+    if (!auth.isAdmin()) {
+        replace({
+            pathname: '/login',
+            state: {nextPathname: nextState.location.pathname}
+        });
+    }
+    cb();
+}
 render((
     <Router history={hashHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={Dashboard} onEnter={requireAuth}/>
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
-            <Route path="console" component={Console} onEnter={requireAuth}/>
+            <Route path="console" component={Console} onEnter={requireAdmin}/>
             <Route path="suggestions" component={Suggestions} onEnter={requireAuth}/>
             <Route path="login" component={LoginForm} onEnter={checkAuth}/>
             <Route path="logout" component={LoginForm} onEnter={logout}/>

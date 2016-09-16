@@ -12,6 +12,7 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -84,16 +85,20 @@ const App = React.createClass({
                         {(this.state.loggedIn ? () => {
                             return (
                                 <div>
-                                    <MenuItem linkButton={true} containerElement={<Link to={'/'}/>}
+                                    <MenuItem containerElement={<Link to={'/'}/>}
                                               onTouchTap={this.toggleDrawer}>Dashboard</MenuItem>
-                                    <MenuItem linkButton={true} containerElement={<Link to={'/suggestions'}/>}
+                                    <MenuItem containerElement={<Link to={'/suggestions'}/>}
                                               onTouchTap={this.toggleDrawer}>Suggestions</MenuItem>
-                                    <MenuItem linkButton={true} containerElement={<Link to={'/about'}/>}
+                                    <MenuItem containerElement={<Link to={'/about'}/>}
                                               onTouchTap={this.toggleDrawer}>About</MenuItem>
+                                    <Divider />
+                                    <MenuItem disabled={!auth.isAdmin()} containerElement={<Link to={'/console'}/>}
+                                              onTouchTap={this.toggleDrawer}
+                                              secondaryText={auth.isAdmin() ? '' : 'Requires admin access'}>Console</MenuItem>
                                 </div>
                             );
                         } : (
-                            <MenuItem linkButton={true} containerElement={<Link to={'/login'}/>}
+                            <MenuItem containerElement={<Link to={'/login'}/>}
                                       onTouchTap={this.toggleDrawer}>Sign in</MenuItem>
                         ))() }
 
