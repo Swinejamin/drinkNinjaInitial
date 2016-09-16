@@ -7,6 +7,8 @@ import AutoComplete from 'material-ui/AutoComplete';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import IngredientFinder from './IngredientFinder.jsx';
 
@@ -27,7 +29,7 @@ const RecipeAdder = React.createClass({
         return {
             unitSearchText: '',
             ingredientSearchText: '',
-            recipeTitle: '',
+            recipeTitle: 'Sample Title',
             stepsList: [],
             newStep: '',
             ingredientList: [],
@@ -102,17 +104,25 @@ const RecipeAdder = React.createClass({
         e.preventDefault();
     },
     handleRemoveItem(type, index) {
-        console.log(index);
         let target = '';
+        let newState = '';
 
         if (type === 'ingredients') {
             target = this.state.ingredientList;
+            let newData = target.slice(); //copy array
+            newData.splice(index, 1); //remove element
+            newState = update(this.state, {
+                ingredientList: {$set: newData}
+            });
         } else if (type === 'steps') {
             target = this.state.stepsList;
+            let newData = target.slice(); //copy array
+            newData.splice(index, 1); //remove element
+            newState = update(this.state, {
+                stepsList: {$set: newData}
+            });
         }
-        let newData = target.slice(); //copy array
-        newData.splice(index, 1); //remove element
-        this.setState({ingredientList: newData}); //update state
+        this.setState(newState); //update state
     },
     alphaByName(a, b) {
         if (a.value < b.value) {
@@ -187,24 +197,23 @@ const RecipeAdder = React.createClass({
                         <br/>
                         <FlatButton className="ingredient-submit-button" label="Add Ingredient"
                                     onClick={this.handleNewItem}
-                                    disabled={this.state.amount == '' ||
+                                    disabled={this.state.amount === '' ||
                                     this.state.currentIngredient.key === '' ||
                                     this.state.currentIngredient.name === '' ||
                                     this.state.currentUnit.key === '' ||
                                     this.state.currentUnit.name === ''}/>
                     </Paper>
-                    <TextField fullWidth={true}
-                               hintText="Add a step"
-                               type="text"
-                               value={this.state.newStep}
-                               onChange={this.handleStepChange}/>
-                </form>
-                <form className="form-inline" onSubmit={this.handleAddStep}>
-                    <label htmlFor="recipeSteps"> Steps </label>
-                    <div id='recipeSteps' className="input-group">
-                        <input type="text" className="form-control" value={this.state.newStep}
-                               onChange={this.handleStepChange}/>
-                        <span className="input-group-addon btn" onClick={this.handleAddStep}>+</span>
+                    <div className="step-wrapper">
+                        <TextField className="step-text" fullWidth={false}
+                                   hintText="Add a step"
+                                   type="text"
+                                   value={this.state.newStep}
+                                   onChange={this.handleStepChange}/>
+                        <FlatButton className="step-button"
+                                    onClick={this.handleNewStep}
+                                    disabled={this.state.newStep === '' }>
+                            <ContentAdd />
+                        </FlatButton>
                     </div>
                 </form>
                 <h2>Recipe Preview</h2>

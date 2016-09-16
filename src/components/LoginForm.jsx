@@ -62,7 +62,6 @@ const LoginForm = withRouter(
         handleLoginSuccess() {
             const {location} = this.props;
             const router = this.props.router;
-            // const pathname = location.state.nextPathname || '/';
             if (location.state && location.state.nextPathname) {
                 console.log(router);
                 console.log('replacing path with ' + location.state.nextPathname + ' as requested');
@@ -72,7 +71,7 @@ const LoginForm = withRouter(
                 router.replace('/dashboard');
             }
         },
-        render: function() {
+        render() {
             return (
                 <Paper className="loginForm">
                     <Toolbar>

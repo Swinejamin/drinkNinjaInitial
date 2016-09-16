@@ -7,22 +7,25 @@ import IngredientAdder from './IngredientAdder.jsx';
 import TagAdder from './TagAdder.jsx';
 import UnitAdder from './UnitAdder.jsx';
 
+
+import Snackbar from 'material-ui/Snackbar';
 import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-const Console = React.createClass({
+const Suggestions = React.createClass({
     getInitialState() {
         return {
+            open: false,
             ingredients: {},
             tags: {},
             units: {}
         };
     },
     componentWillMount() {
-        const ingredientsRef = 'ingredients';
-        const unitsRef = 'units';
-        const tagsRef = 'tags';
+        const ingredientsRef = 'suggestions/ingredients';
+        const unitsRef = 'suggestions/units';
+        const tagsRef = 'suggestions/tags';
         base.bindToState(ingredientsRef, {
             context: this,
             state: 'ingredients',
@@ -40,12 +43,20 @@ const Console = React.createClass({
         });
     },
     handleAdd(type, value) {
-        const target = base.database().ref(`${type}`);
+        const target = base.database().ref(`suggestions/${type}`);
         target.push(value);
     },
     handleDelete(type, ref) {
-        const target = base.database().ref(`${type}/${ref.key}`);
-        target.remove();
+        // const target = base.database().ref(`suggestions/${type}/${ref.key}`);
+        // target.remove();
+        this.setState({
+            open: true
+        });
+    },
+    handleRequestClose() {
+        this.setState({
+            open: false,
+        });
     },
     render() {
         return (
@@ -53,38 +64,40 @@ const Console = React.createClass({
                 <Paper className="console-paper">
                     <Toolbar>
                         <ToolbarGroup>
-                            <ToolbarTitle text="Add ingredients, tags, or units to the master list"/>
+                            <ToolbarTitle text="Notice something missing? Make a suggestion!"/>
                         </ToolbarGroup>
                     </Toolbar>
                     <Tabs>
                         <Tab label="Ingredient">
                             <IngredientAdder ingredientSource={this.state.ingredients}
                                              addIngredient={this.handleAdd}
-                                             removeIngredient={this.handleDelete}/>
+                                             removeIngredient={this.handleDelete} listHeader="Pending ingredient suggestions"/>
                         </Tab>
                         <Tab label="Tag">
                             <TagAdder tagSource={this.state.tags} addTag={this.handleAdd}
-                                      removeTag={this.handleDelete}/>
+                                      removeTag={this.handleDelete} listHeader="Pending tag suggestions"/>
                         </Tab>
                         <Tab label="Unit">
                             <UnitAdder unitSource={this.state.units} addUnit={this.handleAdd}
-                                       removeUnit={this.handleDelete}/>
+                                       removeUnit={this.handleDelete} listHeader="Pending unit suggestions"/>
+                        </Tab>
+                        <Tab label="Recipe">
+                            <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
+                                         masterTagList={this.state.tags} masterUnitList={this.state.units}/>
                         </Tab>
                     </Tabs>
-                </Paper>
-
-                <Paper className="console-paper">
-                    <Toolbar>
-                        <ToolbarGroup>
-                            <ToolbarTitle text="Add a recipe to the database"/>
-                        </ToolbarGroup>
-                    </Toolbar>
-                    <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
-                                 masterTagList={this.state.tags} masterUnitList={this.state.units}/>
+                    <Snackbar
+                        open={this.state.open}
+                        message="Sorry, only Admins can do that!"
+                        autoHideDuration={2000}
+                        onRequestClose={this.handleRequestClose}
+                        onActionTouchTap={this.handleRequestClose}
+                        action="hide"
+                    />
                 </Paper>
             </div>
         );
     }
 });
 
-export default Console;
+export default Suggestions;

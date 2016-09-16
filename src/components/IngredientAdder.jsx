@@ -1,17 +1,13 @@
 import React from 'react';
-import base from '../modules/rebase';
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
 import TagListBuilder from './TagListBuilder';
-
 
 const IngredientAdder = React.createClass({
     propTypes: {
         addIngredient: React.PropTypes.func.isRequired,
         removeIngredient: React.PropTypes.func.isRequired,
-        ingredientSource: React.PropTypes.object.isRequired
+        ingredientSource: React.PropTypes.object.isRequired,
+        listHeader: React.PropTypes.string.isRequired
     },
     getInitialState() {
         return {
@@ -48,9 +44,10 @@ const IngredientAdder = React.createClass({
                                floatingLabelText="Ingredient Name"
                                value={this.state.ingredientName}
                                onChange={this.handleNameChange}/>
-                    <FlatButton label="Add ingredient" onClick={this.handleSubmit}/>
                 </form>
-                <TagListBuilder listSource={this.props.ingredientSource} removeTag={this.handleDelete}/>
+                <TagListBuilder listSource={this.props.ingredientSource}
+                                removeTag={this.handleDelete}
+                                listHeader={this.props.listHeader}/>
             </div>
         );
     }

@@ -1,12 +1,12 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import TagListBuilder from './TagListBuilder';
 const TagAdder = React.createClass({
     propTypes: {
         tagSource: React.PropTypes.object.isRequired,
         addTag: React.PropTypes.func.isRequired,
-        removeTag: React.PropTypes.func.isRequired
+        removeTag: React.PropTypes.func.isRequired,
+        listHeader: React.PropTypes.string.isRequired
     },
     getInitialState() {
         return {drinkTagName: ''};
@@ -32,9 +32,10 @@ const TagAdder = React.createClass({
                                type="text"
                                floatingLabelText="Tag Name"
                                onChange={this.handleNameChange}/>
-                    <FlatButton label="Add ingredient" onClick={this.handleSubmit}/>
                 </form>
-                <TagListBuilder listSource={this.props.tagSource} removeTag={this.handleDelete}/>
+                <TagListBuilder listSource={this.props.tagSource}
+                                removeTag={this.handleDelete}
+                                listHeader={this.props.listHeader}/>
             </div>
         );
     }

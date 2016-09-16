@@ -1,5 +1,6 @@
 import React from'react';
 import AutoComplete from 'material-ui/AutoComplete';
+import TagListBuilder from './TagListBuilder';
 const dataSourceConfig = {
     text: 'value',
     value: 'key',
@@ -10,7 +11,10 @@ const IngredientFinder = React.createClass({
         masterList: React.PropTypes.object.isRequired,
         userList: React.PropTypes.object.isRequired,
         addIngredient: React.PropTypes.func.isRequired,
-        searchHintText: React.PropTypes.string.isRequired
+        searchHintText: React.PropTypes.string.isRequired,
+        removeIngredient: React.PropTypes.func.isRequired,
+        ingredientSource: React.PropTypes.object.isRequired,
+        listHeader: React.PropTypes.string.isRequired
     },
     getInitialState() {
         return {
@@ -32,7 +36,9 @@ const IngredientFinder = React.createClass({
             searchText: ''
         });
     },
-
+    handleDelete(tag) {
+        this.props.removeIngredient(tag);
+    },
     handleUpdateInput(t) {
         this.setState({searchText: t});
     },
@@ -79,6 +85,9 @@ const IngredientFinder = React.createClass({
                     onNewRequest={this.props.addIngredient}
                     onUpdateInput={this.handleUpdateInput}
                 />
+                <TagListBuilder listSource={this.props.ingredientSource}
+                                removeTag={this.handleDelete}
+                                listHeader={this.props.listHeader}/>
             </div>
         );
     }

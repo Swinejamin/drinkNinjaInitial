@@ -7,29 +7,48 @@ const RecipeListItem = React.createClass({
     propTypes: {
         removeItem: React.PropTypes.func.isRequired,
         index: React.PropTypes.number.isRequired,
-        ingredient: React.PropTypes.object.isRequired
+        type: React.PropTypes.string.isRequired,
+        content: React.PropTypes.object.isRequired
     },
     handleRemoveItem(e) {
         e.preventDefault();
         this.props.removeItem(this.props.index);
     },
     render() {
-        return (
-            <ListItem itemProp="recipeIngredient"
-                      rightIconButton={
-                          <IconButton
-                              touch={true}
-                              tooltip="remove"
-                              tooltipPosition="bottom-right"
-                              onClick={this.handleRemoveItem}
-                          >
-                              <ActionDelete />
-                          </IconButton>}>
-                <span>{this.props.ingredient.amount} </span>
-                <span>{this.props.ingredient.unit.name} </span>
-                <span>{this.props.ingredient.name}</span>
-            </ListItem>
-        );
+        if (this.props.type === 'ingredient' && this.props.content.name) {
+
+            return (
+                <ListItem itemProp="recipeIngredient"
+                          rightIconButton={
+                              <IconButton
+                                  touch={true}
+                                  tooltip="remove"
+                                  tooltipPosition="bottom-right"
+                                  onClick={this.handleRemoveItem}
+                              >
+                                  <ActionDelete />
+                              </IconButton>}>
+                    <span>{this.props.content.amount} </span>
+                    <span>{this.props.content.unit.name} </span>
+                    <span>{this.props.content.name}</span>
+                </ListItem>
+            );
+        } else {
+            return (
+                <ListItem itemProp="recipeInstructions"
+                          rightIconButton={
+                              <IconButton
+                                  touch={true}
+                                  tooltip="remove"
+                                  tooltipPosition="bottom-right"
+                                  onClick={this.handleRemoveItem}
+                              >
+                                  <ActionDelete />
+                              </IconButton>}>
+                    <span>{this.props.content.text} </span>
+                </ListItem>
+            );
+        }
     }
 });
 

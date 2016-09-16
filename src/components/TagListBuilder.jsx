@@ -1,11 +1,13 @@
 import React from 'react';
 import IngredientTag from './IngredientTag.jsx';
 import _ from 'lodash';
+import Subheader from 'material-ui/Subheader';
 
 const IngredientList = React.createClass({
     propTypes: {
         listSource: React.PropTypes.object.isRequired,
         removeTag: React.PropTypes.func.isRequired,
+        listHeader: React.PropTypes.string.isRequired
     },
 
     getInitialState() {
@@ -39,6 +41,7 @@ const IngredientList = React.createClass({
         const removeTag = this.props.removeTag;
         return (
             <div className="chip-wrapper">
+                <Subheader>{this.props.listHeader}</Subheader>
                 {ingredients.map((tagContent, index) => {
                     return (<IngredientTag removeTag={removeTag} key={index} content={tagContent}/>);
                 })}
