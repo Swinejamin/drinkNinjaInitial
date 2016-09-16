@@ -73,7 +73,7 @@ const Console = React.createClass({
                     </Tabs>
                 </Paper>
 
-                <Paper className="console-paper">
+                <div className="console-paper">
                     <Toolbar>
                         <ToolbarGroup>
                             <ToolbarTitle text="Add a recipe to the database"/>
@@ -81,7 +81,7 @@ const Console = React.createClass({
                     </Toolbar>
                     <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
                                  masterTagList={this.state.tags} masterUnitList={this.state.units}/>
-                </Paper>
+                </div>
             </div>
         );
     }

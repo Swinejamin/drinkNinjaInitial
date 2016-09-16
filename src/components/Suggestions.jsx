@@ -61,7 +61,7 @@ const Suggestions = React.createClass({
     render() {
         return (
             <div className="view-wrapper">
-                <Paper className="console-paper">
+                <div className="console-paper">
                     <Toolbar>
                         <ToolbarGroup>
                             <ToolbarTitle text="Notice something missing? Make a suggestion!"/>
@@ -94,7 +94,7 @@ const Suggestions = React.createClass({
                         onActionTouchTap={this.handleRequestClose}
                         action="hide"
                     />
-                </Paper>
+                </div>
             </div>
         );
     }

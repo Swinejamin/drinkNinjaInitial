@@ -42,12 +42,21 @@ body {
 }
 
 .view-wrapper {
-  padding: 10vh;
   height: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
 }
-
+.console-paper{
+  justify-content: space-around;
+  margin: 2vh auto;
+  div {
+    .chip-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
 .chip-wrapper {
   display: flex;
   flex-wrap: wrap;
