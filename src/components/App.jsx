@@ -149,7 +149,7 @@ const App = React.createClass({
         return (
             <MuiThemeProvider muiTheme={getMuiTheme(currentTheme)}>
                 <Paper className="wrapper">
-                    <AppBar title="Drink finder app"
+                    <AppBar title="Drink finder app" style={{position: 'fixed'}}
                             onTitleTouchTap={this.handleTitleTap}
                             onLeftIconButtonTouchTap={this.handleLeftIconTap}
                             iconElementRight={

@@ -83,7 +83,7 @@ const Dashboard = React.createClass({
                         </Toolbar>
                         {this.props.loading !== 'loading' ? (
 
-                            <RecipeBrowser recipes={this.props.recipes}/>
+                            <RecipeBrowser recipes={this.props.recipes} />
                         ) : (<RefreshIndicator status={this.props.loading}
                                                left={300}
                                                top={300}/>)}
