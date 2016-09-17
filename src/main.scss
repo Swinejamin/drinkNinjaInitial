@@ -1,7 +1,9 @@
 $color: blue;
+$break-small: 320px;
+$break-medium: 768px;
+$break-large: 1200px;
 
 body {
-  //display: block;
   margin: 0;
   font-family: 'Roboto', sans-serif;
   min-height: 100vh;
@@ -27,10 +29,16 @@ body {
 
   }
 }
+
 .console-adders {
   margin: 0 auto;
-  width: 100%;
-  max-width: 35vw;
+  @media screen and (max-width: $break-medium) {
+    width: 95vw;
+  }
+  @media screen and (min-width: $break-large) {
+    width: 45vw;
+  }
+  width: 80vw;
   form {
     padding: 1%;
   }
@@ -47,7 +55,8 @@ body {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.console-paper{
+
+.console-paper {
   justify-content: space-around;
   margin: 2vh auto;
   div {
@@ -57,25 +66,38 @@ body {
     }
   }
 }
+
 .chip-wrapper {
   display: flex;
   flex-wrap: wrap;
 }
 
 .ingredient-adder-box {
-  display: block;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 0 10px;
+  display: inline-flex;
+  width: 75%
+}
+.ingredient-details {
+  //display: block;
+  //clear: both;
+  padding: 0;
   width: 100%
+}
+.ingredient-amount, .ingredient-unit, .ingredient-name {
+  display: block;
+  padding: 0;
+}
+.ingredient-amount {
+  //width: 50%;
+}
+.ingredient-unit {
+
+}
+
+.ingredient-name {
 }
 
 .ingredient-submit-button {
   width: 100%;
-}
-
-.ingredient-unit {
-  max-width: 30%;
 }
 
 .step-wrapper {

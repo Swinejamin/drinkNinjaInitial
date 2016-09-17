@@ -26,7 +26,6 @@ var RecipeBrowser = React.createClass({
             ref.orderByChild('ingredientName').startAt(input).endAt(input + '\uf8ff').on('child_added', function (snap, ind) {
                 var val = snap.val();
                 ops.push({value: ind || 0, label: val.ingredientName});
-
             });
             ops = ops.filter(function(el){
                 return (userData.indexOf(el.label) >= 0);

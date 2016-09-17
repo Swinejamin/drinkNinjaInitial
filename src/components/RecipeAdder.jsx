@@ -160,62 +160,70 @@ const RecipeAdder = React.createClass({
             })
             .value().sort(this.alphaByName);
         return (
-            <div className="console-adders">
-                <form onSubmit={this.handleSubmit}>
-                    <TextField fullWidth={true}
-                               hintText="Hair of the Three-Headed Dog"
-                               type="text"
-                               floatingLabelText="Recipe Title"
-                               value={this.state.recipeTitle}
-                               onChange={this.handleTitleChange}/>
-                    <Paper className="ingredient-adder-box">
+            <div>
+                <Paper className="console-adders">
+                    <form onSubmit={this.handleSubmit}>
                         <TextField fullWidth={true}
-                                   className="ingredient-amount"
-                                   hintText="Amount"
-                                   type="number"
-                                   value={this.state.amount}
-                                   onChange={this.handleAmountChange}/>
-                        <br/>
-                        <AutoComplete
-                            hintText='Unit'
-                            dataSource={masterUnitList}
-                            dataSourceConfig={dataSourceConfig}
-                            searchText={this.state.unitSearchText}
-                            filter={AutoComplete.fuzzyFilter}
-                            onNewRequest={this.handleUnitChange}
-                            onUpdateInput={this.handleUpdateUnitSearch}
-                        />
-                        <AutoComplete
-                            hintText='Ingredient'
-                            dataSource={masterIngredientList}
-                            dataSourceConfig={dataSourceConfig}
-                            searchText={this.state.ingredientSearchText}
-                            filter={AutoComplete.fuzzyFilter}
-                            onNewRequest={this.handleIngredientChange}
-                            onUpdateInput={this.handleUpdateIngredientSearch}
-                        />
-                        <br/>
-                        <FlatButton className="ingredient-submit-button" label="Add Ingredient"
-                                    onClick={this.handleNewItem}
-                                    disabled={this.state.amount === '' ||
-                                    this.state.currentIngredient.key === '' ||
-                                    this.state.currentIngredient.name === '' ||
-                                    this.state.currentUnit.key === '' ||
-                                    this.state.currentUnit.name === ''}/>
-                    </Paper>
-                    <div className="step-wrapper">
-                        <TextField className="step-text" fullWidth={false}
-                                   hintText="Add a step"
+                                   hintText="Hair of the Three-Headed Dog"
                                    type="text"
-                                   value={this.state.newStep}
-                                   onChange={this.handleStepChange}/>
-                        <FlatButton className="step-button"
-                                    onClick={this.handleNewStep}
-                                    disabled={this.state.newStep === '' }>
-                            <ContentAdd />
-                        </FlatButton>
-                    </div>
-                </form>
+                                   floatingLabelText="Recipe Title"
+                                   value={this.state.recipeTitle}
+                                   onChange={this.handleTitleChange}/>
+                        <div className="ingredient-adder-box">
+                            <div className="ingredient-details">
+                                <TextField fullWidth={false}
+                                           className="ingredient-amount"
+                                           hintText="Amount"
+                                           type="number"
+                                           value={this.state.amount}
+                                           onChange={this.handleAmountChange}/>
+                                <br/>
+                                <AutoComplete
+                                    hintText='Unit'
+                                    dataSource={masterUnitList}
+                                    dataSourceConfig={dataSourceConfig}
+                                    searchText={this.state.unitSearchText}
+                                    filter={AutoComplete.fuzzyFilter}
+                                    onNewRequest={this.handleUnitChange}
+                                    onUpdateInput={this.handleUpdateUnitSearch}
+                                />
+                                <br/>
+                                <div>
+                                    <AutoComplete
+                                        className="ingredient-name"
+                                        hintText='Ingredient'
+                                        dataSource={masterIngredientList}
+                                        dataSourceConfig={dataSourceConfig}
+                                        searchText={this.state.ingredientSearchText}
+                                        filter={AutoComplete.fuzzyFilter}
+                                        onNewRequest={this.handleIngredientChange}
+                                        onUpdateInput={this.handleUpdateIngredientSearch}
+                                    />
+                                    <FlatButton className="ingredient-submit-button" label="Add Ingredient"
+                                                onClick={this.handleNewItem}
+                                                disabled={this.state.amount === '' ||
+                                                this.state.currentIngredient.key === '' ||
+                                                this.state.currentIngredient.name === '' ||
+                                                this.state.currentUnit.key === '' ||
+                                                this.state.currentUnit.name === ''}/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="step-wrapper">
+                            <TextField className="step-text" fullWidth={false}
+                                       hintText="Add a step"
+                                       type="text"
+                                       value={this.state.newStep}
+                                       onChange={this.handleStepChange}/>
+                            <FlatButton className="step-button"
+                                        onClick={this.handleNewStep}
+                                        disabled={this.state.newStep === '' }>
+                                <ContentAdd />
+                            </FlatButton>
+                        </div>
+                    </form>
+                </Paper>
                 <h2>Recipe Preview</h2>
                 <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
                                 steps={this.state.stepsList} description={this.state.description}
