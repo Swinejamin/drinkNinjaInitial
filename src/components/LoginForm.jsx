@@ -63,13 +63,11 @@ const LoginForm = withRouter(
             const {location} = this.props;
             const router = this.props.router;
             if (location.state && location.state.nextPathname) {
-                debugger;
                 console.log(router);
                 console.log('replacing path with ' + location.state.nextPathname + ' as requested');
                 // browserHistory.push(location.state.nextPathname);
                 router.replace(location.state.nextPathname);
             } else {
-                debugger;
                 console.log('replacing path with \'/\'');
                 // browserHistory.push('/dashboard');
                 router.replace('dashboard');

@@ -19,7 +19,8 @@ const Suggestions = React.createClass({
             open: false,
             ingredients: {},
             tags: {},
-            units: {}
+            units: {},
+            errorMessage: 'Sorry, only Admins can do that!'
         };
     },
     componentWillMount() {
@@ -52,14 +53,15 @@ const Suggestions = React.createClass({
         target.push(value);
     },
     handleDelete(type, ref) {
-        if (this.props.user.isAdmin) {
-            const target = base.database().ref(`suggestions/${type}/${ref.key}`);
-            target.remove();
-        } else {
+
+        const target = base.database().ref(`suggestions/${type}/${ref.key}`);
+        target.remove().catch((error) => {
             this.setState({
+                erorMessage: error,
                 open: true
             });
-        }
+        });
+
     },
     handleRequestClose() {
         this.setState({
@@ -97,7 +99,7 @@ const Suggestions = React.createClass({
                     </Tabs>
                     <Snackbar
                         open={this.state.open}
-                        message="Sorry, only Admins can do that!"
+                        message={this.state.errorMessage}
                         autoHideDuration={2000}
                         onRequestClose={this.handleRequestClose}
                         onActionTouchTap={this.handleRequestClose}

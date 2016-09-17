@@ -22,8 +22,6 @@ const Console = React.createClass({
     componentWillMount() {
     },
     componentWillUnmount() {
-        base.removeBinding(this.ingredients);
-
     },
     handleAdd(type, value) {
         const target = base.database().ref(`${type}`);

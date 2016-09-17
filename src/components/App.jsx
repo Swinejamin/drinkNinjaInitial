@@ -3,6 +3,7 @@
 import React from 'react';
 import auth from '../modules/auth';
 import {Link, withRouter} from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -172,15 +173,22 @@ const App = React.createClass({
                         )()}
 
                     </Drawer>
-                    {this.props.children && React.cloneElement(this.props.children, {
-                        uid: this.uid,
-                        user: this.state.user,
-                        masterIngredients: this.state.masterIngredients,
-                        ingredients: this.state.ingredients,
-                        units: this.state.units,
-                        tags: this.state.tags,
-                        loading: this.state.loading
-                    })}
+                    <ReactCSSTransitionGroup
+                        component="div"
+                        transitionName="example"
+                        transitionEnterTimeout={5000}
+                        transitionLeaveTimeout={5000}>
+                        {this.props.children && React.cloneElement(this.props.children, {
+                            uid: this.uid,
+                            user: this.state.user,
+                            masterIngredients: this.state.masterIngredients,
+                            ingredients: this.state.ingredients,
+                            units: this.state.units,
+                            tags: this.state.tags,
+                            loading: this.state.loading
+                        })}
+
+                    </ReactCSSTransitionGroup>
                 </Paper>
             </MuiThemeProvider>
 
