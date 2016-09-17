@@ -8,13 +8,15 @@ const RecipeListItem = React.createClass({
         removeItem: React.PropTypes.func.isRequired,
         index: React.PropTypes.number.isRequired,
         type: React.PropTypes.string.isRequired,
-        content: React.PropTypes.object.isRequired
+        content: React.PropTypes.object.isRequired,
+        ignore: React.PropTypes.bool.isRequired
     },
     handleRemoveItem(e) {
         e.preventDefault();
         this.props.removeItem(this.props.index);
     },
     render() {
+        const disabled = this.props.ignore;
         if (this.props.type === 'ingredient' && this.props.content.name) {
 
             return (
@@ -25,6 +27,7 @@ const RecipeListItem = React.createClass({
                                   tooltip="remove"
                                   tooltipPosition="bottom-right"
                                   onClick={this.handleRemoveItem}
+                                  disabled={disabled}
                               >
                                   <ActionDelete />
                               </IconButton>}>
@@ -42,6 +45,7 @@ const RecipeListItem = React.createClass({
                                   tooltip="remove"
                                   tooltipPosition="bottom-right"
                                   onClick={this.handleRemoveItem}
+                                  disabled={disabled}
                               >
                                   <ActionDelete />
                               </IconButton>}>

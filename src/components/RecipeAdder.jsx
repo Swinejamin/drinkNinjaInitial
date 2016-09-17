@@ -7,8 +7,8 @@ import AutoComplete from 'material-ui/AutoComplete';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
+import base from '../modules/rebase';
 
 import IngredientFinder from './IngredientFinder.jsx';
 
@@ -29,7 +29,7 @@ const RecipeAdder = React.createClass({
         return {
             unitSearchText: '',
             ingredientSearchText: '',
-            recipeTitle: 'Sample Title',
+            recipeTitle: '',
             stepsList: [],
             newStep: '',
             ingredientList: [],
@@ -47,7 +47,7 @@ const RecipeAdder = React.createClass({
         this.setState({recipeTitle: e.target.value});
     },
     //ingredients
-    handleNewItem(value) {
+    handleNewIngredient(value) {
         const name = this.state.currentIngredient.name;
         const key = this.state.currentIngredient.key;
         const amount = this.state.amount;
@@ -73,25 +73,26 @@ const RecipeAdder = React.createClass({
 
         this.setState(newState);
     },
+    // ingredients
     handleIngredientChange(ingredient) {
         this.setState({currentIngredient: {name: ingredient.value, key: ingredient.key}});
     },
     handleUpdateIngredientSearch(t) {
         this.setState({ingredientSearchText: t});
     },
-    //units
+    // units
     handleUnitChange(unit) {
         this.setState({currentUnit: {name: unit.value, key: unit.key}});
     },
     handleUpdateUnitSearch(t) {
         this.setState({unitSearchText: t});
     },
-    //amounts
+    // amounts
     handleAmountChange(e) {
         this.setState({amount: e.target.value});
     },
 
-    //steps
+    // steps
     handleStepChange(e) {
         this.setState({newStep: e.target.value});
     },
@@ -109,20 +110,20 @@ const RecipeAdder = React.createClass({
 
         if (type === 'ingredients') {
             target = this.state.ingredientList;
-            let newData = target.slice(); //copy array
-            newData.splice(index, 1); //remove element
+            const newData = target.slice(); // copy array
+            newData.splice(index, 1); // remove element
             newState = update(this.state, {
                 ingredientList: {$set: newData}
             });
         } else if (type === 'steps') {
             target = this.state.stepsList;
-            let newData = target.slice(); //copy array
-            newData.splice(index, 1); //remove element
+            const newData = target.slice(); // copy array
+            newData.splice(index, 1); // remove element
             newState = update(this.state, {
                 stepsList: {$set: newData}
             });
         }
-        this.setState(newState); //update state
+        this.setState(newState); // update state
     },
     alphaByName(a, b) {
         if (a.value < b.value) {
@@ -135,12 +136,32 @@ const RecipeAdder = React.createClass({
     },
 
     handleSubmit(e) {
-        var firebaseRef = firebase.database().ref('recipes');
+        const firebaseRef = base.database().ref('recipes');
         e.preventDefault();
-        firebaseRef.push({
-            title: this.state.Title
-        });
-        this.setState({ingredientName: ""});
+        firebaseRef
+            .push({
+                title: this.state.recipeTitle,
+                ingredientList: this.state.ingredientList,
+                stepsList: this.state.stepsList
+            })
+            .then(()=> {
+                this.setState({
+                    unitSearchText: '',
+                    ingredientSearchText: '',
+                    recipeTitle: '',
+                    stepsList: [],
+                    newStep: '',
+                    ingredientList: [],
+                    amount: '',
+                    unit: '',
+                    currentIngredient: {name: '', key: ''},
+                    currentUnit: {name: '', key: ''},
+                    description: '',
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },
     render() {
         const masterUnitList = _(this.props.masterUnitList)
@@ -201,7 +222,7 @@ const RecipeAdder = React.createClass({
                                 />
                                 <br/>
                                 <FlatButton className="ingredient-submit-button" label="Add Ingredient"
-                                            onClick={this.handleNewItem}
+                                            onClick={this.handleNewIngredient}
                                             disabled={this.state.amount === '' ||
                                             this.state.currentIngredient.key === '' ||
                                             this.state.currentIngredient.name === '' ||
@@ -220,12 +241,16 @@ const RecipeAdder = React.createClass({
                                 <FlatButton className="step-submit-button"
                                             label="Add step"
                                             onClick={this.handleNewStep}
-                                            disabled={this.state.newStep === '' }>
-
-                                </FlatButton>
+                                            disabled={this.state.newStep === '' }/>
                             </div>
                         </div>
                     </form>
+                    <RaisedButton label="Submit New Recipe" fullWidth={true}
+                                  primary={true}
+                                  onClick={this.handleSubmit}
+                                  disabled={this.state.ingredientList.length < 1 ||
+                                  this.state.stepsList.length < 1 ||
+                                  this.state.recipeTitle === ''}/>
                 </Paper>
                 <h2>Recipe Preview</h2>
                 <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}

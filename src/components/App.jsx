@@ -38,6 +38,8 @@ const App = React.createClass({
             ingredients: {},
             masterIngredients: {},
             loading: 'loading',
+            tags: {},
+            units: {}
         };
     },
 

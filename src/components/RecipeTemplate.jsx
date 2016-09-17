@@ -27,19 +27,30 @@ const RecipeTemplate = React.createClass({
     render() {
         let emptyIngredients = true;
         let emptySteps = true;
+        let emptyTitle = true;
         const ingredients = this.props.ingredients;
         const steps = this.props.steps;
+        const title = this.props.title;
         if (ingredients.length > 0) {
             emptyIngredients = false;
         }
         if (steps.length > 0) {
             emptySteps = false;
         }
+        if (title.length > 0) {
+            emptyTitle = false;
+        }
         return (
             <Paper itemScope itemType="http://schema.org/Recipe">
                 <Toolbar>
                     <ToolbarGroup>
-                        <ToolbarTitle text={this.props.title}/>
+                        <ToolbarTitle text={(emptyTitle ?
+                            () => {
+                                return 'Sample title';
+                            } :
+                            () => {
+                                return this.props.title;
+                            })()}/>
                     </ToolbarGroup>
                 </Toolbar>
                 <Tabs>
@@ -60,18 +71,20 @@ const RecipeTemplate = React.createClass({
                                             <RecipeListItem key={fake.key} index={0}
                                                             removeItem={this.handleRemoveIngredient}
                                                             content={fake}
-                                                            type={'ingredient'}/>
+                                                            type={'ingredient'} ignore={true}/>
                                         );
                                     } :
                                     () => {
-                                        ingredients.map((ingredient, index) => {
-                                            return (
-                                                <RecipeListItem key={index} index={index}
-                                                                removeItem={this.handleRemoveIngredient}
-                                                                content={ingredient}
-                                                                type={'ingredient'}/>
-                                            );
-                                        });
+                                        return (
+                                            ingredients.map((ingredient, index) => {
+                                                return (
+                                                    <RecipeListItem key={index} index={index}
+                                                                    removeItem={this.handleRemoveIngredient}
+                                                                    content={ingredient}
+                                                                    type={'ingredient'} ignore={false}/>
+                                                );
+                                            })
+                                        );
                                     }
                             )()}
                         </List>
@@ -85,22 +98,24 @@ const RecipeTemplate = React.createClass({
                                             key: 0,
                                         };
                                         return (
-                                            <RecipeListItem key={fake.key} index={999999}
+                                            <RecipeListItem key={fake.key} index={0}
                                                             removeItem={this.handleRemoveStep}
                                                             content={fake}
-                                                            type={'step'}/>
+                                                            type={'step'} ignore={true}/>
                                         );
                                     } :
                                     () => {
-                                        steps.map((step, index) => {
-                                            console.log(step, index);
-                                            return (
-                                                <RecipeListItem key={index} index={index}
-                                                                content={step}
-                                                                removeItem={this.handleRemoveStep}
-                                                                type={'step'}/>
-                                            );
-                                        });
+                                        return (
+                                            steps.map((step, index) => {
+                                                return (
+                                                    <RecipeListItem key={index} index={index}
+                                                                    content={step}
+                                                                    ignore={false}
+                                                                    removeItem={this.handleRemoveStep}
+                                                                    type={'step'}/>
+                                                );
+                                            })
+                                        );
                                     }
                             )()}
                         </List>
