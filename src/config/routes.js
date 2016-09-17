@@ -8,7 +8,7 @@ import Suggestions from '../components/Suggestions';
 import LoginForm from '../components/LoginForm';
 import SignUpForm from '../components/SignUpForm';
 import auth from '../modules/auth';
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+import {Router, Route, IndexRoute, hashHistory, browerHistory} from 'react-router';
 function requireAuth(nextState, replace, cb) {
     if (!auth.loggedIn()) {
         replace({

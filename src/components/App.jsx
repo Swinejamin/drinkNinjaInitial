@@ -17,6 +17,8 @@ import Divider from 'material-ui/Divider';
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
+import base from '../modules/rebase';
+
 
 import LeftMenu from './LeftMenu'
 const currentTheme = darkBaseTheme;
@@ -30,7 +32,11 @@ const App = React.createClass({
             loggedIn: auth.loggedIn(),
             docked: false,
             drawerOpen: false,
-            isAdmin: false
+            isAdmin: false,
+            user: {},
+            ingredients: {},
+            masterIngredients: {},
+            loading: 'loading',
         };
     },
 
@@ -41,14 +47,67 @@ const App = React.createClass({
         };
     },
     componentWillMount() {
+        base.onAuth((authData) => {
+            if (authData) {
+                const unitsRef = 'units';
+                const tagsRef = 'tags';
+                this.uid = base.auth().currentUser.uid;
+                this.user = base.bindToState(`users/${this.uid}`, {
+                    context: this,
+                    state: 'user',
+                    asArray: false,
+                    then() {
+                        this.setState({
+                            isAdmin: this.state.user.isAdmin
+                        });
+                    }
+                });
+                this.ingredients = base.bindToState(`users/${this.uid}/ingredients`, {
+                    context: this,
+                    state: 'ingredients',
+                    asArray: false,
+                    then() {
+                        this.setState({loading: 'hide'});
+                    }
+                });
+                this.masterIngredients = base.bindToState('ingredients', {
+                    context: this,
+                    state: 'masterIngredients',
+                    asArray: false
+                });
+                this.units = base.bindToState(unitsRef, {
+                    context: this,
+                    state: 'units',
+                    asArray: false,
+                });
+                this.tags = base.bindToState(tagsRef, {
+                    context: this,
+                    state: 'tags',
+                    asArray: false,
+                });
+            } else {
+                console.log("User is logged out");
+            }
+        });
         auth.onChange = this.updateAuth;
         auth.setAdmin();
-        this.setState({
-            isAdmin: auth.isAdmin()
-        });
+
     },
     componentDidMount() {
 
+    },
+    componentWillUnmount() {
+        if (this.user) {
+            base.removeBinding(this.user);
+        }
+        if (this.masterIngredients) {
+            base.removeBinding(this.masterIngredients);
+        }
+        if (this.ingredients) {
+            base.removeBinding(this.ingredients);
+        }
+        base.removeBinding(this.units);
+        base.removeBinding(this.tags);
     },
     handleLeftIconTap() {
         const neg = !this.state.drawerOpen;
@@ -113,7 +172,15 @@ const App = React.createClass({
                         )()}
 
                     </Drawer>
-                    {this.props.children}
+                    {this.props.children && React.cloneElement(this.props.children, {
+                        uid: this.uid,
+                        user: this.state.user,
+                        masterIngredients: this.state.masterIngredients,
+                        ingredients: this.state.ingredients,
+                        units: this.state.units,
+                        tags: this.state.tags,
+                        loading: this.state.loading
+                    })}
                 </Paper>
             </MuiThemeProvider>
 

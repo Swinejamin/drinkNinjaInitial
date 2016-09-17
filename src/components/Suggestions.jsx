@@ -52,11 +52,14 @@ const Suggestions = React.createClass({
         target.push(value);
     },
     handleDelete(type, ref) {
-        // const target = myBase.database().ref(`suggestions/${type}/${ref.key}`);
-        // target.remove();
-        this.setState({
-            open: true
-        });
+        if (this.props.user.isAdmin) {
+            const target = base.database().ref(`suggestions/${type}/${ref.key}`);
+            target.remove();
+        } else {
+            this.setState({
+                open: true
+            });
+        }
     },
     handleRequestClose() {
         this.setState({

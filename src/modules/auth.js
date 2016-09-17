@@ -85,7 +85,6 @@ const auth = {
         });
     },
     isAdmin() {
-
         return this.userIsAdmin;
     },
     onChange() {

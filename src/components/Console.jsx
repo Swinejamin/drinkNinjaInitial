@@ -20,29 +20,10 @@ const Console = React.createClass({
         };
     },
     componentWillMount() {
-        const ingredientsRef = 'ingredients';
-        const unitsRef = 'units';
-        const tagsRef = 'tags';
-        this.ingredients = base.bindToState(ingredientsRef, {
-            context: this,
-            state: 'ingredients',
-            asArray: false,
-        });
-        this.units = base.bindToState(unitsRef, {
-            context: this,
-            state: 'units',
-            asArray: false,
-        });
-        this.tags = base.bindToState(tagsRef, {
-            context: this,
-            state: 'tags',
-            asArray: false,
-        });
     },
     componentWillUnmount() {
         base.removeBinding(this.ingredients);
-        base.removeBinding(this.units);
-        base.removeBinding(this.tags);
+
     },
     handleAdd(type, value) {
         const target = base.database().ref(`${type}`);
@@ -64,16 +45,16 @@ const Console = React.createClass({
                     </Toolbar>
                     <Tabs>
                         <Tab label="Ingredient">
-                            <IngredientAdder ingredientSource={this.state.ingredients}
+                            <IngredientAdder ingredientSource={this.props.masterIngredients}
                                              addIngredient={this.handleAdd}
                                              removeIngredient={this.handleDelete} listHeader="Master ingredient list"/>
                         </Tab>
                         <Tab label="Tag">
-                            <TagAdder tagSource={this.state.tags} addTag={this.handleAdd}
+                            <TagAdder tagSource={this.props.tags} addTag={this.handleAdd}
                                       removeTag={this.handleDelete} listHeader="Master tag list"/>
                         </Tab>
                         <Tab label="Unit">
-                            <UnitAdder unitSource={this.state.units} addUnit={this.handleAdd}
+                            <UnitAdder unitSource={this.props.units} addUnit={this.handleAdd}
                                        removeUnit={this.handleDelete} listHeader="Master unit list"/>
                         </Tab>
                     </Tabs>
@@ -85,8 +66,8 @@ const Console = React.createClass({
                             <ToolbarTitle text="Add a recipe to the database"/>
                         </ToolbarGroup>
                     </Toolbar>
-                    <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
-                                 masterTagList={this.state.tags} masterUnitList={this.state.units}/>
+                    <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.props.masterIngredients}
+                                 masterTagList={this.props.tags} masterUnitList={this.props.units}/>
                 </div>
             </div>
         );

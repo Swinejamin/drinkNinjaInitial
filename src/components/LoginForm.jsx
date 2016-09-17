@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Link, withRouter} from 'react-router';
+import {Link, withRouter, browserHistory} from 'react-router';
 import auth from '../modules/auth';
 
 const LoginForm = withRouter(
@@ -63,12 +63,16 @@ const LoginForm = withRouter(
             const {location} = this.props;
             const router = this.props.router;
             if (location.state && location.state.nextPathname) {
+                debugger;
                 console.log(router);
                 console.log('replacing path with ' + location.state.nextPathname + ' as requested');
+                // browserHistory.push(location.state.nextPathname);
                 router.replace(location.state.nextPathname);
             } else {
+                debugger;
                 console.log('replacing path with \'/\'');
-                router.replace('/dashboard');
+                // browserHistory.push('/dashboard');
+                router.replace('dashboard');
             }
         },
         render() {

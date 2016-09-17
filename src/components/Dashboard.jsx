@@ -10,6 +10,12 @@ import RefreshIndicator from 'material-ui/RefreshIndicator';
 import base from '../modules/rebase';
 
 const Dashboard = React.createClass({
+    propTypes: {
+        // ingredients: React.PropTypes.object.isRequired,
+        // masterIngredients: React.PropTypes.object.isRequired,
+        // user: React.PropTypes.object.isRequired,
+        // uid: React.PropTypes.string.isRequired
+    },
     getInitialState() {
         return {
             user: {},
@@ -21,54 +27,19 @@ const Dashboard = React.createClass({
     },
 
     componentWillMount() {
-        base.onAuth((authData) => {
-            if (authData) {
-                // console.log(`User ${authData.uid} is logged in with ${authData.providerData ? authData.providerData[0].providerId : 'anonProvider'}`);
-                this.uid = base.auth().currentUser.uid;
-                this.user = base.bindToState(`users/${this.uid}`, {
-                    context: this,
-                    state: 'user',
-                    asArray: false,
-                });
-                this.ingredients = base.bindToState(`users/${this.uid}/ingredients`, {
-                    context: this,
-                    state: 'ingredients',
-                    asArray: false,
-                    then() {
-                        this.setState({loading: 'hide'});
-                    }
-                });
-                this.masterIngredients = base.bindToState('ingredients', {
-                    context: this,
-                    state: 'masterIngredients',
-                    asArray: false
-                });
-            } else {
-                console.log("User is logged out");
-            }
-        });
     },
 
     componentDidMount() {
     },
 
     componentWillUnmount() {
-        if (this.user) {
-            base.removeBinding(this.user);
-        }
-        if (this.masterIngredients) {
-            base.removeBinding(this.masterIngredients);
-        }
-        if (this.ingredients) {
-            base.removeBinding(this.ingredients);
-        }
     },
 
     handleAddIngredient(newIngredient) {
         const key = newIngredient.key;
         const data = {};
         data[key] = newIngredient.value;
-        base.update(`users/${this.uid}/ingredients`, {
+        base.update(`users/${this.props.uid}/ingredients`, {
                 data: data
             }
         )
@@ -76,7 +47,7 @@ const Dashboard = React.createClass({
     },
 
     removeTag(tag) {
-        const targetStr = `users/${this.uid}/ingredients/${tag.key}`;
+        const targetStr = `users/${this.props.uid}/ingredients/${tag.key}`;
         const target = base.database().ref(targetStr);
         target.remove();
     },
@@ -90,16 +61,16 @@ const Dashboard = React.createClass({
                                 <ToolbarTitle text="Your cabinet"/>
                             </ToolbarGroup>
                         </Toolbar>
-                        {this.state.loading !== 'loading' ? (
+                        {this.props.loading !== 'loading' ? (
 
-                            <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
-                                              userList={this.state.ingredients}
+                            <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredients}
+                                              userList={this.props.ingredients}
                                               addIngredient={this.handleAddIngredient}
                                               searchHintText="Add ingredients to your cabinet"
                                               listHeader='Your current ingredients'
-                                              ingredientSource={this.state.ingredients}
+                                              ingredientSource={this.props.ingredients}
                                               removeIngredient={this.removeTag}/>
-                        ) : (<RefreshIndicator status={this.state.loading}
+                        ) : (<RefreshIndicator status={this.props.loading}
                                                left={50}
                                                top={50}/>)}
                     </div>
@@ -109,18 +80,18 @@ const Dashboard = React.createClass({
                                 <ToolbarTitle text="Your cabinet"/>
                             </ToolbarGroup>
                         </Toolbar>
-                        {this.state.loading !== 'loading' ? (
+                        {this.props.loading !== 'loading' ? (
 
-                            <IngredientFinder id="IngredientFinder" masterList={this.state.masterIngredients}
-                                              userList={this.state.ingredients}
+                            <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredients}
+                                              userList={this.props.ingredients}
                                               addIngredient={this.handleAddIngredient}
                                               searchHintText="Add ingredients to your cabinet"
                                               listHeader='Your current ingredients'
-                                              ingredientSource={this.state.ingredients}
+                                              ingredientSource={this.props.ingredients}
                                               removeIngredient={this.removeTag}/>
-                        ) : (<RefreshIndicator status={this.state.loading}
-                                               left={50}
-                                               top={50}/>)}
+                        ) : (<RefreshIndicator status={this.props.loading}
+                                               left={300}
+                                               top={300}/>)}
                     </div>
 
 
