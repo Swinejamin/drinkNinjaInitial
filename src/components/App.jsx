@@ -15,6 +15,8 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
+import theme from '../config/theme'
+
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -22,7 +24,7 @@ import base from '../modules/rebase';
 
 
 import LeftMenu from './LeftMenu'
-const currentTheme = darkBaseTheme;
+const currentTheme = theme;
 
 const App = React.createClass({
     propTypes: {
@@ -39,6 +41,7 @@ const App = React.createClass({
             masterIngredients: {},
             loading: 'loading',
             tags: {},
+            recipes: {},
             units: {}
         };
     },
@@ -54,6 +57,7 @@ const App = React.createClass({
             if (authData) {
                 const unitsRef = 'units';
                 const tagsRef = 'tags';
+                const recipesRef = 'recipes';
                 this.uid = base.auth().currentUser.uid;
                 this.user = base.bindToState(`users/${this.uid}`, {
                     context: this,
@@ -88,6 +92,11 @@ const App = React.createClass({
                     state: 'tags',
                     asArray: false,
                 });
+                this.recipes = base.bindToState(recipesRef, {
+                    context: this,
+                    state: 'recipes',
+                    asArray: false,
+                });
             } else {
                 console.log("User is logged out");
             }
@@ -111,6 +120,7 @@ const App = React.createClass({
         }
         base.removeBinding(this.units);
         base.removeBinding(this.tags);
+        base.removeBinding(this.recipes);
     },
     handleLeftIconTap() {
         const neg = !this.state.drawerOpen;
@@ -187,6 +197,7 @@ const App = React.createClass({
                             ingredients: this.state.ingredients,
                             units: this.state.units,
                             tags: this.state.tags,
+                            recipes: this.state.recipes,
                             loading: this.state.loading
                         })}
 

@@ -71,6 +71,8 @@ body {
 
 .view-wrapper {
   height: 100%;
+  max-width: 99vw;
+  width: 99vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -78,6 +80,7 @@ body {
 
 .console-paper {
   justify-content: space-around;
+  width: 90%;
   margin: 2vh auto;
   div {
     .chip-wrapper {
