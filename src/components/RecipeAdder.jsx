@@ -254,7 +254,7 @@ const RecipeAdder = React.createClass({
                 </Paper>
                 <h2>Recipe Preview</h2>
                 <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
-                                steps={this.state.stepsList} description={this.state.description}
+                                steps={this.state.stepsList} description={this.state.description} editing={true}
                                 removeItem={this.handleRemoveItem}/>
             </div>
         );

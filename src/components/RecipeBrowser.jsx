@@ -1,78 +1,47 @@
-var React = require('react');
+import React from 'react';
+import {GridList, GridTile} from 'material-ui/GridList';
+import {Link} from 'react-router';
 
-var Select = require('react-select');
-
-var RecipeBrowser = React.createClass({
-    getInitialState: function () {
-        return {ingredients: [], Title: ''};
+const RecipeBrowser = React.createClass({
+    propTypes: {
+        recipes: React.PropTypes.object.isRequired
     },
-    handleTitleChange: function (e) {
-        this.setState({recipeTitle: e.target.value});
+    getInitialState() {
+        return null;
     },
-    handleStepChange: function (e) {
-        this.setState({recipeStep: e.target.value});
-    },
-    componentDidMount: function () {
-        var ref = this.props.userData;
-        this.bindAsArray(ref, 'ingredients');
-
-    },
-    mixins: [ReactFireMixin],
-    render: function () {
-        function getOptions(input, cb) {
-            var ref = firebase.database().ref('ingredients');
-            var userData = this.props.userData;
-            var ops = [];
-            ref.orderByChild('ingredientName').startAt(input).endAt(input + '\uf8ff').on('child_added', function (snap, ind) {
-                var val = snap.val();
-                ops.push({value: ind || 0, label: val.ingredientName});
-            });
-            ops = ops.filter(function(el){
-                return (userData.indexOf(el.label) >= 0);
-            });
-            var data = {options: ops};
-            cb(null, data);
-            //cb(err, data)
-            // cb(null, )
-
+    alphaByName(a, b) {
+        if (a.value < b.value) {
+            return -1;
         }
-
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div className='form-group'>
-                    <label htmlFor="recipeName"> Recipe Name </label>
-                    <input type="text" id='recipeName' className="form-control"
-                           value={this.state.recipeName} onChange={this.handleTitleChange}/>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="ingredientType"> Ingredients </label>
-                    <div className="input-group">
-                        <Select.Async className="" multi={true} loadOptions={getOptions}/>
-                    </div>
-
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="recipeStep"> Steps </label>
-                    <div className="input-group">
-                        <input type="text" id='recipeStep' className="form-control"
-                               value={this.state.recipeStep} onChange={this.handleStepChange}/>
-                        <span className="input-group-addon">+</span>
-                    </div>
-
-                </div>
-                <button type="submit" className="btn btn-primary"> Submit</button>
-            </form>
-        )
+        if (a.value > b.value) {
+            return 1;
+        }
+        return 0;
     },
-    handleSubmit: function (e) {
-        // console.log(this.firebaseRef);
-        e.preventDefault();
-        this.firebaseRef.push({
-            ingredientName: this.state.ingredientName,
-            ingredientType: this.state.ingredientType
-        });
-        this.setState({ingredientName: ""});
+    render() {
+        let masterRecipeList = _(this.props.recipes)
+            .keys()
+            .map((recipeKey) => {
+                const cloned = {'value': _.clone(this.props.recipes[recipeKey])};
+                cloned.key = recipeKey;
+                return cloned;
+            })
+            .value().sort(this.alphaByName);
+        return (
+            <GridList cols={3} padding={15} cellHeight={300}>
+                {masterRecipeList.map((recipe, index)=>(
+                        <GridTile title={recipe.value.title}
+                                  key={index} titlePosition="top"
+                                  containerElement={<Link to={`recipe/${recipe.key}`}/>}
+                                  rows={1} cols={recipe.value.image.portrait ? 1 : 2}
+                                  titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
+                            <img src={recipe.value.image.url}/>
+                        </GridTile>
+                    )
+                )}
+            </GridList>
+        );
     }
 });
 
-module.exports = RecipeBrowser;
+export default RecipeBrowser;

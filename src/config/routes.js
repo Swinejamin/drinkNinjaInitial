@@ -6,6 +6,7 @@ import Dashboard from '../components/Dashboard';
 import Console from '../components/Console';
 import Suggestions from '../components/Suggestions';
 import LoginForm from '../components/LoginForm';
+import RecipeDetailView from '../components/RecipeDetailView';
 import SignUpForm from '../components/SignUpForm';
 import auth from '../modules/auth';
 import {Router, Route, IndexRoute, hashHistory, browerHistory} from 'react-router';
@@ -47,8 +48,9 @@ render((
         <Route path="/" component={App}>
             <IndexRoute component={Dashboard} onEnter={requireAuth}/>
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
-            <Route path="console" component={Console}/>
+            <Route path="console" component={Console} onEnter={requireAdmin}/>
             <Route path="suggestions" component={Suggestions} onEnter={requireAuth}/>
+            <Route path="recipe/:key" component={RecipeDetailView} />
             <Route path="login" component={LoginForm}/>
             <Route path="logout" component={LoginForm} onEnter={logout}/>
             <Route path="register" component={SignUpForm}/>

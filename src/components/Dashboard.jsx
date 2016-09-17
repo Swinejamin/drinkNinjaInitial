@@ -1,6 +1,7 @@
 import React from 'react';
-import IngredientFinder from './IngredientFinder.jsx';
-import TagListBuilder from './TagListBuilder.jsx';
+import IngredientFinder from './IngredientFinder';
+import RecipeBrowser from './RecipeBrowser';
+import TagListBuilder from './TagListBuilder';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
@@ -77,18 +78,12 @@ const Dashboard = React.createClass({
                     <div>
                         <Toolbar>
                             <ToolbarGroup>
-                                <ToolbarTitle text="Your cabinet"/>
+                                <ToolbarTitle text="Available recipes"/>
                             </ToolbarGroup>
                         </Toolbar>
                         {this.props.loading !== 'loading' ? (
 
-                            <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredients}
-                                              userList={this.props.ingredients}
-                                              addIngredient={this.handleAddIngredient}
-                                              searchHintText="Add ingredients to your cabinet"
-                                              listHeader='Your current ingredients'
-                                              ingredientSource={this.props.ingredients}
-                                              removeIngredient={this.removeTag}/>
+                            <RecipeBrowser recipes={this.props.recipes}/>
                         ) : (<RefreshIndicator status={this.props.loading}
                                                left={300}
                                                top={300}/>)}

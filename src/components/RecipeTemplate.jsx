@@ -15,8 +15,8 @@ const RecipeTemplate = React.createClass({
         ingredients: React.PropTypes.array.isRequired,
         steps: React.PropTypes.array.isRequired,
         description: React.PropTypes.string.isRequired,
-        removeItem: React.PropTypes.func.isRequired,
-        // removeStep: React.PropTypes.func.isRequired,
+        removeItem: React.PropTypes.func,
+        editing: React.PropTypes.bool.isRequired
     },
     handleRemoveIngredient(index) {
         this.props.removeItem('ingredients', index);
@@ -31,6 +31,7 @@ const RecipeTemplate = React.createClass({
         const ingredients = this.props.ingredients;
         const steps = this.props.steps;
         const title = this.props.title;
+        const editing = this.props.editing;
         if (ingredients.length > 0) {
             emptyIngredients = false;
         }
@@ -71,7 +72,9 @@ const RecipeTemplate = React.createClass({
                                             <RecipeListItem key={fake.key} index={0}
                                                             removeItem={this.handleRemoveIngredient}
                                                             content={fake}
-                                                            type={'ingredient'} ignore={true}/>
+                                                            type={'ingredient'}
+                                                            ignore={true}
+                                                            editing={editing}/>
                                         );
                                     } :
                                     () => {
@@ -81,7 +84,9 @@ const RecipeTemplate = React.createClass({
                                                     <RecipeListItem key={index} index={index}
                                                                     removeItem={this.handleRemoveIngredient}
                                                                     content={ingredient}
-                                                                    type={'ingredient'} ignore={false}/>
+                                                                    type={'ingredient'}
+                                                                    ignore={false}
+                                                                    editing={editing}/>
                                                 );
                                             })
                                         );
@@ -101,7 +106,8 @@ const RecipeTemplate = React.createClass({
                                             <RecipeListItem key={fake.key} index={0}
                                                             removeItem={this.handleRemoveStep}
                                                             content={fake}
-                                                            type={'step'} ignore={true}/>
+                                                            type={'step'} ignore={true}
+                                                            editing={editing}/>
                                         );
                                     } :
                                     () => {
@@ -112,7 +118,8 @@ const RecipeTemplate = React.createClass({
                                                                     content={step}
                                                                     ignore={false}
                                                                     removeItem={this.handleRemoveStep}
-                                                                    type={'step'}/>
+                                                                    type={'step'}
+                                                                    editing={editing}/>
                                                 );
                                             })
                                         );
