@@ -32,7 +32,7 @@ function setUser(req, res) {
         }).catch(function (error) {
         res.json({
             success: false,
-            message: error,
+            message: error
         });
         // Handle error
     });
