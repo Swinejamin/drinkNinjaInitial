@@ -42,7 +42,9 @@ const RecipeBrowser = React.createClass({
                                     steps={this.state.recipe.stepsList}
                                     description={this.state.recipe.description || ''}
                                     editing={false}
-                                    imgUrl={this.state.recipe.image.url || ''}/>
+                                    imgUrl={this.state.recipe.image.url || ''}
+                                    authorName={this.state.recipe.author || ''}
+                                    source={this.state.recipe.source}/>
                 </Paper>
             </div>
         );

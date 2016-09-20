@@ -4,7 +4,7 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
@@ -21,6 +21,11 @@ const RecipeTemplate = React.createClass({
         imgUrl: React.PropTypes.string,
         authorName: React.PropTypes.string,
         source: React.PropTypes.string
+    },
+    getInitialState() {
+        return {
+            xpanded: false
+        };
     },
     handleRemoveIngredient(index) {
         this.props.removeItem('ingredients', index);
@@ -53,7 +58,7 @@ const RecipeTemplate = React.createClass({
         }
         return (
             <Paper itemScope itemType="http://schema.org/Recipe">
-                <Card style={{maxWidth: 800}}>
+                <Card style={{maxWidth: 800}} expanded={imgUrl.length > 1}>
                     <CardHeader
                         title={(emptyTitle ?
                             () => {
@@ -70,12 +75,10 @@ const RecipeTemplate = React.createClass({
                                 return this.props.description;
                             })()}
                     />
-                    <CardMedia
-                        overlay={<CardTitle title={this.props.authorName || 'Author unknown'} subtitle={this.props.authorName || 'Source unknown'} />}
-                    >
-                        <img src={imgUrl} />
+                    <CardMedia expandable={true}>
+                        <img src={imgUrl}/>
                     </CardMedia>
-                    <CardTitle title="Card title" subtitle="Card subtitle" />
+                    <CardTitle title={this.props.authorName || 'Author unknown'} subtitle={this.props.source || 'Source unknown'}/>
                     <CardText>
                         <Tabs>
                             <Tab label="Ingredients">
