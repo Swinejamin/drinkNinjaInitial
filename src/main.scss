@@ -51,9 +51,9 @@ body {
   height: 100%;
   max-width: 99vw;
   margin: 0 auto;
-  //display: flex;
-  //flex-wrap: wrap;
-  //justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .console-paper {
@@ -61,8 +61,7 @@ body {
   //justify-content: space-around;
   //width: auto;
   //max-width: 90%;
-  margin: 0 auto;
-  padding-top: 2vh;
+  margin: 2vh auto;
   div {
     .chip-wrapper {
       display: flex;
