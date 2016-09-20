@@ -21,9 +21,15 @@ function requireAuth(nextState, replace, cb) {
 }
 function checkAuth(nextState, replace, cb) {
     if (auth.loggedIn()) {
-        replace({
-            pathname: '/dashboard'
-        });
+        if (auth.isAdmin()) {
+            replace({
+                pathname: '/console'
+            });
+        } else {
+            replace({
+                pathname: '/dashboard'
+            });
+        }
     }
     cb();
 }
@@ -50,8 +56,8 @@ render((
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
             <Route path="console" component={Console} onEnter={requireAdmin}/>
             <Route path="suggestions" component={Suggestions} onEnter={requireAuth}/>
-            <Route path="recipe/:key" component={RecipeDetailView} />
-            <Route path="login" component={LoginForm}/>
+            <Route path="recipe/:key" component={RecipeDetailView}/>
+            <Route path="login" component={LoginForm} onEnter={checkAuth}/>
             <Route path="logout" component={LoginForm} onEnter={logout}/>
             <Route path="register" component={SignUpForm}/>
         </Route>

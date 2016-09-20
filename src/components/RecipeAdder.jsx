@@ -7,10 +7,12 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
 import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import base from '../modules/rebase';
+import {Tabs, Tab} from 'material-ui/Tabs';
+
 
 import IngredientFinder from './IngredientFinder.jsx';
 
@@ -43,7 +45,9 @@ const RecipeAdder = React.createClass({
             currentUnit: {name: '', key: ''},
             description: '',
             ingredients: {},
-            imgUrl: ''
+            imgUrl: '',
+            author: '',
+            source: ''
         };
     },
     handleTitleChange(e) {
@@ -107,12 +111,21 @@ const RecipeAdder = React.createClass({
         this.setState(newState);
         e.preventDefault();
     },
-    // images
+    // details
     handleImageChange(e) {
         this.setState({
             imgUrl: e.target.value
         });
-
+    },
+    handleAuthorChange(e) {
+        this.setState({
+            author: e.target.value
+        });
+    },
+    handleSourceChange(e) {
+        this.setState({
+            source: e.target.value
+        });
     },
 
     handleRemoveItem(type, index) {
@@ -153,7 +166,11 @@ const RecipeAdder = React.createClass({
             .push({
                 title: this.state.recipeTitle,
                 ingredientList: this.state.ingredientList,
-                stepsList: this.state.stepsList
+                stepsList: this.state.stepsList,
+                description: this.state.description,
+                imgUrl: this.state.imgUrl,
+                author: this.state.author,
+                source: this.state.source
             })
             .then(()=> {
                 this.setState({
@@ -168,6 +185,9 @@ const RecipeAdder = React.createClass({
                     currentIngredient: {name: '', key: ''},
                     currentUnit: {name: '', key: ''},
                     description: '',
+                    imgUrl: '',
+                    author: '',
+                    source: ''
                 });
             })
             .catch((err) => {
@@ -195,75 +215,94 @@ const RecipeAdder = React.createClass({
             <div className="recipe-wrapper">
                 <Paper className="console-adders">
                     <form onSubmit={this.handleSubmit}>
+
                         <TextField fullWidth={true}
-                                   hintText="Hair of the Three-Headed Dog"
+                                   hintText="Add a recipe title"
                                    type="text"
                                    floatingLabelText="Recipe Title"
                                    value={this.state.recipeTitle}
                                    onChange={this.handleTitleChange}/>
                         <div className="recipe-details">
-                            <div className="ingredient-adder-box">
-                                <TextField fullWidth={false}
-                                           className="ingredient-amount"
-                                           hintText="Amount"
-                                           type="number"
-                                           value={this.state.amount}
-                                           onChange={this.handleAmountChange}/>
-                                <br/>
-                                <AutoComplete
-                                    hintText='Unit'
-                                    dataSource={masterUnitList}
-                                    dataSourceConfig={dataSourceConfig}
-                                    searchText={this.state.unitSearchText}
-                                    filter={AutoComplete.fuzzyFilter}
-                                    onNewRequest={this.handleUnitChange}
-                                    onUpdateInput={this.handleUpdateUnitSearch}
-                                />
-                                <br/>
-                                {/*<div>*/}
-                                <AutoComplete
-                                    className="ingredient-name"
-                                    hintText='Ingredient'
-                                    dataSource={masterIngredientList}
-                                    dataSourceConfig={dataSourceConfig}
-                                    searchText={this.state.ingredientSearchText}
-                                    filter={AutoComplete.fuzzyFilter}
-                                    onNewRequest={this.handleIngredientChange}
-                                    onUpdateInput={this.handleUpdateIngredientSearch}
-                                />
-                                <br/>
-                                <FlatButton className="ingredient-submit-button" label="Add Ingredient"
-                                            onClick={this.handleNewIngredient}
-                                            disabled={this.state.amount === '' ||
-                                            this.state.currentIngredient.key === '' ||
-                                            this.state.currentIngredient.name === '' ||
-                                            this.state.currentUnit.key === '' ||
-                                            this.state.currentUnit.name === ''}/>
-                                {/*</div>*/}
+                            <Tabs>
+                                <Tab label="Details">
+                                    <TextField hintText="Show off this drink with an image!"
+                                               type="url"
+                                               floatingLabelText="Image source"
+                                               value={this.state.imgUrl}
+                                               onChange={this.handleImageChange}
+                                    />
+                                    <br/>
+                                    <TextField hintText="Whose recipe is this?"
+                                               type="text"
+                                               floatingLabelText="Author name(s)"
+                                               value={this.state.author}
+                                               onChange={this.handleAuthorChange}
+                                    />
+                                    <br/>
+                                    <TextField hintText="Link to the original source?"
+                                               type="url"
+                                               floatingLabelText="Recipe source"
+                                               value={this.state.source}
+                                               onChange={this.handleSourceChange}
+                                    />
+                                </Tab>
+                                <Tab label="Ingredients">
+                                    <TextField fullWidth={false}
+                                               className="ingredient-amount"
+                                               hintText="Amount"
+                                               type="number"
+                                               value={this.state.amount}
+                                               onChange={this.handleAmountChange}/>
+                                    <br/>
+                                    <AutoComplete
+                                        hintText='Unit'
+                                        dataSource={masterUnitList}
+                                        dataSourceConfig={dataSourceConfig}
+                                        searchText={this.state.unitSearchText}
+                                        filter={AutoComplete.fuzzyFilter}
+                                        onNewRequest={this.handleUnitChange}
+                                        onUpdateInput={this.handleUpdateUnitSearch}
+                                    />
+                                    <br/>
 
-                            </div>
-                            <TextField hintText="image url"
-                                       type="text"
-                                       value={this.state.imgUrl}
-                                       onChange={this.handleImageChange}
-                            />
-                            <div className="step-wrapper">
-
-                                <TextField className="step-text" fullWidth={false}
-                                           hintText="Add a step"
-                                           type="text"
-                                           value={this.state.newStep}
-                                           onChange={this.handleStepChange}/>
-                                <br/>
-                                <FlatButton className="step-submit-button"
-                                            label="Add step"
-                                            onClick={this.handleNewStep}
-                                            disabled={this.state.newStep === '' }/>
-                            </div>
+                                    <AutoComplete
+                                        className="ingredient-name"
+                                        hintText='Ingredient'
+                                        dataSource={masterIngredientList}
+                                        dataSourceConfig={dataSourceConfig}
+                                        searchText={this.state.ingredientSearchText}
+                                        filter={AutoComplete.fuzzyFilter}
+                                        onNewRequest={this.handleIngredientChange}
+                                        onUpdateInput={this.handleUpdateIngredientSearch}
+                                    />
+                                    <br/>
+                                    <RaisedButton className="ingredient-submit-button" label="Add Ingredient"
+                                                  primary={true}
+                                                  onClick={this.handleNewIngredient}
+                                                  disabled={this.state.amount === '' ||
+                                                  this.state.currentIngredient.key === '' ||
+                                                  this.state.currentIngredient.name === '' ||
+                                                  this.state.currentUnit.key === '' ||
+                                                  this.state.currentUnit.name === ''}/>
+                                </Tab>
+                                <Tab label="Steps">
+                                    <TextField className="step-text" fullWidth={false}
+                                               hintText="Add a step"
+                                               type="text"
+                                               value={this.state.newStep}
+                                               onChange={this.handleStepChange}/>
+                                    <br/>
+                                    <RaisedButton className="step-submit-button"
+                                                  primary={true}
+                                                  label="Add step"
+                                                  onClick={this.handleNewStep}
+                                                  disabled={this.state.newStep === '' }/>
+                                </Tab>
+                            </Tabs>
                         </div>
                     </form>
                     <RaisedButton label="Submit New Recipe" fullWidth={true}
-                                  primary={true}
+                                  secondary={true}
                                   onClick={this.handleSubmit}
                                   disabled={this.state.ingredientList.length < 1 ||
                                   this.state.stepsList.length < 1 ||
@@ -274,7 +313,8 @@ const RecipeAdder = React.createClass({
                     <h2>Recipe Preview</h2>
                     <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
                                     steps={this.state.stepsList} description={this.state.description} editing={true}
-                                    removeItem={this.handleRemoveItem} imgUrl={this.state.imgUrl}/>
+                                    removeItem={this.handleRemoveItem} imgUrl={this.state.imgUrl}
+                                    authorName={this.state.author} source={this.state.source}/>
                 </div>
             </div>
         );

@@ -28,7 +28,7 @@ const RecipeBrowser = React.createClass({
             })
             .value().sort(this.alphaByName);
         return (
-            <GridList cols={3} padding={15} cellHeight={300} style={{paddingTop: 15}}>
+            <GridList cols={2} padding={15} cellHeight={300} style={{paddingTop: 15}}>
                 {masterRecipeList.map((recipe, index)=>(
                         <GridTile title={recipe.value.title}
                                   key={index} titlePosition="top"

@@ -62,7 +62,8 @@ body {
   //width: auto;
   //max-width: 90%;
   margin: 2vh auto;
-  div {
+  >div {
+    max-width: 800px;
     .chip-wrapper {
       display: flex;
       flex-wrap: wrap;
