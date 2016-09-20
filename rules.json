@@ -10,15 +10,37 @@
     "units": {
       ".write": "root.child('users').child(auth.uid).child('isAdmin').val() == true"
     },
+    "recipes": {
+      ".write": "root.child('users').child(auth.uid).child('isAdmin').val() == true"
+    },
     "suggestions": {
-      ".write": "(!data.exists()) || root.child('users').child(auth.uid).child('isAdmin').val() == true"
+      "tags": {
+        "$key": {
+          ".write": "!data.exists()"
+        }
+      },
+      "units": {
+        "$key": {
+          ".write": "!data.exists()"
+        }
+      },
+      "ingredients": {
+        "$key": {
+          ".write": "!data.exists()"
+        }
+      },
+      "recipes": {
+        "$key": {
+          ".write": "!data.exists()"
+        }
+      }
     },
     "users": {
       "$user_id": {
         // grants write access to the owner of this user account
         // whose uid must exactly match the key ($user_id)
-        ".write": "$user_id === auth.uid",
-        ".read": "auth != null && auth.uid == $user_id"
+        ".write": "$user_id === auth.uid ||root.child('users').child(auth.uid).child('isAdmin').val() == true",
+        ".read": "auth != null && auth.uid == $user_id ||root.child('users').child(auth.uid).child('isAdmin').val() == true"
       }
     }
   }
