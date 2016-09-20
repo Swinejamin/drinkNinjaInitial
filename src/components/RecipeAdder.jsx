@@ -1,3 +1,5 @@
+"use strict";
+
 import React from 'react';
 import update from 'react-addons-update';
 import RecipeTemplate from './RecipeTemplate.jsx';
@@ -41,6 +43,7 @@ const RecipeAdder = React.createClass({
             currentUnit: {name: '', key: ''},
             description: '',
             ingredients: {},
+            imgUrl: ''
         };
     },
     handleTitleChange(e) {
@@ -104,6 +107,14 @@ const RecipeAdder = React.createClass({
         this.setState(newState);
         e.preventDefault();
     },
+    // images
+    handleImageChange(e) {
+        this.setState({
+            imgUrl: e.target.value
+        });
+
+    },
+
     handleRemoveItem(type, index) {
         let target = '';
         let newState = '';
@@ -181,7 +192,7 @@ const RecipeAdder = React.createClass({
             })
             .value().sort(this.alphaByName);
         return (
-            <div>
+            <div className="recipe-wrapper">
                 <Paper className="console-adders">
                     <form onSubmit={this.handleSubmit}>
                         <TextField fullWidth={true}
@@ -231,7 +242,13 @@ const RecipeAdder = React.createClass({
                                 {/*</div>*/}
 
                             </div>
+                            <TextField hintText="image url"
+                                       type="text"
+                                       value={this.state.imgUrl}
+                                       onChange={this.handleImageChange}
+                            />
                             <div className="step-wrapper">
+
                                 <TextField className="step-text" fullWidth={false}
                                            hintText="Add a step"
                                            type="text"
@@ -251,11 +268,14 @@ const RecipeAdder = React.createClass({
                                   disabled={this.state.ingredientList.length < 1 ||
                                   this.state.stepsList.length < 1 ||
                                   this.state.recipeTitle === ''}/>
+
                 </Paper>
-                <h2>Recipe Preview</h2>
-                <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
-                                steps={this.state.stepsList} description={this.state.description} editing={true}
-                                removeItem={this.handleRemoveItem}/>
+                <div>
+                    <h2>Recipe Preview</h2>
+                    <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
+                                    steps={this.state.stepsList} description={this.state.description} editing={true}
+                                    removeItem={this.handleRemoveItem} imgUrl={this.state.imgUrl}/>
+                </div>
             </div>
         );
     }

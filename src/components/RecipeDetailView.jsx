@@ -11,7 +11,11 @@ const RecipeBrowser = React.createClass({
             recipe: {
                 title: '',
                 ingredientList: [],
-                stepsList: []
+                stepsList: [],
+                image: {
+                    url: '',
+                    portrait: true
+                }
             }
         };
     },
@@ -22,7 +26,7 @@ const RecipeBrowser = React.createClass({
         this.recipe = base.fetch(recipeRef, {
             context: this,
             asArray: false,
-            then(data){
+            then(data) {
                 this.setState({
                     recipe: data
                 });
@@ -37,7 +41,8 @@ const RecipeBrowser = React.createClass({
                                     ingredients={this.state.recipe.ingredientList}
                                     steps={this.state.recipe.stepsList}
                                     description={this.state.recipe.description || ''}
-                                    editing={false}/>
+                                    editing={false}
+                                    imgUrl={this.state.recipe.image.url || ''}/>
                 </Paper>
             </div>
         );

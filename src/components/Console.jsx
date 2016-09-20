@@ -48,11 +48,11 @@ const Console = React.createClass({
                                              removeIngredient={this.handleDelete} listHeader="Master ingredient list"/>
                         </Tab>
                         <Tab label="Tag">
-                            <TagAdder tagSource={this.props.tags} addTag={this.handleAdd}
+                            <TagAdder tagSource={this.props.masterTags} addTag={this.handleAdd}
                                       removeTag={this.handleDelete} listHeader="Master tag list"/>
                         </Tab>
                         <Tab label="Unit">
-                            <UnitAdder unitSource={this.props.units} addUnit={this.handleAdd}
+                            <UnitAdder unitSource={this.props.masterUnits} addUnit={this.handleAdd}
                                        removeUnit={this.handleDelete} listHeader="Master unit list"/>
                         </Tab>
                     </Tabs>
@@ -65,7 +65,7 @@ const Console = React.createClass({
                         </ToolbarGroup>
                     </Toolbar>
                     <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.props.masterIngredients}
-                                 masterTagList={this.props.tags} masterUnitList={this.props.units}/>
+                                 masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>
                 </div>
             </div>
         );

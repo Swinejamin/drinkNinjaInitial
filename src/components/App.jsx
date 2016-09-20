@@ -149,6 +149,7 @@ const App = React.createClass({
         return (
             <MuiThemeProvider muiTheme={getMuiTheme(currentTheme)}>
                 <Paper className="wrapper">
+                    <img className="logo" src="/images/dnLogo.png"/>
                     <AppBar title="Drink finder app" style={{position: 'fixed'}}
                             onTitleTouchTap={this.handleTitleTap}
                             onLeftIconButtonTouchTap={this.handleLeftIconTap}
@@ -185,23 +186,23 @@ const App = React.createClass({
                         )()}
 
                     </Drawer>
-                    <ReactCSSTransitionGroup
-                        component="div"
-                        transitionName="example"
-                        transitionEnterTimeout={5000}
-                        transitionLeaveTimeout={5000}>
+                    {/*<ReactCSSTransitionGroup*/}
+                        {/*component="div"*/}
+                        {/*transitionName="example"*/}
+                        {/*transitionEnterTimeout={5000}*/}
+                        {/*transitionLeaveTimeout={5000}>*/}
                         {this.props.children && React.cloneElement(this.props.children, {
                             uid: this.uid,
                             user: this.state.user,
                             masterIngredients: this.state.masterIngredients,
                             ingredients: this.state.ingredients,
-                            units: this.state.units,
-                            tags: this.state.tags,
+                            masterUnits: this.state.units,
+                            masterTags: this.state.tags,
                             recipes: this.state.recipes,
                             loading: this.state.loading
                         })}
 
-                    </ReactCSSTransitionGroup>
+                    {/*</ReactCSSTransitionGroup>*/}
                 </Paper>
             </MuiThemeProvider>
 

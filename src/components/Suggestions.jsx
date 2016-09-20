@@ -93,8 +93,8 @@ const Suggestions = React.createClass({
                                        removeUnit={this.handleDelete} listHeader="Pending unit suggestions"/>
                         </Tab>
                         <Tab label="Recipe">
-                            <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.state.ingredients}
-                                         masterTagList={this.state.tags} masterUnitList={this.state.units}/>
+                            <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.props.masterIngredients}
+                                         masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>
                         </Tab>
                     </Tabs>
                     <Snackbar
