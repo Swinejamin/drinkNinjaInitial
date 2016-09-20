@@ -22,6 +22,9 @@ body {
     z-index: 0;
     max-height: 99vh;
   }
+  >* {
+    margin: 0 auto;
+  }
 }
 
 .loginForm {
@@ -38,40 +41,6 @@ body {
   }
 }
 
-.console-adders {
-  margin: 0 auto;
-  @media screen and (max-width: $break-medium) {
-    width: 95vw;
-  }
-  @media screen and (min-width: $break-large) {
-    width: 45vw;
-  }
-  width: 80vw;
-  form {
-    padding: 1%;
-  }
-}
-
-.recipe-details {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-
-  .ingredient-adder-box {
-    //flex: 3 1 0;
-    width: 30%;
-    .ingredient-details {
-      padding: 0;
-    }
-  }
-
-  .step-wrapper {
-    //flex: 5 1 0;
-    width: 50%;
-    align-items: flex-end;
-  }
-}
-
 .button-group {
   display: flex;
   justify-content: space-around;
@@ -81,16 +50,19 @@ body {
   padding: 50px 0 0 0;
   height: 100%;
   max-width: 99vw;
-  //width: 99vw;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  margin: 0 auto;
+  //display: flex;
+  //flex-wrap: wrap;
+  //justify-content: space-around;
 }
 
 .console-paper {
-  justify-content: space-around;
-  width: 90%;
-  margin: 2vh auto;
+  //display: flex;
+  //justify-content: space-around;
+  //width: auto;
+  //max-width: 90%;
+  margin: 0 auto;
+  padding-top: 2vh;
   div {
     .chip-wrapper {
       display: flex;
@@ -104,32 +76,32 @@ body {
   flex-wrap: wrap;
 }
 
-//Router animations
-.Image {
-  position: absolute;
-  height: 400px;
-  width: 400px;
-}
-
-.example-enter {
-  opacity: 0.01;
-  transition: opacity 5s ease-in;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-}
-
-.example-leave {
-  opacity: 1;
-  transition: opacity 5s ease-in;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0;
-}
-
-.link-active {
-  color: #bbbbbb;
-  text-decoration: none;
-}
+////Router animations
+//.Image {
+//  position: absolute;
+//  height: 400px;
+//  width: 400px;
+//}
+//
+//.example-enter {
+//  opacity: 0.01;
+//  transition: opacity 5s ease-in;
+//}
+//
+//.example-enter.example-enter-active {
+//  opacity: 1;
+//}
+//
+//.example-leave {
+//  opacity: 1;
+//  transition: opacity 5s ease-in;
+//}
+//
+//.example-leave.example-leave-active {
+//  opacity: 0;
+//}
+//
+//.link-active {
+//  color: #bbbbbb;
+//  text-decoration: none;
+//}

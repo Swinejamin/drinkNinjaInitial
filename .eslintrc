@@ -19,7 +19,8 @@
     "jsx": true
   },
   "globals": {
-    "module": true
+    "module": true,
+    "appTitle": true
   },
   "rules": {
     "no-var": 2,                     // http://eslint.org/docs/rules/no-var
