@@ -1,5 +1,5 @@
 {
-  "name": "drink-me",
+  "name": "drink-ninja",
   "version": "0.0.1",
   "description": "A drink recipe finder that lets users search by ingredients they own.",
   "main": "server.js",
