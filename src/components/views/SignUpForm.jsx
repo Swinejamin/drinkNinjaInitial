@@ -77,7 +77,7 @@ const SignUpForm = withRouter(
                             hintText="Swineford"
                             type="text"
                             floatingLabelText="Last Name"
-                            onChange={this.handlelastNameChange}
+                            onChange={this.handleLastNameChange}
                         />
 
                         <TextField
