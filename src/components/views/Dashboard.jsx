@@ -4,6 +4,7 @@ import RecipeBrowser from '../RecipeBrowser';
 import TagListBuilder from '../TagListBuilder';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import _ from 'lodash';
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
@@ -23,7 +24,7 @@ const Dashboard = React.createClass({
             ingredients: {},
             masterIngredients: {},
             loading: 'loading',
-
+            recipes: {}
         };
     },
 
@@ -53,6 +54,28 @@ const Dashboard = React.createClass({
         target.remove();
     },
     render() {
+        const recipeList = _(this.props.recipes)
+            .keys()
+            .map((recipeKey) => {
+                const cloned = {'value': _.clone(this.props.recipes[recipeKey])};
+                cloned.key = recipeKey;
+                return cloned;
+            })
+            .value();
+        const ingredients = this.props.ingredients;
+
+        function checkForIngredient(ing) {
+            return ingredients[ing.key];
+        }
+
+        // debugger;
+        const filteredRecipes = recipeList.filter((recipe) => {
+            return recipe.value.ingredientList.every(checkForIngredient);
+        });
+        const finalRecipes = _.chain(filteredRecipes)
+            .keyBy('key')
+            .mapValues('value')
+            .value();
         return (
             <div className="view-wrapper">
                 <div className="console-paper">
@@ -83,7 +106,7 @@ const Dashboard = React.createClass({
                         </Toolbar>
                         {this.props.loading !== 'loading' ? (
 
-                            <RecipeBrowser recipes={this.props.recipes} />
+                            <RecipeBrowser recipes={finalRecipes}/>
                         ) : (<RefreshIndicator status={this.props.loading}
                                                left={300}
                                                top={300}/>)}
