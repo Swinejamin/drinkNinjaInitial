@@ -82,7 +82,7 @@ const IngredientFinder = React.createClass({
                     dataSourceConfig={dataSourceConfig}
                     searchText={this.state.searchText}
                     filter={AutoComplete.fuzzyFilter}
-                    onNewRequest={this.props.addIngredient}
+                    onNewRequest={this.handleNewIngredient}
                     onUpdateInput={this.handleUpdateInput}
                 />
                 <TagListBuilder listSource={this.props.ingredientSource}
