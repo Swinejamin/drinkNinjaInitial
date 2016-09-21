@@ -25,6 +25,7 @@ const LoginForm = withRouter(
             this.setState({password: e.target.value});
         },
         handleSubmit(event) {
+            var self  = this;
             event.preventDefault();
 
             const email = this.state.email.trim();
@@ -36,27 +37,9 @@ const LoginForm = withRouter(
             auth.loginAnonymously(this.handleLoginSuccess, this.handleLoginFailure);
         },
         handleLoginFailure(error) {
-            console.log(error);
-            const errorCode = error.code;
-            let emailError = '';
-            let passwordError = '';
-
-            if (errorCode === 'auth/invalid-email') {
-                emailError = 'Woops! Looks like your email isn\'t formatted properly!';
-                passwordError = '';
-            }
-            if (errorCode === 'auth/wrong-password') {
-                emailError = '';
-                passwordError = 'Woops! Something\'s wrong with your passsword!';
-            }
-            if (errorCode === 'auth/user-not-found') {
-                emailError = 'Woops! We couldn\'t find a user with that email!';
-                passwordError = '';
-            }
-            console.log(errorCode + ': ' + error.message);
             return this.setState({
-                emailError: emailError,
-                passwordError: passwordError
+                emailError: error.emailError,
+                passwordError: error.passwordError
             });
         },
         handleLoginSuccess() {

@@ -171,7 +171,7 @@ const App = React.createClass({
                                             <MenuItem disabled={!this.state.isAdmin}
                                                       containerElement={<Link to={'/console'}/>}
                                                       onTouchTap={this.toggleDrawer}
-                                                      secondaryText={auth.isAdmin() ? '' : 'Requires admin access'}>Console</MenuItem>
+                                                      secondaryText={this.state.isAdmin ? '' : 'Requires admin access'}>Console</MenuItem>
                                         </div>
                                     );
                                 } :

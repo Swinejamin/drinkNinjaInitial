@@ -1,70 +1,109 @@
 "use strict";
+
 import React from 'react';
-import Rebase from 're-base';
-import firebase from 'firebase';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import auth from '../../modules/auth';
 
 const SignUpForm = React.createClass({
-    getInitialState: function() {
-        return {name: '', email: '1@2.3', password: ''};
+    getInitialState() {
+        return {email: '', password: '', firstName: '', lastName: ''};
     },
-    handleNameChange: function(e) {
-        this.setState({name: e.target.value});
+    handleFirstNameChange(e) {
+        this.setState({firstName: e.target.value});
     },
-    handleEmailChange: function(e) {
+    handleLastNameChange(e) {
+        this.setState({lastName: e.target.value});
+    },
+    handleEmailChange(e) {
         this.setState({email: e.target.value});
     },
-    handlePasswordChange: function(e) {
+    handlePasswordChange(e) {
         this.setState({password: e.target.value});
     },
-    handleSubmit: function(e) {
+    handleSubmit(e) {
         e.preventDefault();
-
-        const name = this.state.name.trim();
+        const firstName = this.state.firstName.trim();
+        const lastName = this.state.lastName.trim();
         const email = this.state.email.trim();
         const password = this.state.password.trim();
-        console.log(this.state.email);
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ...
-            console.log(errorCode + ': ' + errorMessage);
+        auth.createUserWithEmailAndPassword(email, password, firstName, lastName, this.handleSignupSuccess, this.handleSignupFailure);
+    },
+    handleSignupFailure(error) {
+        console.log(error);
+        return this.setState({
+            emailError: error.emailError,
+            passwordError: error.passwordError
         });
     },
-    render: function() {
+    handleSignupSuccess() {
+        const {location} = this.props;
+        const router = this.props.router;
+        if (location.state && location.state.nextPathname) {
+            console.log(router);
+            console.log('replacing path with ' + location.state.nextPathname + ' as requested');
+            // browserHistory.push(location.state.nextPathname);
+            router.replace(location.state.nextPathname);
+        } else {
+            console.log('replacing path with \'/\'');
+            // browserHistory.push('/dashboard');
+            router.replace('dashboard');
+        }
+    },
+    render() {
         return (
-            <form className="form-signin" onSubmit={this.handleSubmit}>
-                <h2 className="form-signin-heading">Please sign up to use DrinkMe</h2>
-                <div className="form-group">
-                    <label htmlFor="inputName" className="sr-only">Email address</label>
-                    <input type="text" id="inputName" className="form-control" placeholder="Your Name"
-                           required=""
-                           autoFocus=""
-                           onChange={this.handleNameChange}/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="inputEmail" className="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" className="form-control" placeholder="Email address"
-                           required=""
-                           onChange={this.handleEmailChange}/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="inputPassword" className="sr-only">Password</label>
-                    <input type="password" id="inputPassword" className="form-control" placeholder="Password"
-                           required=""
-                           onChange={this.handlePasswordChange}/>
-                </div>
-                <div className="form-group">
-                    <div className="checkbox pull-left">
-                        <label>
-                            <input type="checkbox" value="remember-me"/> Remember me
-                        </label>
+            <Paper className="loginForm">
+                <Toolbar>
+                    <ToolbarGroup>
+                        <ToolbarTitle text="Login"/>
+                    </ToolbarGroup>
+                </Toolbar>
+                <form id="signupForm" onSubmit={this.handleSubmit}>
+                    <TextField
+                        fullWidth={true}
+                        hintText="Benjamin"
+                        type="text"
+                        floatingLabelText="First Name"
+                        errorText={this.state.firstName ? '' : 'Required field'}
+                        onChange={this.handleFirstNameChange}
+                    />
+                    <TextField
+                        fullWidth={true}
+                        hintText="Swineford"
+                        type="text"
+                        floatingLabelText="Last Name"
+                        onChange={this.handlelastNameChange}
+                    />
+
+                    <TextField
+                        fullWidth={true}
+                        hintText="benjamin@example.com"
+                        type="email"
+                        floatingLabelText="Email address"
+                        errorText={(this.state.email || this.state.emailError) ? this.state.emailError : 'Required field'}
+                        onChange={this.handleEmailChange}
+                    />
+                    <TextField
+                        fullWidth={true}
+                        hintText="****************"
+                        type="password"
+                        floatingLabelText="Password"
+                        errorText={(this.state.password || this.state.passwordError) ? this.state.passwordError : 'Required field'}
+                        onChange={this.handlePasswordChange}
+                    />
+                    <div className="button-group">
+                        <RaisedButton label="Sign up" primary={true} onClick={this.handleSubmit}/>
                     </div>
-                    <a href="/register" className="pull-right">Create Account</a>
-                </div>
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                <h2>{this.state.email}</h2>
-            </form>
+                    <p>Not quite ready to sign up?
+                        <br />
+                        <FlatButton label='Browse as a guest instead.' onClick={this.handleAnon}/>
+                    </p>
+
+                </form>
+            </Paper>
         );
     }
 });
