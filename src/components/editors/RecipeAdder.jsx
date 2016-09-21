@@ -2,7 +2,7 @@
 
 import React from 'react';
 import update from 'react-addons-update';
-import RecipeTemplate from './RecipeTemplate.jsx';
+import RecipeTemplate from '../views/RecipeTemplate.jsx';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -10,7 +10,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import base from '../modules/rebase';
+import base from '../../modules/rebase';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 

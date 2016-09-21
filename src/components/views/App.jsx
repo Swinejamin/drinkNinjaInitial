@@ -1,11 +1,9 @@
 'use strict';
 
 import React from 'react';
-import auth from '../modules/auth';
+import auth from '../../modules/auth';
 import {Link, withRouter} from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
@@ -15,15 +13,13 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
-import theme from '../config/theme'
+import theme from '../../config/theme'
 
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-import base from '../modules/rebase';
+import base from '../../modules/rebase';
 
-
-import LeftMenu from './LeftMenu'
 const currentTheme = theme;
 
 const App = React.createClass({

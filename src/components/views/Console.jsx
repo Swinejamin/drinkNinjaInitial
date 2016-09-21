@@ -1,11 +1,11 @@
 "use strict";
 
 import React from 'react';
-import base from '../modules/rebase';
-import RecipeAdder from './RecipeAdder.jsx';
-import IngredientAdder from './IngredientAdder.jsx';
-import TagAdder from './TagAdder.jsx';
-import UnitAdder from './UnitAdder.jsx';
+import base from '../../modules/rebase';
+import RecipeAdder from '../editors/RecipeAdder.jsx';
+import IngredientAdder from '../editors/IngredientAdder.jsx';
+import TagAdder from '../editors/TagAdder.jsx';
+import UnitAdder from '../editors/UnitAdder.jsx';
 
 import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';

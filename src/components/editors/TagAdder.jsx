@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import TagListBuilder from './TagListBuilder';
+import TagListBuilder from '../TagListBuilder';
 const TagAdder = React.createClass({
     propTypes: {
         tagSource: React.PropTypes.object.isRequired,

@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link, withRouter, browserHistory} from 'react-router';
-import auth from '../modules/auth';
+import auth from '../../modules/auth';
 
 const LoginForm = withRouter(
     React.createClass({

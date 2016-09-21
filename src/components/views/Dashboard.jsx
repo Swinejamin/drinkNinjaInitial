@@ -1,14 +1,14 @@
 import React from 'react';
-import IngredientFinder from './IngredientFinder';
-import RecipeBrowser from './RecipeBrowser';
-import TagListBuilder from './TagListBuilder';
+import IngredientFinder from '../editors/IngredientFinder';
+import RecipeBrowser from '../RecipeBrowser';
+import TagListBuilder from '../TagListBuilder';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import base from '../modules/rebase';
+import base from '../../modules/rebase';
 
 const Dashboard = React.createClass({
     propTypes: {

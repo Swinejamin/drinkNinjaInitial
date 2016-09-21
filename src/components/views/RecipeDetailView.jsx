@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 import RecipeTemplate from './RecipeTemplate';
 import {Link} from 'react-router';
-import base from '../modules/rebase';
+import base from '../../modules/rebase';
 
 const RecipeBrowser = React.createClass({
     propTypes: {},

@@ -1,6 +1,6 @@
 import React from'react';
 import AutoComplete from 'material-ui/AutoComplete';
-import TagListBuilder from './TagListBuilder';
+import TagListBuilder from '../TagListBuilder';
 const dataSourceConfig = {
     text: 'value',
     value: 'key',
