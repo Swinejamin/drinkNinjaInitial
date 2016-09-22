@@ -1,16 +1,35 @@
 // import Base from '../components/Base';
 import React from 'react';
 import {render} from 'react-dom';
+import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+// app & views
 import App from '../components/views/App';
 import Dashboard from '../components/views/Dashboard';
 import Console from '../components/views/Console';
 import Suggestions from '../components/views/Suggestions';
 import LoginForm from '../components/views/LoginForm';
-import RecipeDetailView from '../components/views/RecipeDetailView';
-import AboutView from '../components/views/AboutView.jsx';
 import SignUpForm from '../components/views/SignUpForm';
+import AboutView from '../components/views/AboutView';
+
+// Recipes
+import RecipeBrowser from '../components/recipes/RecipeBrowser';
+import RecipeDetailView from '../components/views/RecipeDetailView';
+
+// Ingredients
+import IngredientAdder from '../components/ingredients/IngredientAdder';
+
+// Tags
+import TagAdder from '../components/tags/TagAdder';
+
+// Units
+import UnitAdder from '../components/units/UnitAdder';
+
+// Users
+import UserEditor from '../components/users/UserEditor';
+
+// config & modules
 import auth from '../modules/auth';
-import {Router, Route, IndexRoute, hashHistory, browerHistory} from 'react-router';
+
 function requireAuth(nextState, replace, cb) {
     if (!auth.loggedIn()) {
         replace({
@@ -46,7 +65,13 @@ render((
         <Route path="/" component={App}>
             <IndexRoute component={Dashboard} onEnter={requireAuth}/>
             <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
-            <Route path="console" component={Console} onEnter={auth.requireAdmin}/>
+            <Route path="console" component={Console} onEnter={auth.requireAdmin}>
+                <Route path="recipes" component={RecipeBrowser}/>
+                <Route path="ingredients" component={IngredientAdder}/>
+                <Route path="tags" component={TagAdder}/>
+                <Route path="units" component={UnitAdder}/>
+                <Route path="users" component={UserEditor}/>
+            </Route>
             <Route path="suggestions" component={Suggestions} onEnter={requireAuth}/>
             <Route path="recipe/:key" component={RecipeDetailView}/>
             <Route path="about" component={AboutView}/>

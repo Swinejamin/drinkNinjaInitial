@@ -27,7 +27,7 @@ const RecipeAdder = React.createClass({
         masterIngredientList: React.PropTypes.object.isRequired,
         masterTagList: React.PropTypes.object.isRequired,
         masterUnitList: React.PropTypes.object.isRequired,
-        addRecipe: React.PropTypes.func.isRequired,
+        add: React.PropTypes.func.isRequired,
     },
     getInitialState() {
         return {

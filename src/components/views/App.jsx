@@ -2,7 +2,7 @@
 
 import React from 'react';
 import auth from '../../modules/auth';
-import {Link, withRouter} from 'react-router';
+import {Link} from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';

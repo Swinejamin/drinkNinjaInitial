@@ -4,9 +4,8 @@ import TagListBuilder from '../TagListBuilder';
 const TagAdder = React.createClass({
     propTypes: {
         tagSource: React.PropTypes.object.isRequired,
-        addTag: React.PropTypes.func.isRequired,
-        removeTag: React.PropTypes.func.isRequired,
-        listHeader: React.PropTypes.string.isRequired
+        add: React.PropTypes.func.isRequired,
+        remove: React.PropTypes.func.isRequired
     },
     getInitialState() {
         return {drinkTagName: ''};
@@ -16,11 +15,11 @@ const TagAdder = React.createClass({
     },
     handleSubmit(e) {
         e.preventDefault();
-        this.props.addTag('tags', this.state.drinkTagName);
+        this.props.add('tags', this.state.drinkTagName);
         this.setState({drinkTagName: ''});
     },
     handleDelete(tag) {
-        this.props.removeTag('tags', tag);
+        this.props.remove('tags', tag);
     },
     render() {
         return (
@@ -34,8 +33,7 @@ const TagAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.tagSource}
-                                removeTag={this.handleDelete}
-                                listHeader={this.props.listHeader}/>
+                                removeTag={this.handleDelete}/>
             </div>
         );
     }

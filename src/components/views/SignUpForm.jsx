@@ -112,4 +112,4 @@ const SignUpForm = withRouter(
 );
 
 
-module.exports = SignUpForm;
+export default SignUpForm;

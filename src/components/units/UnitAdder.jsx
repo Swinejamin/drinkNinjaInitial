@@ -6,15 +6,11 @@ import TagListBuilder from '../TagListBuilder';
 const UnitAdder = React.createClass({
     propTypes: {
         unitSource: React.PropTypes.object.isRequired,
-        addUnit: React.PropTypes.func.isRequired,
-        removeUnit: React.PropTypes.func.isRequired,
-        listHeader: React.PropTypes.string.isRequired
+        add: React.PropTypes.func.isRequired,
+        remove: React.PropTypes.func.isRequired
     },
     getInitialState() {
         return {unitName: ''};
-    },
-    componentWillMount() {
-        this.firebaseRef = firebase.database().ref("units");
     },
     handleNameChange(e) {
         this.setState({unitName: e.target.value});
@@ -22,11 +18,11 @@ const UnitAdder = React.createClass({
     handleSubmit(e) {
         // console.log(this.firebaseRef);
         e.preventDefault();
-        this.props.addUnit('units', this.state.unitName);
+        this.props.add('units', this.state.unitName);
         this.setState({unitName: ''});
     },
     handleDelete(tag) {
-        this.props.removeUnit('units', tag);
+        this.props.remove('units', tag);
     },
     render() {
         return (

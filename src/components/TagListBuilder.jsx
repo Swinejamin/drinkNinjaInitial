@@ -6,8 +6,8 @@ import Subheader from 'material-ui/Subheader';
 const IngredientList = React.createClass({
     propTypes: {
         listSource: React.PropTypes.object.isRequired,
-        removeTag: React.PropTypes.func.isRequired,
-        listHeader: React.PropTypes.string.isRequired
+        remove: React.PropTypes.func.isRequired,
+        // listHeader: React.PropTypes.string.isRequired
     },
 
     getInitialState() {
@@ -38,10 +38,10 @@ const IngredientList = React.createClass({
 
         ingredients = ingredients.sort(alphaByName);
 
-        const removeTag = this.props.removeTag;
+        const removeTag = this.props.remove;
         return (
             <div className="chip-wrapper">
-                <Subheader>{this.props.listHeader}</Subheader>
+                {/*<Subheader>{this.props.listHeader}</Subheader>*/}
                 {ingredients.map((tagContent, index) => {
                     return (<IngredientTag removeTag={removeTag} key={index} content={tagContent}/>);
                 })}
