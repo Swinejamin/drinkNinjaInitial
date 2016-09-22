@@ -9,11 +9,11 @@ const styles = {
 
 const IngredientTag = React.createClass({
     propTypes: {
-        removeTag: React.PropTypes.func.isRequired,
+        remove: React.PropTypes.func.isRequired,
         content: React.PropTypes.object.isRequired
     },
     removeTag() {
-        this.props.removeTag(this.props.content);
+        this.props.remove(this.props.content);
         // firebase.database().ref(`users/${this.props.userRef}/ingredients`).child(this.props.content.key).remove();
     },
     render() {
