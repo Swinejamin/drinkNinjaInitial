@@ -86,6 +86,7 @@ const IngredientFinder = React.createClass({
                     onUpdateInput={this.handleUpdateInput}
                 />
                 <TagListBuilder listSource={this.props.ingredientSource}
+                                click={this.props.click}
                                 remove={this.handleDelete}
                                 listHeader={this.props.listHeader}/>
             </div>

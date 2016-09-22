@@ -27,10 +27,10 @@ const IngredientList = React.createClass({
             .value();
 
         function alphaByName(a, b) {
-            if (a.value < b.value) {
+            if (a.value.name < b.value.name) {
                 return -1;
             }
-            if (a.value > b.value) {
+            if (a.value.name > b.value.name) {
                 return 1;
             }
             return 0;
@@ -39,11 +39,12 @@ const IngredientList = React.createClass({
         ingredients = ingredients.sort(alphaByName);
 
         const removeTag = this.props.remove;
+        const click = this.props.click;
         return (
             <div className="chip-wrapper">
                 {/*<Subheader>{this.props.listHeader}</Subheader>*/}
                 {ingredients.map((tagContent, index) => {
-                    return (<IngredientTag remove={removeTag} key={index} content={tagContent}/>);
+                    return (<IngredientTag remove={removeTag} click={click} key={index} content={tagContent}/>);
                 })}
             </div>
         );

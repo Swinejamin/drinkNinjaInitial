@@ -5,7 +5,7 @@ import TagListBuilder from '../TagListBuilder';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import _ from 'lodash';
-
+import update from 'react-addons-update';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
@@ -24,7 +24,8 @@ const Dashboard = React.createClass({
             ingredients: {},
             masterIngredients: {},
             loading: 'loading',
-            recipes: {}
+            recipes: {},
+            featuredTags: []
         };
     },
 
@@ -36,7 +37,11 @@ const Dashboard = React.createClass({
 
     componentWillUnmount() {
     },
-
+    clickIngredient(ingredient) {
+        const target = base.database().ref(`users/${this.props.uid}/ingredients/${ingredient.key}/isFeatured`);
+        target.set(!ingredient.value.isFeatured);
+        console.log(ingredient);
+    },
     handleAddIngredient(newIngredient) {
         const key = newIngredient.key;
         const data = {};
@@ -93,6 +98,7 @@ const Dashboard = React.createClass({
                                               searchHintText="Add ingredients to your cabinet"
                                               listHeader='Your current ingredients'
                                               ingredientSource={this.props.ingredients}
+                                              click={this.clickIngredient}
                                               remove={this.removeTag}/>
                         ) : (<RefreshIndicator status={this.props.loading}
                                                left={50}
@@ -106,7 +112,7 @@ const Dashboard = React.createClass({
                         </Toolbar>
                         {this.props.loading !== 'loading' ? (
 
-                            <RecipeBrowser recipes={finalRecipes}/>
+                            <RecipeBrowser recipes={finalRecipes} featured={this.state.featuredTags}/>
                         ) : (<RefreshIndicator status={this.props.loading}
                                                left={300}
                                                top={300}/>)}

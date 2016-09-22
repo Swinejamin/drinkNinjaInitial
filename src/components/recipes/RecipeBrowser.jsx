@@ -34,6 +34,7 @@ const RecipeBrowser = React.createClass({
                         <GridTile title={recipe.value.title}
                                   key={index} titlePosition="top"
                                   containerElement={<Link to={`recipe/${recipe.key}`}/>}
+                                  // TODO: add check if any featured tag is in list
                                   rows={1} cols={1}
                                   titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)">
                             <img src={recipe.value.imgUrl || '/images/dnLogo.png'}/>
