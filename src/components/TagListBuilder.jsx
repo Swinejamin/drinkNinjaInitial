@@ -43,7 +43,7 @@ const IngredientList = React.createClass({
             <div className="chip-wrapper">
                 {/*<Subheader>{this.props.listHeader}</Subheader>*/}
                 {ingredients.map((tagContent, index) => {
-                    return (<IngredientTag removeTag={removeTag} key={index} content={tagContent}/>);
+                    return (<IngredientTag remove={removeTag} key={index} content={tagContent}/>);
                 })}
             </div>
         );

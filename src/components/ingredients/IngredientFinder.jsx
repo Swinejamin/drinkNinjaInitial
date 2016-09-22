@@ -12,7 +12,7 @@ const IngredientFinder = React.createClass({
         userList: React.PropTypes.object.isRequired,
         addIngredient: React.PropTypes.func.isRequired,
         searchHintText: React.PropTypes.string.isRequired,
-        removeIngredient: React.PropTypes.func.isRequired,
+        remove: React.PropTypes.func.isRequired,
         ingredientSource: React.PropTypes.object.isRequired,
         listHeader: React.PropTypes.string.isRequired
     },
@@ -37,7 +37,7 @@ const IngredientFinder = React.createClass({
         });
     },
     handleDelete(tag) {
-        this.props.removeIngredient(tag);
+        this.props.remove(tag);
     },
     handleUpdateInput(t) {
         this.setState({searchText: t});
