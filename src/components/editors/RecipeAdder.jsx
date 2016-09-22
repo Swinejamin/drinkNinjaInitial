@@ -279,11 +279,10 @@ const RecipeAdder = React.createClass({
                                     <RaisedButton className="ingredient-submit-button" label="Add Ingredient"
                                                   primary={true}
                                                   onClick={this.handleNewIngredient}
-                                                  disabled={this.state.amount === '' ||
-                                                  this.state.currentIngredient.key === '' ||
-                                                  this.state.currentIngredient.name === '' ||
-                                                  this.state.currentUnit.key === '' ||
-                                                  this.state.currentUnit.name === ''}/>
+                                                  disabled={
+                                                      this.state.currentIngredient.key === '' ||
+                                                      this.state.currentIngredient.name === ''
+                                                  }/>
                                 </Tab>
                                 <Tab label="Steps">
                                     <TextField className="step-text" fullWidth={false}
