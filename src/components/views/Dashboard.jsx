@@ -43,11 +43,14 @@ const Dashboard = React.createClass({
         console.log(ingredient);
     },
     handleAddIngredient(newIngredient) {
+        console.log(newIngredient)
         const key = newIngredient.key;
         const data = {};
-        data[key] = newIngredient.value;
-        base.update(`users/${this.props.uid}/ingredients`, {
-                data: data
+        data[key['name']] = newIngredient.value;
+        base.update(`users/${this.props.uid}/ingredients/${key}`, {
+                data: {
+                    'name': newIngredient.value
+                }
             }
         )
         ;
