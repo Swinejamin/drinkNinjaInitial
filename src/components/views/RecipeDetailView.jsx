@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import RecipeTemplate from './RecipeTemplate';
+import RecipeTemplate from '../recipes/RecipeTemplate';
 import {Link} from 'react-router';
 import base from '../../modules/rebase';
 

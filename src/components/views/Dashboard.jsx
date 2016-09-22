@@ -1,6 +1,6 @@
 import React from 'react';
-import IngredientFinder from '../editors/IngredientFinder';
-import RecipeBrowser from '../RecipeBrowser';
+import IngredientFinder from '../ingredients/IngredientFinder';
+import RecipeBrowser from '../recipes/RecipeBrowser';
 import TagListBuilder from '../TagListBuilder';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import update from 'react-addons-update';
-import RecipeTemplate from '../views/RecipeTemplate.jsx';
+import RecipeTemplate from './RecipeTemplate.jsx';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
@@ -14,7 +14,7 @@ import base from '../../modules/rebase';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 
-import IngredientFinder from './IngredientFinder.jsx';
+import IngredientFinder from '../ingredients/IngredientFinder.jsx';
 
 
 const dataSourceConfig = {

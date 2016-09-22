@@ -12,8 +12,9 @@ import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
-import theme from '../../config/theme'
+import theme from '../../config/theme';
 
 // Needed for onTouchTap
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -169,8 +170,25 @@ const App = React.createClass({
                                                       onTouchTap={this.toggleDrawer}>About</MenuItem>
                                             <Divider />
                                             <MenuItem disabled={!this.state.isAdmin}
-                                                      containerElement={<Link to={'/console'}/>}
-                                                      onTouchTap={this.toggleDrawer}
+                                                      //containerElement={<Link to={'/console'}/>}
+                                                      rightIcon={<ArrowDropRight />}
+                                                      menuItems={[
+                                                          <MenuItem
+                                                              containerElement={<Link to={'/console/ingredients'}/>}
+                                                              onTouchTap={this.toggleDrawer}
+                                                              primaryText="Ingredients"/>,
+                                                          <MenuItem containerElement={<Link to={'/console/tags'}/>}
+                                                                    onTouchTap={this.toggleDrawer} primaryText="Tags"/>,
+                                                          <MenuItem containerElement={<Link to={'/console/units'}/>}
+                                                                    onTouchTap={this.toggleDrawer}
+                                                                    primaryText="Units"/>,
+                                                          <MenuItem containerElement={<Link to={'/console/recipes'}/>}
+                                                                    onTouchTap={this.toggleDrawer}
+                                                                    primaryText="Recipes"/>,
+                                                          <MenuItem containerElement={<Link to={'/console/users'}/>}
+                                                                    onTouchTap={this.toggleDrawer}
+                                                                    primaryText="Users"/>,
+                                                      ]}
                                                       secondaryText={this.state.isAdmin ? '' : 'Requires admin access'}>Console</MenuItem>
                                         </div>
                                     );
@@ -183,20 +201,20 @@ const App = React.createClass({
 
                     </Drawer>
                     {/*<ReactCSSTransitionGroup*/}
-                        {/*component="div"*/}
-                        {/*transitionName="example"*/}
-                        {/*transitionEnterTimeout={5000}*/}
-                        {/*transitionLeaveTimeout={5000}>*/}
-                        {this.props.children && React.cloneElement(this.props.children, {
-                            uid: this.uid,
-                            user: this.state.user,
-                            masterIngredients: this.state.masterIngredients,
-                            ingredients: this.state.ingredients,
-                            masterUnits: this.state.units,
-                            masterTags: this.state.tags,
-                            recipes: this.state.recipes,
-                            loading: this.state.loading
-                        })}
+                    {/*component="div"*/}
+                    {/*transitionName="example"*/}
+                    {/*transitionEnterTimeout={5000}*/}
+                    {/*transitionLeaveTimeout={5000}>*/}
+                    {this.props.children && React.cloneElement(this.props.children, {
+                        uid: this.uid,
+                        user: this.state.user,
+                        masterIngredients: this.state.masterIngredients,
+                        ingredients: this.state.ingredients,
+                        masterUnits: this.state.units,
+                        masterTags: this.state.tags,
+                        recipes: this.state.recipes,
+                        loading: this.state.loading
+                    })}
 
                     {/*</ReactCSSTransitionGroup>*/}
                 </Paper>

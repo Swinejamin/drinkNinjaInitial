@@ -2,10 +2,10 @@
 
 import React from 'react';
 import base from '../../modules/rebase';
-import RecipeAdder from '../editors/RecipeAdder.jsx';
-import IngredientAdder from '../editors/IngredientAdder.jsx';
-import TagAdder from '../editors/TagAdder.jsx';
-import UnitAdder from '../editors/UnitAdder.jsx';
+import RecipeAdder from '../recipes/RecipeAdder.jsx';
+import IngredientAdder from '../ingredients/IngredientAdder.jsx';
+import TagAdder from '../tags/TagAdder.jsx';
+import UnitAdder from '../units/UnitAdder.jsx';
 
 
 import Snackbar from 'material-ui/Snackbar';

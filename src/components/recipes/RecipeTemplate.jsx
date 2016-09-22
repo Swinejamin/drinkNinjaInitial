@@ -8,7 +8,7 @@ import Toggle from 'material-ui/Toggle';
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
-import RecipeListItem from '../RecipeListItem';
+import RecipeListItem from './RecipeListItem';
 
 const RecipeTemplate = React.createClass({
     propTypes: {
