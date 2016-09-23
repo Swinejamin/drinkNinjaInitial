@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import TagListBuilder from '../TagListBuilder';
+import FlatButton from 'material-ui/FlatButton';
 
 
 const UnitAdder = React.createClass({
@@ -9,7 +10,8 @@ const UnitAdder = React.createClass({
         add: React.PropTypes.func.isRequired,
         remove: React.PropTypes.func.isRequired,
         unitNameSingle: React.PropTypes.string,
-        unitNamePlural: React.PropTypes.string
+        unitNamePlural: React.PropTypes.string,
+        masterUnits: React.PropTypes.object.isRequired
     },
     getInitialState() {
         return {
@@ -48,10 +50,17 @@ const UnitAdder = React.createClass({
                                floatingLabelText="Unit Name (plural)"
                                value={this.state.unitNamePlural}
                                onChange={this.handlePluralChange}/>
+                    <FlatButton label="Add unit"
+                                disabled={
+                                    this.state.unitNameSingle === '' ||
+                                    this.state.unitNamePlural === null}
+                                onClick={this.handleSubmit}
+                    />
                 </form>
                 <TagListBuilder listSource={this.props.unitSource}
                                 remove={this.handleDelete}
-                                listHeader={this.props.listHeader} loading={this.props.loadingUnits}  masterList={this.props.masterUnits}/>
+                                listHeader={this.props.listHeader} loading={this.props.loadingUnits}
+                                masterList={this.props.masterUnits}/>
             </div>
         );
     }
