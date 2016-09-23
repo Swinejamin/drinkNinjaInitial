@@ -36,7 +36,10 @@ const App = React.createClass({
             user: {},
             ingredients: {},
             masterIngredients: {'-KRiOWONxgPYuFyw3nzA': 'Gin'},
-            loading: 'loading',
+            loadingUser: true,
+            loadingIngredients: true,
+            loadingTags: true,
+            loadingUnits: true,
             masterTags: {},
             recipes: {},
             masterUnits: {
@@ -76,23 +79,32 @@ const App = React.createClass({
                     state: 'ingredients',
                     asArray: false,
                     then() {
-                        this.setState({loading: 'hide'});
+                        this.setState({loadingUser: false});
                     }
                 });
                 this.masterIngredients = base.bindToState('ingredients', {
                     context: this,
                     state: 'masterIngredients',
-                    asArray: false
+                    asArray: false,
+                    then() {
+                        this.setState({loadingIngredients: false});
+                    }
                 });
                 this.masterUnits = base.bindToState(unitsRef, {
                     context: this,
                     state: 'masterUnits',
                     asArray: false,
+                    then() {
+                        this.setState({loadingUnits: false});
+                    }
                 });
                 this.masterTags = base.bindToState(tagsRef, {
                     context: this,
                     state: 'masterTags',
                     asArray: false,
+                    then() {
+                        this.setState({loadingTags: false});
+                    }
                 });
                 this.recipes = base.bindToState(recipesRef, {
                     context: this,
@@ -218,7 +230,10 @@ const App = React.createClass({
                         masterUnits: this.state.masterUnits,
                         masterTags: this.state.masterTags,
                         recipes: this.state.recipes,
-                        loading: this.state.loading
+                        loadingUser: this.state.loadingUser,
+                        loadingIngredients: this.state.loadingIngredients,
+                        loadingTags: this.state.loadingTags,
+                        loadingUnits: this.state.loadingUnits,
                     })}
 
                     {/*</ReactCSSTransitionGroup>*/}

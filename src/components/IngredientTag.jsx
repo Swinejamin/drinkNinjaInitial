@@ -12,7 +12,8 @@ const IngredientTag = React.createClass({
     propTypes: {
         remove: React.PropTypes.func.isRequired,
         content: React.PropTypes.object.isRequired,
-        click: React.PropTypes.func.isRequired
+        click: React.PropTypes.func.isRequired,
+        list: React.PropTypes.object.isRequired
     },
     click() {
         this.props.click(this.props.content);
@@ -25,7 +26,7 @@ const IngredientTag = React.createClass({
         return (
             // TODO: add check for featured tags (from db?)
             <Chip style={styles.chip} backgroundColor={this.props.content.value.isFeatured ? cyan500 : grey400} onTouchTap={this.click} onRequestDelete={this.removeTag}>
-                {this.props.content.value.name}
+                {this.props.list[this.props.content.key].name}
             </Chip>
         );
     }

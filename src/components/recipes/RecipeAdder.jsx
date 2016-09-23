@@ -313,7 +313,7 @@ const RecipeAdder = React.createClass({
                     <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
                                     steps={this.state.stepsList} description={this.state.description} editing={true}
                                     removeItem={this.handleRemoveItem} imgUrl={this.state.imgUrl}
-                                    authorName={this.state.author} source={this.state.source}/>
+                                    authorName={this.state.author} source={this.state.source} masterUnits={this.props.masterUnitList}/>
                 </div>
             </div>
         );

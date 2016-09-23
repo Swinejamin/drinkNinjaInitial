@@ -23,7 +23,7 @@ const IngredientAdder = React.createClass({
     },
     handleSubmit(e) {
         e.preventDefault();
-        this.props.add('ingredients', this.state.ingredientName);
+        this.props.add('ingredients', {name: this.state.ingredientName});
         this.setState({
             ingredientName: ''
         });
@@ -43,7 +43,7 @@ const IngredientAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.ingredientSource}
-                                remove={this.handleDelete}
+                                remove={this.handleDelete} loading={this.props.loadingIngredients} masterList={this.props.masterIngredients}
                 />
             </div>
         );

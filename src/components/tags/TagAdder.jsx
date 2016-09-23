@@ -15,7 +15,7 @@ const TagAdder = React.createClass({
     },
     handleSubmit(e) {
         e.preventDefault();
-        this.props.add('tags', this.state.drinkTagName);
+        this.props.add('tags', {name: this.state.drinkTagName});
         this.setState({drinkTagName: ''});
     },
     handleDelete(tag) {
@@ -33,7 +33,7 @@ const TagAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.tagSource}
-                                remove={this.handleDelete}/>
+                                remove={this.handleDelete} loading={this.props.loadingTags}  masterList={this.props.masterTags}/>
             </div>
         );
     }

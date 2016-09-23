@@ -1,12 +1,14 @@
 import React from 'react';
 import IngredientTag from './IngredientTag.jsx';
 import _ from 'lodash';
-import Subheader from 'material-ui/Subheader';
+import CircularProgress from 'material-ui/CircularProgress';
 
-const IngredientList = React.createClass({
+const TagListBuilder = React.createClass({
     propTypes: {
         listSource: React.PropTypes.object.isRequired,
+        masterList: React.PropTypes.object.isRequired,
         remove: React.PropTypes.func.isRequired,
+        loading: React.PropTypes.bool.isRequired
         // listHeader: React.PropTypes.string.isRequired
     },
 
@@ -42,13 +44,12 @@ const IngredientList = React.createClass({
         const click = this.props.click;
         return (
             <div className="chip-wrapper">
-                {/*<Subheader>{this.props.listHeader}</Subheader>*/}
-                {ingredients.map((tagContent, index) => {
-                    return (<IngredientTag remove={removeTag} click={click} key={index} content={tagContent}/>);
+                {this.props.loading ? <CircularProgress size={1} /> : ingredients.map((tagContent, index) => {
+                    return (<IngredientTag remove={removeTag} click={click} key={index} content={tagContent} list={this.props.masterList}/>);
                 })}
             </div>
         );
     }
 });
 
-export default IngredientList;
+export default TagListBuilder;

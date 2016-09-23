@@ -14,7 +14,7 @@ const IngredientFinder = React.createClass({
         searchHintText: React.PropTypes.string.isRequired,
         remove: React.PropTypes.func.isRequired,
         ingredientSource: React.PropTypes.object.isRequired,
-        listHeader: React.PropTypes.string.isRequired
+        loadingUser: React.PropTypes.bool.isRequired
     },
     getInitialState() {
         return {
@@ -55,7 +55,7 @@ const IngredientFinder = React.createClass({
         let masterList = _(this.props.masterList)
             .keys()
             .map((ingredientKey) => {
-                const cloned = {'value': _.clone(this.props.masterList[ingredientKey])};
+                const cloned = {'value': _.clone(this.props.masterList[ingredientKey].name)};
                 cloned.key = ingredientKey;
                 return cloned;
             })
@@ -63,15 +63,15 @@ const IngredientFinder = React.createClass({
         let userList = _(this.props.userList)
             .keys()
             .map((ingredientKey) => {
-                const cloned = {'value': _.clone(this.props.userList[ingredientKey])};
+                const cloned = {'value': _.clone(this.props.userList[ingredientKey].name)};
                 cloned.key = ingredientKey;
                 return cloned;
             })
             .value();
 
-        masterList = masterList.filter((current) => {
+        masterList = masterList.filter((ingredient) => {
             return userList.filter((current_user) => {
-                    return current_user.value === current.value && current_user.key === current.key;
+                    return current_user.value === ingredient.value && current_user.key === ingredient.key;
                 }).length === 0;
         });
         return (
@@ -88,7 +88,8 @@ const IngredientFinder = React.createClass({
                 <TagListBuilder listSource={this.props.ingredientSource}
                                 click={this.props.click}
                                 remove={this.handleDelete}
-                                listHeader={this.props.listHeader}/>
+                                listHeader={this.props.listHeader} masterList={this.props.masterList}
+                                loading={this.props.loadingUser}/>
             </div>
         );
     }

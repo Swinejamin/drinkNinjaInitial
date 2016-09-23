@@ -47,7 +47,7 @@ const RecipeListItem = React.createClass({
                           )()}>
                     <span>{this.props.content.amount} </span>
                     <span>{this.props.content.amount > 1 ? this.props.masterUnits[unit].plural : this.props.masterUnits[unit].single} </span>
-                    <span>{this.props.masterIngredients[ingredient]}</span>
+                    <span>{this.props.masterIngredients[ingredient].name}</span>
                 </ListItem> );
         } else {
             return (

@@ -94,7 +94,7 @@ const Dashboard = React.createClass({
                                 <ToolbarTitle text="Your cabinet"/>
                             </ToolbarGroup>
                         </Toolbar>
-                        {this.props.loading !== 'loading' ? (
+                        {this.props.loadingUser ? (<CircularProgress size={5}/>) : (
 
                             <IngredientFinder id="IngredientFinder" masterList={this.props.masterIngredients}
                                               userList={this.props.ingredients}
@@ -103,8 +103,8 @@ const Dashboard = React.createClass({
                                               listHeader='Your current ingredients'
                                               ingredientSource={this.props.ingredients}
                                               click={this.clickIngredient}
-                                              remove={this.removeTag}/>
-                        ) : (<CircularProgress size={5}/>)}
+                                              remove={this.removeTag} loadingUser={this.props.loadingIngredients}/>
+                        )}
                     </div>
                     <div>
                         <Toolbar>
@@ -112,10 +112,9 @@ const Dashboard = React.createClass({
                                 <ToolbarTitle text="Available recipes"/>
                             </ToolbarGroup>
                         </Toolbar>
-                        {this.props.loading !== 'loading' ? (
-
+                        {this.props.loadingUser ? (<CircularProgress size={5}/>) : (
                             <RecipeBrowser recipes={finalRecipes} featured={this.state.featuredTags}/>
-                        ) : (<CircularProgress size={5}/>)}
+                        )}
                     </div>
 
 
