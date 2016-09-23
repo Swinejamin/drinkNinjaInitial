@@ -1,22 +1,16 @@
+# The Drink Ninja
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+The Drink Ninja is a recipe finder for mixed drinks & cocktails. It's a ReactJS app that uses Firebase as a backend, including authentication & database.
+ 
+## Major tech used
+-[React](https://facebook.github.io/react/)
+-[React Router](https://github.com/ReactTraining/react-router)
+-[re-base](https://github.com/tylermcginnis/re-base)
+-[Firebase](https://firebase.google.com/)
+-[Material UI](http://www.material-ui.com/)
 
+## Things to do
 
-Welcome to your Node.js project on Cloud9 IDE!
-
-This chat example showcases how to use `socket.io` with a static `express` server.
-
-## Running the server
-
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
-
-2) Alternatively you can launch the app from the Terminal:
-
-    $ node server.js
-
-Once the server is running, open the project in the shape of 'https://projectname-username.c9.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+- [x] Get basic funcitonality working
+- [ ] Fill out the database with plenty of recipes
+- [ ] Identify room for improvement in UX
