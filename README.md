@@ -11,6 +11,6 @@ The Drink Ninja is a recipe finder for mixed drinks & cocktails. It's a ReactJS 
 
 ## Things to do
 
-- [x] Get basic funcitonality working
+- [x] Get basic functionality working
 - [ ] Fill out the database with plenty of recipes
 - [ ] Identify room for improvement in UX
