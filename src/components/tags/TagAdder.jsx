@@ -5,7 +5,8 @@ const TagAdder = React.createClass({
     propTypes: {
         tagSource: React.PropTypes.object.isRequired,
         add: React.PropTypes.func.isRequired,
-        remove: React.PropTypes.func.isRequired
+        remove: React.PropTypes.func.isRequired,
+        masterTags: React.PropTypes.object.isRequired
     },
     getInitialState() {
         return {drinkTagName: ''};

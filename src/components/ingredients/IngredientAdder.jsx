@@ -6,7 +6,8 @@ const IngredientAdder = React.createClass({
     propTypes: {
         add: React.PropTypes.func.isRequired,
         remove: React.PropTypes.func.isRequired,
-        ingredientSource: React.PropTypes.object.isRequired
+        ingredientSource: React.PropTypes.object.isRequired,
+        masterIngredients: React.PropTypes.object.isRequired
     },
     getInitialState() {
         return {

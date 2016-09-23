@@ -25,8 +25,9 @@ const IngredientTag = React.createClass({
     render() {
         return (
             // TODO: add check for featured tags (from db?)
-            <Chip style={styles.chip} backgroundColor={this.props.content.value.isFeatured ? cyan500 : grey400} onTouchTap={this.click} onRequestDelete={this.removeTag}>
-                {this.props.list[this.props.content.key].name}
+            <Chip style={styles.chip} backgroundColor={this.props.content.value.isFeatured ? cyan500 : grey400}
+                  onTouchTap={this.click} onRequestDelete={this.removeTag}>
+                {this.props.list[this.props.content.key].name ? this.props.list[this.props.content.key].name : this.props.list[this.props.content.key].single}
             </Chip>
         );
     }

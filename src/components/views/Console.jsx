@@ -14,6 +14,7 @@ import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
@@ -25,7 +26,7 @@ const Console = React.createClass({
             ingredients: {},
             tags: {},
             units: {},
-            linkName: 'Ingredients'
+            linkName: ''
         };
     },
     componentWillMount() {
@@ -43,62 +44,34 @@ const Console = React.createClass({
     handleLinkChange(event, index, value) {
         event.preventDefault();
         this.setState({
-            linkName: value
+            linkName: event.target.innerHTML
         });
     },
     render() {
         return (
             <div className="view-wrapper">
                 <Paper className="console-paper">
-                    <Toolbar>
-                        <ToolbarGroup firstChild={true}>
-                            <DropDownMenu value={this.state.linkName} onChange={this.handleLinkChange}>
-                                <MenuItem value={"Ingredients"} primaryText="Ingredients"
-                                          containerElement={<Link to={'/console/ingredients'}/>}/>
-                                <MenuItem value={"Recipes"} primaryText="Recipes"
-                                          containerElement={<Link to={'/console/recipes'}/>}/>
-                                <MenuItem value={"Tags"} primaryText="Tags"
-                                          containerElement={<Link to={'/console/tags'}/>}/>
-                                <MenuItem value={"Units"} primaryText="Units"
-                                          containerElement={<Link to={'/console/units'}/>}/>
-                                <MenuItem value={"Users"} primaryText="Users"
-                                          containerElement={<Link to={'/console/users'}/>}/>
-                            </DropDownMenu>
-                        </ToolbarGroup>
-                    </Toolbar>
-                    {this.props.children && React.cloneElement(this.props.children, {
-                        uid: this.props.uid,
-                        user: this.props.user,
-                        masterIngredients: this.props.masterIngredients,
-                        ingredients: this.props.ingredients,
-                        masterUnits: this.props.units,
-                        masterTags: this.props.tags,
-                        recipes: this.props.recipes,
-                        loadingUser: this.props.loadingUser,
-                        loadingIngredients: this.props.loadingIngredients,
-                        loadingTags: this.props.loadingTags,
-                        loadingUnits: this.props.loadingUnits,
-                        tagSource: this.props.masterTags,
-                        ingredientSource: this.props.masterIngredients,
-                        unitSource: this.props.masterUnits,
-                        add: this.handleAdd,
-                        remove: this.handleDelete
-                    })}
-                    {/*<Tabs>*/}
-                    {/*<Tab label="Ingredient">*/}
-                    {/*<IngredientAdder ingredientSource={this.props.masterIngredients}*/}
-                    {/*addIngredient={this.handleAdd}*/}
-                    {/*remove={this.handleDelete} listHeader="Master ingredient list"/>*/}
-                    {/*</Tab>*/}
-                    {/*<Tab label="Tag">*/}
-                    {/*<TagAdder tagSource={this.props.masterTags} addTag={this.handleAdd}*/}
-                    {/*remove={this.handleDelete} listHeader="Master tag list"/>*/}
-                    {/*</Tab>*/}
-                    {/*<Tab label="Unit">*/}
-                    {/*<UnitAdder unitSource={this.props.masterUnits} addUnit={this.handleAdd}*/}
-                    {/*remove={this.handleDelete} listHeader="Master unit list"/>*/}
-                    {/*</Tab>*/}
-                    {/*</Tabs>*/}
+                    <Tabs>
+                        <Tab label="Ingredient">
+                            { this.props.loadingIngredients ? <CircularProgress size={5}/> :
+                                <IngredientAdder ingredientSource={this.props.masterIngredients}
+                                                 add={this.handleAdd}
+                                                 remove={this.handleDelete} listHeader="Master ingredient list"
+                                                 masterIngredients={this.props.masterIngredients}/>}
+                        </Tab>
+                        <Tab label="Tag">
+                            { this.props.loadingTags ? <CircularProgress size={2}/> :
+                                <TagAdder tagSource={this.props.masterTags} add={this.handleAdd}
+                                          remove={this.handleDelete} listHeader="Master tag list"
+                                          masterTags={this.props.masterTags}/>}
+                        </Tab>
+                        <Tab label="Unit">
+                            { this.props.loadingUnits ? <CircularProgress size={2}/> :
+                                <UnitAdder unitSource={this.props.masterUnits} add={this.handleAdd}
+                                           remove={this.handleDelete} listHeader="Master unit list"
+                                           masterUnits={this.props.masterUnits}/>}
+                        </Tab>
+                    </Tabs>
                 </Paper>
 
                 {/*<div className="console-paper">*/}
