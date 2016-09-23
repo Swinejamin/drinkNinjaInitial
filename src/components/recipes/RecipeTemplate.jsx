@@ -87,16 +87,9 @@ const RecipeTemplate = React.createClass({
                                     {(emptyIngredients ?
                                             () => {
                                                 const fake = {
-                                                    name: 'Ingredient 1',
-                                                    key: 0,
+                                                    ingredient: '-KRiOWONxgPYuFyw3nzA',
                                                     amount: 1,
-                                                    unit: {
-                                                        name: {
-                                                            single: 'oz,',
-                                                            plural: 'oz'
-                                                        },
-                                                        key: 0
-                                                    }
+                                                    unit: '-KRiQOqprd8kP9zmlpux'
                                                 };
                                                 return (
                                                     <RecipeListItem key={fake.key} index={0}
@@ -104,7 +97,10 @@ const RecipeTemplate = React.createClass({
                                                                     content={fake}
                                                                     type={'ingredient'}
                                                                     ignore={true}
-                                                                    editing={editing}/>
+                                                                    editing={editing}
+                                                                    masterIngredients={this.props.masterIngredients}
+                                                                    masterTags={this.props.masterTags}
+                                                                    masterUnits={this.props.masterUnits}/>
                                                 );
                                             } :
                                             () => {
@@ -116,7 +112,10 @@ const RecipeTemplate = React.createClass({
                                                                             content={ingredient}
                                                                             type={'ingredient'}
                                                                             ignore={false}
-                                                                            editing={editing}/>
+                                                                            editing={editing}
+                                                                            masterIngredients={this.props.masterIngredients}
+                                                                            masterTags={this.props.masterTags}
+                                                                            masterUnits={this.props.masterUnits}/>
                                                         );
                                                     })
                                                 );
@@ -137,7 +136,10 @@ const RecipeTemplate = React.createClass({
                                                                     removeItem={this.handleRemoveStep}
                                                                     content={fake}
                                                                     type={'step'} ignore={true}
-                                                                    editing={editing}/>
+                                                                    editing={editing}
+                                                                    masterIngredients={this.props.masterIngredients}
+                                                                    masterTags={this.props.masterTags}
+                                                                    masterUnits={this.props.masterUnits}/>
                                                 );
                                             } :
                                             () => {
@@ -149,7 +151,10 @@ const RecipeTemplate = React.createClass({
                                                                             ignore={false}
                                                                             removeItem={this.handleRemoveStep}
                                                                             type={'step'}
-                                                                            editing={editing}/>
+                                                                            editing={editing}
+                                                                            masterIngredients={this.props.masterIngredients}
+                                                                            masterTags={this.props.masterTags}
+                                                                            masterUnits={this.props.masterUnits}/>
                                                         );
                                                     })
                                                 );

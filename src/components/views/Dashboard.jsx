@@ -73,7 +73,7 @@ const Dashboard = React.createClass({
         const ingredients = this.props.ingredients;
 
         function checkForIngredient(ing) {
-            return ingredients[ing.key];
+            return ingredients[ing.ingredient];
         }
 
         // debugger;

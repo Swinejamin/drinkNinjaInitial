@@ -10,7 +10,10 @@ const RecipeListItem = React.createClass({
         type: React.PropTypes.string.isRequired,
         content: React.PropTypes.object.isRequired,
         ignore: React.PropTypes.bool.isRequired,
-        editing: React.PropTypes.bool.isRequired
+        editing: React.PropTypes.bool.isRequired,
+        masterIngredients: React.PropTypes.object.isRequired,
+        masterTags: React.PropTypes.object.isRequired,
+        masterUnits: React.PropTypes.object.isRequired,
     },
     handleRemoveItem(e) {
         e.preventDefault();
@@ -19,7 +22,9 @@ const RecipeListItem = React.createClass({
     render() {
         const disabled = this.props.ignore;
         const editing = this.props.editing;
-        if (this.props.type === 'ingredient' && this.props.content.name) {
+        if (this.props.type === 'ingredient') {
+            const key = this.props.content.unit.key !== undefined ? this.props.content.unit.key : '-KRiQOqprd8kP9zmlpux';
+            const ingredient = this.props.content.ingredient !== undefined ? this.props.content.ingredient : '-KRiQOqprd8kP9zmlpux';
             return (
                 <ListItem itemProp="recipeIngredient"
                           rightIconButton={ (editing ?
@@ -39,8 +44,8 @@ const RecipeListItem = React.createClass({
                                   }
                           )()}>
                     <span>{this.props.content.amount} </span>
-                    <span>{this.props.content.unit.name} </span>
-                    <span>{this.props.content.name}</span>
+                    <span>{this.props.content.amount > 1 ? this.props.masterUnits[key].plural : this.props.masterUnits[key].single} </span>
+                    <span>{this.props.masterIngredients[ingredient]}</span>
                 </ListItem>
             );
         } else {

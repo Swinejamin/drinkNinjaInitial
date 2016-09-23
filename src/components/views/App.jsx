@@ -35,11 +35,16 @@ const App = React.createClass({
             isAdmin: false,
             user: {},
             ingredients: {},
-            masterIngredients: {},
+            masterIngredients: {'-KRiOWONxgPYuFyw3nzA': 'Gin'},
             loading: 'loading',
-            tags: {},
+            masterTags: {},
             recipes: {},
-            units: {}
+            masterUnits: {
+                '-KRiQOqprd8kP9zmlpux': {
+                    single: 'oz',
+                    plural: 'oz'
+                }
+            }
         };
     },
 
@@ -79,12 +84,12 @@ const App = React.createClass({
                     state: 'masterIngredients',
                     asArray: false
                 });
-                this.units = base.bindToState(unitsRef, {
+                this.masterUnits = base.bindToState(unitsRef, {
                     context: this,
                     state: 'units',
                     asArray: false,
                 });
-                this.tags = base.bindToState(tagsRef, {
+                this.masterTags = base.bindToState(tagsRef, {
                     context: this,
                     state: 'tags',
                     asArray: false,
@@ -115,8 +120,8 @@ const App = React.createClass({
         if (this.ingredients) {
             base.removeBinding(this.ingredients);
         }
-        base.removeBinding(this.units);
-        base.removeBinding(this.tags);
+        base.removeBinding(this.masterUnits);
+        base.removeBinding(this.masterTags);
         base.removeBinding(this.recipes);
     },
     handleLeftIconTap() {
@@ -170,7 +175,7 @@ const App = React.createClass({
                                                       onTouchTap={this.toggleDrawer}>About</MenuItem>
                                             <Divider />
                                             <MenuItem disabled={!this.state.isAdmin}
-                                                      //containerElement={<Link to={'/console'}/>}
+                                                //containerElement={<Link to={'/console'}/>}
                                                       rightIcon={<ArrowDropRight />}
                                                       menuItems={[
                                                           <MenuItem
@@ -210,8 +215,8 @@ const App = React.createClass({
                         user: this.state.user,
                         masterIngredients: this.state.masterIngredients,
                         ingredients: this.state.ingredients,
-                        masterUnits: this.state.units,
-                        masterTags: this.state.tags,
+                        masterUnits: this.state.masterUnits,
+                        masterTags: this.state.masterTags,
                         recipes: this.state.recipes,
                         loading: this.state.loading
                     })}

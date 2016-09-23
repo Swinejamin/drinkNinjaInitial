@@ -4,7 +4,7 @@ import RecipeTemplate from '../recipes/RecipeTemplate';
 import {Link} from 'react-router';
 import base from '../../modules/rebase';
 
-const RecipeBrowser = React.createClass({
+const RecipeDetailView = React.createClass({
     propTypes: {},
     getInitialState() {
         return {
@@ -20,8 +20,6 @@ const RecipeBrowser = React.createClass({
         };
     },
     componentWillMount() {
-        console.log(this.props.params.key);
-
         const recipeRef = `recipes/${this.props.params.key}`;
         this.recipe = base.fetch(recipeRef, {
             context: this,
@@ -44,11 +42,15 @@ const RecipeBrowser = React.createClass({
                                     editing={false}
                                     imgUrl={this.state.recipe.imgUrl || ''}
                                     authorName={this.state.recipe.author || ''}
-                                    source={this.state.recipe.source}/>
+                                    source={this.state.recipe.source}
+                                    masterIngredients={this.props.masterIngredients}
+                                    masterTags={this.props.masterTags}
+                                    masterUnits={this.props.masterUnits}
+                    />
                 </Paper>
             </div>
         );
     }
 });
 
-export default RecipeBrowser;
+export default RecipeDetailView;
