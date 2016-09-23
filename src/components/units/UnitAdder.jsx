@@ -36,7 +36,7 @@ const UnitAdder = React.createClass({
                            onChange={this.handleNameChange}/>
             </form>
                 <TagListBuilder listSource={this.props.unitSource}
-                                removeTag={this.handleDelete}
+                                remove={this.handleDelete}
                                 listHeader={this.props.listHeader}/>
             </div>
         );

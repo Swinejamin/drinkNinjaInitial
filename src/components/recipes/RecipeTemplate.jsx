@@ -78,7 +78,8 @@ const RecipeTemplate = React.createClass({
                     <CardMedia expandable={true}>
                         <img src={imgUrl}/>
                     </CardMedia>
-                    <CardTitle title={this.props.authorName || 'Author unknown'} subtitle={this.props.source || 'Source unknown'}/>
+                    <CardTitle title={this.props.authorName || 'Author unknown'}
+                               subtitle={this.props.source || 'Source unknown'}/>
                     <CardText>
                         <Tabs>
                             <Tab label="Ingredients">
@@ -90,7 +91,10 @@ const RecipeTemplate = React.createClass({
                                                     key: 0,
                                                     amount: 1,
                                                     unit: {
-                                                        name: 'oz',
+                                                        name: {
+                                                            single: 'oz,',
+                                                            plural: 'oz'
+                                                        },
                                                         key: 0
                                                     }
                                                 };

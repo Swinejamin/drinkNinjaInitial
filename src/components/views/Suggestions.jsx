@@ -50,10 +50,9 @@ const Suggestions = React.createClass({
     },
     handleAdd(type, value) {
         const target = base.database().ref(`suggestions/${type}`);
-        target.push(value);
+        target.push({name: value});
     },
     handleDelete(type, ref) {
-
         const target = base.database().ref(`suggestions/${type}/${ref.key}`);
         target.remove().catch((error) => {
             this.setState({
@@ -80,20 +79,20 @@ const Suggestions = React.createClass({
                     <Tabs>
                         <Tab label="Ingredient">
                             <IngredientAdder ingredientSource={this.state.ingredients}
-                                             addIngredient={this.handleAdd}
-                                             removeIngredient={this.handleDelete}
+                                             add={this.handleAdd}
+                                             remove={this.handleDelete}
                                              listHeader="Pending ingredient suggestions"/>
                         </Tab>
                         <Tab label="Tag">
-                            <TagAdder tagSource={this.state.tags} addTag={this.handleAdd}
-                                      removeTag={this.handleDelete} listHeader="Pending tag suggestions"/>
+                            <TagAdder tagSource={this.state.tags} add={this.handleAdd}
+                                      remove={this.handleDelete} listHeader="Pending tag suggestions"/>
                         </Tab>
                         <Tab label="Unit">
-                            <UnitAdder unitSource={this.state.units} addUnit={this.handleAdd}
-                                       removeUnit={this.handleDelete} listHeader="Pending unit suggestions"/>
+                            <UnitAdder unitSource={this.state.units} add={this.handleAdd}
+                                       remove={this.handleDelete} listHeader="Pending unit suggestions"/>
                         </Tab>
                         <Tab label="Recipe">
-                            <RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.props.masterIngredients}
+                            <RecipeAdder add={this.handleAdd} masterIngredientList={this.props.masterIngredients}
                                          masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>
                         </Tab>
                     </Tabs>

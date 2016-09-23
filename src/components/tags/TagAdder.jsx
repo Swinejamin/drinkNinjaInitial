@@ -33,7 +33,7 @@ const TagAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.tagSource}
-                                removeTag={this.handleDelete}/>
+                                remove={this.handleDelete}/>
             </div>
         );
     }
