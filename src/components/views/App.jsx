@@ -40,8 +40,9 @@ const App = React.createClass({
             loadingIngredients: true,
             loadingTags: true,
             loadingUnits: true,
+            loadingRecipes: true,
             masterTags: {},
-            recipes: {},
+            masterRecipes: {},
             masterUnits: {
                 '-KRiQOqprd8kP9zmlpux': {
                     single: 'oz',
@@ -106,10 +107,13 @@ const App = React.createClass({
                         this.setState({loadingTags: false});
                     }
                 });
-                this.recipes = base.bindToState(recipesRef, {
+                this.masterRecipes = base.bindToState(recipesRef, {
                     context: this,
-                    state: 'recipes',
+                    state: 'masterRecipes',
                     asArray: false,
+                    then() {
+                        this.setState({loadingRecipes: false});
+                    }
                 });
             } else {
                 console.log("User is logged out");
@@ -134,7 +138,7 @@ const App = React.createClass({
         }
         base.removeBinding(this.masterUnits);
         base.removeBinding(this.masterTags);
-        base.removeBinding(this.recipes);
+        base.removeBinding(this.masterRecipes);
     },
     handleLeftIconTap() {
         const neg = !this.state.drawerOpen;
@@ -229,11 +233,12 @@ const App = React.createClass({
                         ingredients: this.state.ingredients,
                         masterUnits: this.state.masterUnits,
                         masterTags: this.state.masterTags,
-                        recipes: this.state.recipes,
+                        masterRecipes: this.state.masterRecipes,
                         loadingUser: this.state.loadingUser,
                         loadingIngredients: this.state.loadingIngredients,
                         loadingTags: this.state.loadingTags,
                         loadingUnits: this.state.loadingUnits,
+                        loadingRecipes: this.state.loadingRecipes,
                     })}
 
                     {/*</ReactCSSTransitionGroup>*/}

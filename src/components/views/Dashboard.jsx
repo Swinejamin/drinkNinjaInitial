@@ -41,7 +41,6 @@ const Dashboard = React.createClass({
     clickIngredient(ingredient) {
         const target = base.database().ref(`users/${this.props.uid}/ingredients/${ingredient.key}/isFeatured`);
         target.set(!ingredient.value.isFeatured);
-        console.log(ingredient);
     },
     handleAddIngredient(newIngredient) {
         console.log(newIngredient)
@@ -63,10 +62,10 @@ const Dashboard = React.createClass({
         target.remove();
     },
     render() {
-        const recipeList = _(this.props.recipes)
+        const recipeList = _(this.props.masterRecipes)
             .keys()
             .map((recipeKey) => {
-                const cloned = {'value': _.clone(this.props.recipes[recipeKey])};
+                const cloned = {'value': _.clone(this.props.masterRecipes[recipeKey])};
                 cloned.key = recipeKey;
                 return cloned;
             })
@@ -112,8 +111,8 @@ const Dashboard = React.createClass({
                                 <ToolbarTitle text="Available recipes"/>
                             </ToolbarGroup>
                         </Toolbar>
-                        {this.props.loadingUser ? (<CircularProgress size={5}/>) : (
-                            <RecipeBrowser recipes={finalRecipes} featured={this.state.featuredTags}/>
+                        {this.props.loadingRecipes  || this.props.loadingUser? (<CircularProgress size={5}/>) : (
+                            <RecipeBrowser recipes={finalRecipes} featured={this.state.featuredTags} userIngredients={this.props.ingredients}/>
                         )}
                     </div>
 
