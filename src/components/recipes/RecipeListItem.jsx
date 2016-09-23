@@ -2,6 +2,7 @@ import React from 'react';
 import {List, ListItem} from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 const RecipeListItem = React.createClass({
     propTypes: {
@@ -23,8 +24,9 @@ const RecipeListItem = React.createClass({
         const disabled = this.props.ignore;
         const editing = this.props.editing;
         if (this.props.type === 'ingredient') {
-            const key = this.props.content.unit.key !== undefined ? this.props.content.unit.key : '-KRiQOqprd8kP9zmlpux';
-            const ingredient = this.props.content.ingredient !== undefined ? this.props.content.ingredient : '-KRiQOqprd8kP9zmlpux';
+            const unit = this.props.content.unit;
+            const ingredient = this.props.content.ingredient;
+            // debugger;
             return (
                 <ListItem itemProp="recipeIngredient"
                           rightIconButton={ (editing ?
@@ -44,10 +46,9 @@ const RecipeListItem = React.createClass({
                                   }
                           )()}>
                     <span>{this.props.content.amount} </span>
-                    <span>{this.props.content.amount > 1 ? this.props.masterUnits[key].plural : this.props.masterUnits[key].single} </span>
+                    <span>{this.props.content.amount > 1 ? this.props.masterUnits[unit].plural : this.props.masterUnits[unit].single} </span>
                     <span>{this.props.masterIngredients[ingredient]}</span>
-                </ListItem>
-            );
+                </ListItem> );
         } else {
             return (
                 <ListItem itemProp="recipeInstructions"

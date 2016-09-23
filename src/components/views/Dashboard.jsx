@@ -8,7 +8,8 @@ import _ from 'lodash';
 import update from 'react-addons-update';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
-import RefreshIndicator from 'material-ui/RefreshIndicator';
+import CircularProgress from 'material-ui/CircularProgress';
+
 import base from '../../modules/rebase';
 
 const Dashboard = React.createClass({
@@ -103,9 +104,7 @@ const Dashboard = React.createClass({
                                               ingredientSource={this.props.ingredients}
                                               click={this.clickIngredient}
                                               remove={this.removeTag}/>
-                        ) : (<RefreshIndicator status={this.props.loading}
-                                               left={50}
-                                               top={50}/>)}
+                        ) : (<CircularProgress size={5}/>)}
                     </div>
                     <div>
                         <Toolbar>
@@ -116,9 +115,7 @@ const Dashboard = React.createClass({
                         {this.props.loading !== 'loading' ? (
 
                             <RecipeBrowser recipes={finalRecipes} featured={this.state.featuredTags}/>
-                        ) : (<RefreshIndicator status={this.props.loading}
-                                               left={300}
-                                               top={300}/>)}
+                        ) : (<CircularProgress size={5}/>)}
                     </div>
 
 

@@ -86,12 +86,12 @@ const App = React.createClass({
                 });
                 this.masterUnits = base.bindToState(unitsRef, {
                     context: this,
-                    state: 'units',
+                    state: 'masterUnits',
                     asArray: false,
                 });
                 this.masterTags = base.bindToState(tagsRef, {
                     context: this,
-                    state: 'tags',
+                    state: 'masterTags',
                     asArray: false,
                 });
                 this.recipes = base.bindToState(recipesRef, {

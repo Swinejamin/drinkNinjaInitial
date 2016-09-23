@@ -5,6 +5,7 @@ import Subheader from 'material-ui/Subheader';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import Toggle from 'material-ui/Toggle';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
@@ -24,7 +25,7 @@ const RecipeTemplate = React.createClass({
     },
     getInitialState() {
         return {
-            xpanded: false
+            expanded: true
         };
     },
     handleRemoveIngredient(index) {
@@ -84,23 +85,10 @@ const RecipeTemplate = React.createClass({
                         <Tabs>
                             <Tab label="Ingredients">
                                 <List>
-                                    {(emptyIngredients ?
+                                    {(emptyIngredients || this.props.masterUnits.length < 2 ?
                                             () => {
-                                                const fake = {
-                                                    ingredient: '-KRiOWONxgPYuFyw3nzA',
-                                                    amount: 1,
-                                                    unit: '-KRiQOqprd8kP9zmlpux'
-                                                };
                                                 return (
-                                                    <RecipeListItem key={fake.key} index={0}
-                                                                    removeItem={this.handleRemoveIngredient}
-                                                                    content={fake}
-                                                                    type={'ingredient'}
-                                                                    ignore={true}
-                                                                    editing={editing}
-                                                                    masterIngredients={this.props.masterIngredients}
-                                                                    masterTags={this.props.masterTags}
-                                                                    masterUnits={this.props.masterUnits}/>
+                                                    <CircularProgress size={2}/>
                                                 );
                                             } :
                                             () => {
