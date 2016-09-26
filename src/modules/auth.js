@@ -145,7 +145,6 @@ const auth = {
     requireAdmin(nextState, replaceState, cb) {
         base.onAuth((user) => {
             base.database().ref(`users/${user.uid}/isAdmin`).on('value', (snap) => {
-                console.log(snap.val());
                 if (snap.val() !== true) {
                     replaceState('/dashboard');
                     cb();
