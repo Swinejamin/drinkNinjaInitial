@@ -71,18 +71,13 @@ const Console = React.createClass({
                                            remove={this.handleDelete} listHeader="Master unit list"
                                            masterUnits={this.props.masterUnits}/>}
                         </Tab>
+                        <Tab label="Recipe">
+                            { this.props.loadingUnits || this.props.loadingIngredients ? <CircularProgress size={2}/> :
+                                <RecipeAdder add={this.handleAdd} masterIngredientList={this.props.masterIngredients}
+                                             masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>}
+                        </Tab>
                     </Tabs>
                 </Paper>
-
-                {/*<div className="console-paper">*/}
-                {/*<Toolbar>*/}
-                {/*<ToolbarGroup>*/}
-                {/*<ToolbarTitle text="Add a recipe to the database"/>*/}
-                {/*</ToolbarGroup>*/}
-                {/*</Toolbar>*/}
-                {/*<RecipeAdder addRecipe={this.handleAdd} masterIngredientList={this.props.masterIngredients}*/}
-                {/*masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>*/}
-                {/*</div>*/}
             </div>
         );
     }

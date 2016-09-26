@@ -198,7 +198,7 @@ const RecipeAdder = React.createClass({
         const masterUnitList = _(this.props.masterUnitList)
             .keys()
             .map((ingredientKey) => {
-                const cloned = {'value': _.clone(this.props.masterUnitList[ingredientKey])};
+                const cloned = {'value': _.clone(this.props.masterUnitList[ingredientKey].single)};
                 cloned.key = ingredientKey;
                 return cloned;
             })
@@ -206,7 +206,7 @@ const RecipeAdder = React.createClass({
         const masterIngredientList = _(this.props.masterIngredientList)
             .keys()
             .map((ingredientKey) => {
-                const cloned = {'value': _.clone(this.props.masterIngredientList[ingredientKey])};
+                const cloned = {'value': _.clone(this.props.masterIngredientList[ingredientKey].name)};
                 cloned.key = ingredientKey;
                 return cloned;
             })

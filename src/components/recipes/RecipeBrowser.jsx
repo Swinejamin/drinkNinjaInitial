@@ -28,7 +28,6 @@ const RecipeBrowser = React.createClass({
         // const tag = recipe.value.tagList.some((tg)=>{
         //     return tg.isFeatured;
         // });
-        console.log(ingredient);
         return (ingredient);
     },
     render() {
