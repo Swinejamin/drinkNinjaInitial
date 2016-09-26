@@ -41,8 +41,8 @@ const RecipeAdder = React.createClass({
             unitList: {},
             amount: '',
             unit: '',
-            currentIngredient: {name: '', key: ''},
-            currentUnit: {name: '', key: ''},
+            currentIngredient: '',
+            currentUnit: '',
             description: '',
             ingredients: {},
             imgUrl: '',
@@ -54,42 +54,37 @@ const RecipeAdder = React.createClass({
         this.setState({recipeTitle: e.target.value});
     },
     //ingredients
-    handleNewIngredient(value) {
-        const name = this.state.currentIngredient.name;
-        const key = this.state.currentIngredient.key;
+    handleNewIngredient() {
+        const ingredient = this.state.currentIngredient;
         const amount = this.state.amount;
         const unit = this.state.currentUnit;
         const newState = update(this.state, {
             ingredientList: {
                 $push: [{
-                    name: name,
-                    key: key,
+                    ingredient: ingredient,
                     amount: amount,
-                    unit: {
-                        name: unit.name,
-                        key: unit.key
-                    }
+                    unit: unit
                 }]
             },
             amount: {$set: ''},
             ingredientSearchText: {$set: ''},
             unitSearchText: {$set: ''},
-            currentIngredient: {$set: {name: '', key: ''}},
-            currentUnit: {$set: {name: '', key: ''}}
+            currentIngredient: {$set: ''},
+            currentUnit: {$set: ''}
         });
 
         this.setState(newState);
     },
     // ingredients
     handleIngredientChange(ingredient) {
-        this.setState({currentIngredient: {name: ingredient.value, key: ingredient.key}});
+        this.setState({currentIngredient: ingredient.key});
     },
     handleUpdateIngredientSearch(t) {
         this.setState({ingredientSearchText: t});
     },
     // units
     handleUnitChange(unit) {
-        this.setState({currentUnit: {name: unit.value, key: unit.key}});
+        this.setState({currentUnit: unit.key});
     },
     handleUpdateUnitSearch(t) {
         this.setState({unitSearchText: t});
@@ -313,7 +308,10 @@ const RecipeAdder = React.createClass({
                     <RecipeTemplate title={this.state.recipeTitle} ingredients={this.state.ingredientList}
                                     steps={this.state.stepsList} description={this.state.description} editing={true}
                                     removeItem={this.handleRemoveItem} imgUrl={this.state.imgUrl}
-                                    authorName={this.state.author} source={this.state.source} masterUnits={this.props.masterUnitList}/>
+                                    authorName={this.state.author} source={this.state.source}
+                                    masterUnits={this.props.masterUnitList}
+                                    masterIngredients={this.props.masterIngredientList}
+                                    masterTags={this.props.masterTagList}/>
                 </div>
             </div>
         );

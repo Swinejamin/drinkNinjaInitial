@@ -26,7 +26,7 @@ const RecipeListItem = React.createClass({
         if (this.props.type === 'ingredient') {
             const unit = this.props.content.unit;
             const ingredient = this.props.content.ingredient;
-            // debugger;
+            debugger;
             return (
                 <ListItem itemProp="recipeIngredient"
                           rightIconButton={ (editing ?
@@ -50,6 +50,7 @@ const RecipeListItem = React.createClass({
                     <span>{this.props.masterIngredients[ingredient].name}</span>
                 </ListItem> );
         } else {
+            debugger;
             return (
                 <ListItem itemProp="recipeInstructions"
                           rightIconButton={

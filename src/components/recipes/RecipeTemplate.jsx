@@ -21,7 +21,10 @@ const RecipeTemplate = React.createClass({
         editing: React.PropTypes.bool.isRequired,
         imgUrl: React.PropTypes.string,
         authorName: React.PropTypes.string,
-        source: React.PropTypes.string
+        source: React.PropTypes.string,
+        masterIngredients: React.PropTypes.object.isRequired,
+        masterTags: React.PropTypes.object.isRequired,
+        masterUnits: React.PropTypes.object.isRequired,
     },
     getInitialState() {
         return {
