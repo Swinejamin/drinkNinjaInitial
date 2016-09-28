@@ -11,7 +11,8 @@ const UnitAdder = React.createClass({
         remove: React.PropTypes.func.isRequired,
         unitNameSingle: React.PropTypes.string,
         unitNamePlural: React.PropTypes.string,
-        masterUnits: React.PropTypes.object.isRequired
+        masterUnits: React.PropTypes.object.isRequired,
+        loading: React.PropTypes.bool.isRequired
     },
     getInitialState() {
         return {
@@ -59,7 +60,7 @@ const UnitAdder = React.createClass({
                 </form>
                 <TagListBuilder listSource={this.props.unitSource}
                                 remove={this.handleDelete}
-                                listHeader={this.props.listHeader} loading={this.props.loadingUnits}
+                                listHeader={this.props.listHeader} loading={this.props.loading}
                                 masterList={this.props.masterUnits}/>
             </div>
         );

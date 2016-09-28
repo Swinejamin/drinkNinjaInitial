@@ -6,7 +6,8 @@ const TagAdder = React.createClass({
         tagSource: React.PropTypes.object.isRequired,
         add: React.PropTypes.func.isRequired,
         remove: React.PropTypes.func.isRequired,
-        masterTags: React.PropTypes.object.isRequired
+        masterTags: React.PropTypes.object.isRequired,
+        loading: React.PropTypes.bool.isRequired
     },
     getInitialState() {
         return {drinkTagName: ''};
@@ -34,7 +35,7 @@ const TagAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.tagSource}
-                                remove={this.handleDelete} loading={this.props.loadingTags}  masterList={this.props.masterTags}/>
+                                remove={this.handleDelete} loading={this.props.loading}  masterList={this.props.masterTags}/>
             </div>
         );
     }

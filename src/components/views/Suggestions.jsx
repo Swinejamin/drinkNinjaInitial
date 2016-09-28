@@ -9,6 +9,7 @@ import UnitAdder from '../units/UnitAdder.jsx';
 
 
 import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 import Paper from 'material-ui/Paper';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -50,7 +51,7 @@ const Suggestions = React.createClass({
     },
     handleAdd(type, value) {
         const target = base.database().ref(`suggestions/${type}`);
-        target.push({name: value});
+        target.push(value);
     },
     handleDelete(type, ref) {
         const target = base.database().ref(`suggestions/${type}/${ref.key}`);
@@ -78,22 +79,39 @@ const Suggestions = React.createClass({
                     </Toolbar>
                     <Tabs>
                         <Tab label="Ingredient">
-                            <IngredientAdder ingredientSource={this.state.ingredients}
-                                             add={this.handleAdd}
-                                             remove={this.handleDelete}
-                                             listHeader="Pending ingredient suggestions"/>
+                            {this.props.loadingIngredients ? (
+                                <CircularProgress size={5}/>) : (
+                                <IngredientAdder ingredientSource={this.state.ingredients}
+                                                 add={this.handleAdd}
+                                                 remove={this.handleDelete}
+                                                 listHeader="Pending ingredient suggestions"
+                                                 loading={this.props.loadingIngredients}
+                                                 masterIngredients={this.state.ingredients}/>
+                            )}
                         </Tab>
                         <Tab label="Tag">
-                            <TagAdder tagSource={this.state.tags} add={this.handleAdd}
-                                      remove={this.handleDelete} listHeader="Pending tag suggestions"/>
+                            {this.props.loadingTags ? (
+                                <CircularProgress size={5}/>) : (
+                                <TagAdder tagSource={this.state.tags} add={this.handleAdd}
+                                          remove={this.handleDelete} listHeader="Pending tag suggestions"
+                                          masterTags={this.state.tags} loading={this.props.loadingTags}/>
+                            )}
                         </Tab>
                         <Tab label="Unit">
-                            <UnitAdder unitSource={this.state.units} add={this.handleAdd}
-                                       remove={this.handleDelete} listHeader="Pending unit suggestions"/>
+                            {this.props.loadingUnits ? (
+                                <CircularProgress size={5}/>) : (
+                                <UnitAdder unitSource={this.state.units} add={this.handleAdd}
+                                           remove={this.handleDelete} listHeader="Pending unit suggestions"
+                                           masterUnits={this.state.units} loading={this.props.loadingUnits}/>
+                            )}
                         </Tab>
                         <Tab label="Recipe">
-                            <RecipeAdder add={this.handleAdd} masterIngredientList={this.props.masterIngredients}
-                                         masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>
+                            {this.props.loadingTags || this.props.loadingUnits || this.props.loadingIngredients ? (
+                                <CircularProgress size={5}/>) : (
+                                <RecipeAdder
+                                    add={this.handleAdd} masterIngredientList={this.props.masterIngredients}
+                                    masterTagList={this.props.masterTags} masterUnitList={this.props.masterUnits}/>
+                            )}
                         </Tab>
                     </Tabs>
                     <Snackbar

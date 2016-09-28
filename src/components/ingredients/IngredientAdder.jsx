@@ -7,7 +7,8 @@ const IngredientAdder = React.createClass({
         add: React.PropTypes.func.isRequired,
         remove: React.PropTypes.func.isRequired,
         ingredientSource: React.PropTypes.object.isRequired,
-        masterIngredients: React.PropTypes.object.isRequired
+        masterIngredients: React.PropTypes.object.isRequired,
+        loading: React.PropTypes.bool.isRequired
     },
     getInitialState() {
         return {
@@ -44,7 +45,8 @@ const IngredientAdder = React.createClass({
                                onChange={this.handleNameChange}/>
                 </form>
                 <TagListBuilder listSource={this.props.ingredientSource}
-                                remove={this.handleDelete} loading={this.props.loadingIngredients} masterList={this.props.masterIngredients}
+                                remove={this.handleDelete} loading={this.props.loading}
+                                masterList={this.props.masterIngredients}
                 />
             </div>
         );

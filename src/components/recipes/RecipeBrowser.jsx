@@ -20,7 +20,6 @@ const RecipeBrowser = React.createClass({
         return 0;
     },
     checkfeatured(recipe) {
-        console.log(recipe);
         const ingredient = recipe.value.ingredientList.some((ing)=>{
             return this.props.userIngredients[ing.ingredient].isFeatured;
         });

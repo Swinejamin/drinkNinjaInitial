@@ -44,8 +44,9 @@ const TagListBuilder = React.createClass({
         const click = this.props.click;
         return (
             <div className="chip-wrapper">
-                {this.props.loading ? <CircularProgress size={1} /> : ingredients.map((tagContent, index) => {
-                    return (<IngredientTag remove={removeTag} click={click} key={index} content={tagContent} list={this.props.masterList}/>);
+                {this.props.loading ? <CircularProgress size={1}/> : ingredients.map((tagContent, index) => { // TODO: figure out if this loading check is still needed???
+                    return (<IngredientTag remove={removeTag} click={click} key={index} content={tagContent}
+                                           list={this.props.masterList}/>);
                 })}
             </div>
         );
