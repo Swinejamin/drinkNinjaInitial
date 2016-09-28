@@ -29,7 +29,7 @@ const IngredientTag = React.createClass({
                   onTouchTap={this.click} onRequestDelete={this.removeTag}>
                 {this.props.list[this.props.content.key].name ?
                     this.props.list[this.props.content.key].name :
-                    this.props.list[this.props.content.key].single}
+                    `${this.props.list[this.props.content.key].single} (${this.props.list[this.props.content.key].plural})`}
             </Chip>
         );
     }
