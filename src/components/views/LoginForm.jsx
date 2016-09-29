@@ -25,9 +25,7 @@ const LoginForm = withRouter(
             this.setState({password: e.target.value});
         },
         handleSubmit(event) {
-            var self  = this;
             event.preventDefault();
-
             const email = this.state.email.trim();
             const password = this.state.password.trim();
             auth.login(email, password, this.handleLoginSuccess, this.handleLoginFailure);

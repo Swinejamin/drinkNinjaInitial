@@ -69,6 +69,8 @@ const auth = {
     loginAnonymously(successCallback, failCallback) {
         base.auth().signInAnonymously()
             .then((user)=> {
+                const target = base.database().ref(`users/${user.uid}/isAnon`);
+                target.set(true);
                 this.authSuccess(user, successCallback)
                     .catch((error) => {
                         this.authError(error, failCallback);

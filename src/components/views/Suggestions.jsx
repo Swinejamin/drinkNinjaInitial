@@ -50,14 +50,27 @@ const Suggestions = React.createClass({
         base.removeBinding(this.tags);
     },
     handleAdd(type, value) {
-        const target = base.database().ref(`suggestions/${type}`);
-        target.push(value);
+        const self = this;
+        if (this.props.user.isAnon) {
+            this.setState({
+                errorMessage: 'Sorry, you need an account for that!',
+                open: true
+            });
+        } else {
+            const target = base.database().ref(`suggestions/${type}`);
+            target.push(value);
+        }
     },
     handleDelete(type, ref) {
         const target = base.database().ref(`suggestions/${type}/${ref.key}`);
         target.remove().catch((error) => {
+            let err = 'Oops! Something went wrong!';
+            if (error.code === 'PERMISSION_DENIED') {
+                err = 'Sorry, you don\'t have permission to do that!';
+            }
+            console.log(error);
             this.setState({
-                erorMessage: error,
+                errorMessage: err,
                 open: true
             });
         });
@@ -117,7 +130,7 @@ const Suggestions = React.createClass({
                     <Snackbar
                         open={this.state.open}
                         message={this.state.errorMessage}
-                        autoHideDuration={2000}
+                        autoHideDuration={3000}
                         onRequestClose={this.handleRequestClose}
                         onActionTouchTap={this.handleRequestClose}
                         action="hide"
