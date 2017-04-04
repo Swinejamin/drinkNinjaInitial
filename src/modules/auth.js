@@ -1,6 +1,4 @@
 "use strict";
-
-import $ from 'jquery';
 import base from './rebase';
 
 
@@ -38,10 +36,9 @@ const auth = {
     authSuccess(user, cb) {
         user.getToken(/* forceRefresh */ true)
             .then((idToken) => {
-                $.ajax({
-                    url: '/api/user/' + idToken,
-                    type: 'POST'
-                }).then((res) => {
+                const http = new XMLHttpRequest();
+                const url = '/api/user/' + idToken;
+                http.open("POST", url, true).then((res) => {
                     localStorage.setItem('token', JSON.stringify(res.token));
                     this.onChange(true, false);
                     cb();
@@ -85,10 +82,9 @@ const auth = {
             .then((user)=> {
                 user.getToken(/* forceRefresh */ true)
                     .then((idToken) => {
-                        $.ajax({
-                            url: '/api/user/' + idToken,
-                            type: 'POST'
-                        }).then((res) => {
+                        const http = new XMLHttpRequest();
+                        const url = '/api/user/' + idToken;
+                        http.open("POST", url, true).then((res) => {
                             localStorage.setItem('token', JSON.stringify(res.token));
                             this.onChange(true, false);
                             successCallback();
@@ -131,8 +127,7 @@ const auth = {
     setAdmin() {
         return base.onAuth((user) => {
             base.database().ref(`users/${user.uid}/isAdmin`).on('value', (snap) => {
-                const answer = snap.val() ? snap.val() : false;
-                this.userIsAdmin = answer;
+                this.userIsAdmin = snap.val() ? snap.val() : false;
             });
         });
     },
